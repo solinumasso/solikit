@@ -1,0 +1,21 @@
+{
+  "name": "subventions-associations",
+  "version": "1.0.0",
+  "description": "Croisement subventions aux associations ↔ fiches Soliguide",
+  "type": "module",
+  "scripts": {
+    "download": "npx tsx src/01-download-subventions.ts",
+    "match": "npx tsx src/02-match.ts",
+    "pipeline": "npx tsx src/01-download-subventions.ts && npx tsx src/02-match.ts",
+    "dashboard": "npx -y serve . -p 5555"
+  },
+  "dependencies": {
+    "fuse.js": "^7.0.0",
+    "papaparse": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/papaparse": "^5.3.14",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}

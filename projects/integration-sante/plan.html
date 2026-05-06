@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soliguide — Pipeline d'import</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap");
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #0d0f14;
+        font-family: "Inter", sans-serif;
+        color: #e2e8f0;
+        min-height: 100vh;
+        padding-bottom: 40px;
+      }
+
+      .header {
+        padding: 20px 40px 16px;
+        border-bottom: 1px solid #1e2535;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .header-badge {
+        background: #1a2340;
+        border: 1px solid #2a3a60;
+        border-radius: 6px;
+        padding: 4px 10px;
+        font-size: 13px;
+        font-family: "JetBrains Mono", monospace;
+        color: #60a5fa;
+        letter-spacing: 0.05em;
+      }
+      .header h1 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #f8fafc;
+      }
+      .header-tech {
+        margin-left: auto;
+        font-size: 12px;
+        color: #94a3b8;
+        font-family: "Inter", sans-serif;
+      }
+
+      .canvas {
+        padding: 36px 40px;
+        display: flex;
+        justify-content: center;
+        position: relative;
+      }
+      .canvas::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: linear-gradient(rgba(30, 37, 53, 0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(30, 37, 53, 0.35) 1px, transparent 1px);
+        background-size: 28px 28px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .pipeline {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        width: 100%;
+        max-width: 780px;
+      }
+
+      /* ── NODE ── */
+      .node {
+        border-radius: 10px;
+        padding: 16px 18px;
+        width: 100%;
+        position: relative;
+        border: 1px solid transparent;
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s;
+      }
+      .node:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+      }
+
+      .node-step {
+        font-size: 11px;
+        font-family: "Inter", sans-serif;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+        font-weight: 700;
+      }
+      .node-title {
+        font-size: 16px;
+        font-weight: 800;
+        margin-bottom: 7px;
+        line-height: 1.2;
+      }
+      .node-desc {
+        font-size: 13px;
+        line-height: 1.65;
+        color: #cbd5e1;
+        margin-bottom: 10px;
+      }
+      .node-detail {
+        font-size: 11px;
+        font-family: "JetBrains Mono", monospace;
+        color: #94a3b8;
+        line-height: 1.8;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        padding-top: 10px;
+      }
+      .node-tag {
+        display: inline-block;
+        font-size: 11px;
+        font-family: "JetBrains Mono", monospace;
+        padding: 3px 9px;
+        border-radius: 3px;
+        font-weight: 700;
+        margin-top: 10px;
+      }
+
+      /* colours */
+      .n-trigger {
+        background: #0f1a2e;
+        border-color: #1e3a6e;
+      }
+      .n-trigger .node-title {
+        color: #60a5fa;
+      }
+      .n-store {
+        background: #1a1528;
+        border-color: #3a2a60;
+      }
+      .n-store .node-title {
+        color: #a78bfa;
+      }
+      .n-ai {
+        background: #1a1520;
+        border-color: #4a3060;
+        box-shadow: 0 0 20px rgba(168, 85, 247, 0.08);
+      }
+      .n-ai .node-title {
+        color: #c084fc;
+      }
+      .n-dedup {
+        background: #0f1820;
+        border-color: #1e3a5a;
+      }
+      .n-dedup .node-title {
+        color: #38bdf8;
+      }
+      .n-gate {
+        background: #140f0a;
+        border-color: #5a2a10;
+      }
+      .n-gate .node-title {
+        color: #fb923c;
+      }
+      .n-block {
+        background: #1a1200;
+        border-color: #4a3800;
+      }
+      .n-block .node-title {
+        color: #fbbf24;
+      }
+      .n-score {
+        background: #0f180f;
+        border-color: #1a4020;
+      }
+      .n-score .node-title {
+        color: #4ade80;
+      }
+      .n-push {
+        background: #1a1020;
+        border-color: #3a1a50;
+      }
+      .n-push .node-title {
+        color: #e879f9;
+      }
+      .n-manual {
+        background: #161010;
+        border-color: #3a1818;
+      }
+      .n-manual .node-title {
+        color: #fca5a5;
+      }
+
+      /* ── ARROWS ── */
+      .arr-v {
+        width: 2px;
+        height: 28px;
+        position: relative;
+        flex-shrink: 0;
+        align-self: center;
+      }
+      .arr-v::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: -4px;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top-width: 8px;
+        border-top-style: solid;
+        border-top-color: inherit;
+      }
+
+      .c-blue {
+        background: #3b82f6;
+        color: #3b82f6;
+      }
+      .c-orange {
+        background: #f97316;
+        color: #f97316;
+      }
+      .c-cyan {
+        background: #22d3ee;
+        color: #22d3ee;
+      }
+      .c-green {
+        background: #4ade80;
+        color: #4ade80;
+      }
+      .c-purple {
+        background: #e879f9;
+        color: #e879f9;
+      }
+      .c-sky {
+        background: #38bdf8;
+        color: #38bdf8;
+      }
+      .c-dim {
+        background: #2a3d5a;
+        color: #2a3d5a;
+      }
+
+      /* ── SECTIONS ── */
+      .sbox {
+        border-radius: 12px;
+        border: 1px solid #1e2535;
+        background: #090b0f;
+        padding: 22px 20px 18px;
+        position: relative;
+        width: 100%;
+      }
+      .slabel {
+        position: absolute;
+        top: -10px;
+        left: 14px;
+        background: #0d0f14;
+        padding: 0 8px;
+        font-size: 12px;
+        font-family: "Inter", sans-serif;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+      }
+
+      /* ── DEDUP CASCADE ── */
+      .cascade {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+        margin-top: 10px;
+      }
+      .cascade-level {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #0d111a;
+        border: 1px solid #1e2d4a;
+        border-radius: 8px;
+        padding: 10px 14px;
+      }
+      .cascade-level:hover {
+        border-color: #2a3d6a;
+      }
+      .cascade-num {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 800;
+        flex-shrink: 0;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .cascade-content {
+        flex: 1;
+      }
+      .cascade-title {
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 3px;
+      }
+      .cascade-desc {
+        font-size: 11px;
+        font-family: "JetBrains Mono", monospace;
+        color: #cbd5e1;
+        line-height: 1.6;
+      }
+      .cascade-badge {
+        font-size: 11px;
+        font-family: "JetBrains Mono", monospace;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-weight: 700;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .conf-100 {
+        background: #0a2a0a;
+        color: #4ade80;
+        border: 1px solid #1a4020;
+      }
+      .conf-90 {
+        background: #0a1a28;
+        color: #60a5fa;
+        border: 1px solid #1a3060;
+      }
+      .conf-var {
+        background: #1a1200;
+        color: #fbbf24;
+        border: 1px solid #3a2800;
+      }
+      .conf-rev {
+        background: #1a0a0a;
+        color: #f87171;
+        border: 1px solid #3a1010;
+      }
+
+      /* ── CHUNKS ── */
+      .chunk-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        width: 100%;
+      }
+      .chunk {
+        background: #0f1520;
+        border: 1px solid #1e3060;
+        border-radius: 8px;
+        padding: 11px 10px 9px;
+        text-align: center;
+        transition:
+          border-color 0.15s,
+          transform 0.15s;
+      }
+      .chunk:hover {
+        border-color: #3b82f6;
+        transform: translateY(-1px);
+      }
+      .chunk .ci {
+        font-size: 20px;
+        margin-bottom: 6px;
+      }
+      .chunk .ct {
+        font-size: 13px;
+        font-weight: 800;
+        color: #7ec8fb;
+        margin-bottom: 5px;
+      }
+      .chunk .cs {
+        font-size: 11px;
+        font-family: "Inter", sans-serif;
+        color: #94a3b8;
+        line-height: 1.5;
+      }
+      .chunk .ce {
+        margin-top: 8px;
+        font-size: 10px;
+        font-family: "JetBrains Mono", monospace;
+        padding: 3px 6px;
+        border-radius: 3px;
+        display: inline-block;
+        font-weight: 700;
+        background: #0a1a28;
+        color: #38bdf8;
+      }
+
+      /* skip rules */
+      .skip-box {
+        width: 100%;
+        background: #090c10;
+        border: 1px dashed #1e2d4a;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-top: 12px;
+      }
+      .skip-title {
+        font-size: 11px;
+        font-family: "Inter", sans-serif;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+      .skip-rule {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        padding: 4px 0;
+        font-size: 11px;
+        font-family: "JetBrains Mono", monospace;
+        color: #e2e8f0;
+        line-height: 1.6;
+      }
+      .skip-badge {
+        flex-shrink: 0;
+        padding: 2px 8px;
+        border-radius: 3px;
+        font-weight: 700;
+        font-size: 10px;
+      }
+      .sb-skip {
+        background: #1a1200;
+        color: #f97316;
+      }
+      .sb-diff {
+        background: #0a2020;
+        color: #22d3ee;
+      }
+
+      /* gate */
+      .gate-split {
+        display: flex;
+        gap: 32px;
+        margin-top: 20px;
+        align-items: flex-start;
+        justify-content: center;
+        width: 100%;
+      }
+      .gate-branch {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+        max-width: 340px;
+      }
+      .branch-label {
+        font-size: 11px;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 800;
+        padding: 4px 12px;
+        border-radius: 4px;
+      }
+      .branch-no {
+        background: #2a0a00;
+        color: #f97316;
+      }
+      .branch-yes {
+        background: #0a2a0a;
+        color: #4ade80;
+      }
+      .blocked-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #1a1200;
+        border: 1px solid #4a3800;
+        border-radius: 20px;
+        padding: 6px 14px;
+        font-size: 12px;
+        font-family: "JetBrains Mono", monospace;
+        color: #fbbf24;
+        font-weight: 700;
+      }
+
+      /* monitoring */
+      .monitoring {
+        display: flex;
+        gap: 10px;
+        padding: 14px 40px;
+        border-top: 1px solid #1e2535;
+        background: #090b0f;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .mon-section {
+        font-size: 11px;
+        font-family: "Inter", sans-serif;
+        color: #94a3b8;
+        padding-right: 10px;
+        border-right: 1px solid #1e2535;
+        margin-right: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        white-space: nowrap;
+      }
+      .mon-item {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: #0d0f14;
+        border: 1px solid #1e2535;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-size: 12px;
+        font-family: "Inter", sans-serif;
+      }
+      .mon-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .mon-sub {
+        margin-left: 4px;
+        color: #94a3b8;
+        font-size: 11px;
+      }
+
+      .report-bar {
+        display: flex;
+        gap: 8px;
+        padding: 14px 40px;
+        background: #090b0f;
+        border-top: 1px solid #1e2535;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .report-section {
+        font-size: 11px;
+        font-family: "Inter", sans-serif;
+        color: #94a3b8;
+        padding-right: 10px;
+        border-right: 1px solid #1e2535;
+        margin-right: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        white-space: nowrap;
+      }
+      .report-pill {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: #0d0f14;
+        border: 1px solid #1e2535;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-size: 12px;
+        font-family: "Inter", sans-serif;
+      }
+
+      .pulse {
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.4;
+          transform: scale(0.8);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="header-badge">PIPELINE v2</div>
+      <h1>Soliguide — Import de données externes</h1>
+      <div class="header-tech">NestJS · BullMQ · MongoDB · Claude API</div>
+    </div>
+
+    <div class="canvas">
+      <div class="pipeline">
+        <!-- ══════════════════════════════════════
+       PHASE 1
+  ══════════════════════════════════════ -->
+        <div class="sbox">
+          <div class="slabel" style="color: #60a5fa">Phase 1 — Récupération et normalisation de la donnée source</div>
+          <div class="col">
+            <!-- Étape 1a : Planificateur -->
+            <div class="node n-trigger">
+              <div class="node-step">Déclenchement</div>
+              <div class="node-title">Planificateur</div>
+              <div class="node-desc">Déclenche l'import automatiquement chaque nuit à 02h00, ou manuellement via l'interface admin.</div>
+              <div class="node-detail">
+                Cron quotidien : 02h00 · POST /admin/import/:source pour déclenchement manuel<br />
+                Le curseur de synchro est conservé : en cas d'interruption, l'import reprend là où il s'est arrêté
+              </div>
+            </div>
+
+            <div class="arr-v c-blue"></div>
+
+            <!-- Étape 1b : Sauvegarde brute -->
+            <div class="node n-store">
+              <div class="node-step">Étape 1 — Sauvegarde de la donnée source</div>
+              <div class="node-title">Copie brute de la donnée ROR</div>
+              <div class="node-desc">La donnée FHIR reçue du ROR est enregistrée telle quelle dans MongoDB, sans aucune modification. C'est la référence permanente.</div>
+              <div class="node-detail">
+                Collection MongoDB : import_raw · Upsert sur l'identifiant ROR externe<br />
+                Permet de rejouer les étapes suivantes sans rappeler l'API ROR<br />
+                En cas de bug sur la transformation, la donnée source reste intacte et consultable
+              </div>
+              <span class="node-tag" style="background: #2a1a50; color: #a78bfa">Événement BullMQ : raw.created →</span>
+            </div>
+
+            <div class="arr-v c-blue"></div>
+
+            <!-- Étape 1c : Normalisation IA -->
+            <div class="node n-ai">
+              <div class="node-step">Étape 2 — Traduction par intelligence artificielle</div>
+              <div class="node-title">Conversion vers le format Soliguide</div>
+              <div class="node-desc">
+                Claude reçoit la fiche FHIR brute et la traduit vers le format exact d'une fiche Soliguide, en respectant 100% du typage attendu. Un score de confiance est produit pour chaque fiche.
+              </div>
+              <div class="node-detail">
+                Modèle utilisé : Claude Haiku (rapide et économique pour le volume)<br />
+                Traitement en lots pour les imports massifs (Batch API Anthropic)<br />
+                La version du prompt utilisé est stockée avec le résultat pour pouvoir reprocesser si le prompt évolue<br />
+                Score de confiance 0–1 : si score &lt; 0.5 → fiche rejetée, erreur loggée, notification Slack
+              </div>
+              <span class="node-tag" style="background: #3a1060; color: #c084fc">Collection MongoDB : import_normalized</span>
+            </div>
+
+            <div class="arr-v c-sky"></div>
+
+            <!-- Étape 1d : Déduplication -->
+            <div class="node n-dedup">
+              <div class="node-step">Étape 3 — Détection des doublons</div>
+              <div class="node-title">La structure est-elle déjà présente dans Soliguide ?</div>
+              <div class="node-desc">
+                Avant d'aller plus loin, on vérifie que la structure importée n'est pas déjà une fiche existante dans Soliguide. La vérification se fait en cascade, du plus fiable au moins fiable.
+              </div>
+
+              <div class="cascade">
+                <div class="cascade-level">
+                  <div class="cascade-num" style="background: #0a2a0a; color: #4ade80">1</div>
+                  <div class="cascade-content">
+                    <div class="cascade-title" style="color: #4ade80">Identifiants officiels</div>
+                    <div class="cascade-desc">SIRET ou numéro FINESS identiques → doublon certain, structure ignorée immédiatement</div>
+                  </div>
+                  <div class="cascade-badge conf-100">Confiance 1.0</div>
+                </div>
+                <div class="cascade-level">
+                  <div class="cascade-num" style="background: #0a1a28; color: #60a5fa">2</div>
+                  <div class="cascade-content">
+                    <div class="cascade-title" style="color: #60a5fa">Code postal + nom quasi-identique</div>
+                    <div class="cascade-desc">Même code postal et distance Levenshtein ≤ 2 caractères sur le nom → très probablement le même lieu</div>
+                  </div>
+                  <div class="cascade-badge conf-90">Confiance 0.9</div>
+                </div>
+                <div class="cascade-level">
+                  <div class="cascade-num" style="background: #1a1200; color: #fbbf24">3</div>
+                  <div class="cascade-content">
+                    <div class="cascade-title" style="color: #fbbf24">Score pondéré géographique</div>
+                    <div class="cascade-desc">Recherche dans un rayon de 5km · score combinant distance GPS, similarité d'adresse, similarité de nom, type de structure</div>
+                  </div>
+                  <div class="cascade-badge conf-var">Score &gt; 0.5</div>
+                </div>
+                <div class="cascade-level">
+                  <div class="cascade-num" style="background: #1a0a0a; color: #f87171">4</div>
+                  <div class="cascade-content">
+                    <div class="cascade-title" style="color: #f87171">Cas ambigus</div>
+                    <div class="cascade-desc">Proche géographiquement mais score insuffisant pour décider → mis de côté pour révision humaine</div>
+                  </div>
+                  <div class="cascade-badge conf-rev">Révision humaine</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arr-v c-orange" style="height: 32px"></div>
+
+        <!-- ══════════════════════════════════════
+       GATE — APPAIRAGE
+  ══════════════════════════════════════ -->
+        <div class="sbox" style="border-color: #5a2a10">
+          <div class="slabel" style="color: #fb923c">Condition bloquante — Appairage avec une fiche Soliguide</div>
+          <div class="col">
+            <div class="node n-gate">
+              <div class="node-step">Vérification obligatoire avant toute mise à jour</div>
+              <div class="node-title">Cette structure est-elle déjà dans Soliguide ?</div>
+              <div class="node-desc">Sans appairage confirmé avec une fiche Soliguide existante, aucune mise à jour n'est possible. C'est la condition qui débloques toute la suite.</div>
+              <div class="node-detail">
+                Matching fort (automatique) : SIRET · FINESS · identifiant source déjà connu dans notre base<br />
+                Matching faible : score géo + Levenshtein ≥ 0.9 → proposition automatique d'appairage<br />
+                Score entre 0.6 et 0.9 → proposé à l'équipe pour validation manuelle dans /admin/appairages
+              </div>
+            </div>
+
+            <div class="gate-split">
+              <div class="gate-branch">
+                <div class="branch-label branch-no">✕ Structure inconnue — pipeline bloqué</div>
+                <div class="node n-block" style="width: 100%">
+                  <div class="node-step">Appairage à réaliser manuellement</div>
+                  <div class="node-title">Proposition d'appairage envoyée à l'équipe</div>
+                  <div class="node-desc">
+                    La fiche est mise en attente. L'équipe doit lier manuellement la structure importée à la bonne fiche Soliguide — ou décider de la créer si elle n'existe pas encore.
+                  </div>
+                  <div class="node-detail">
+                    Statut : pending_match · Visible dans /admin/appairages<br />
+                    Notification Slack #imports · Pipeline stoppé jusqu'à action humaine
+                  </div>
+                </div>
+                <div class="blocked-pill">⏸ Aucune avancée sans action humaine</div>
+              </div>
+
+              <div class="gate-branch" style="padding-top: 24px">
+                <div class="branch-label branch-yes">✓ Structure appairée — pipeline débloqué</div>
+                <div
+                  style="
+                    margin-top: 10px;
+                    font-size: 9px;
+                    font-family: &quot;JetBrains Mono&quot;, monospace;
+                    color: #475569;
+                    text-align: center;
+                    line-height: 2;
+                    background: #0a0d12;
+                    border: 1px solid #1e2535;
+                    border-radius: 8px;
+                    padding: 14px 20px;
+                    width: 100%;
+                  "
+                >
+                  L'identifiant Soliguide est résolu<br />
+                  La comparaison peut commencer<br />
+                  → Phase 2 déclenchée
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arr-v c-cyan" style="height: 32px"></div>
+
+        <!-- ══════════════════════════════════════
+       PHASE 2 — COMPARAISON
+  ══════════════════════════════════════ -->
+        <div class="sbox" style="border-color: #1a4040">
+          <div class="slabel" style="color: #22d3ee">Phase 2 — Comparaison champ par champ · 9 sections du formulaire</div>
+          <div class="col">
+            <div class="chunk-grid">
+              <div class="chunk">
+                <div class="ci">📝</div>
+                <div class="ct">Infos générales</div>
+                <div class="cs">Nom · description · email · site web</div>
+                <span class="ce">PATCH /infos</span>
+              </div>
+              <div class="chunk">
+                <div class="ci">📍</div>
+                <div class="ct">Localisation</div>
+                <div class="cs">Adresse postale · coordonnées GPS</div>
+                <span class="ce">PATCH /position</span>
+              </div>
+              <div class="chunk">
+                <div class="ci">📞</div>
+                <div class="ct">Contacts</div>
+                <div class="cs">Téléphones · contacts nommés</div>
+                <span class="ce">PATCH /contacts</span>
+              </div>
+              <div class="chunk">
+                <div class="ci">🕐</div>
+                <div class="ct">Horaires</div>
+                <div class="cs">Créneaux · jours · fermetures exceptionnelles</div>
+                <span class="ce">PATCH /hours</span>
+              </div>
+              <div class="chunk">
+                <div class="ci">👥</div>
+                <div class="ct">Publics accueillis</div>
+                <div class="cs">Profils cibles · restrictions · critères</div>
+                <span class="ce">PATCH /publics</span>
+              </div>
+              <div class="chunk">
+                <div class="ci">🚪</div>
+                <div class="ct">Modalités d'accès</div>
+                <div class="cs">Conditions requises · documents à fournir</div>
+                <span class="ce">PATCH /modalities</span>
+              </div>
+              <div class="chunk">
+                <div class="ci">🏷️</div>
+                <div class="ct">Services proposés</div>
+                <div class="cs">Catégories et sous-catégories de services</div>
+                <span class="ce">PATCH /services</span>
+              </div>
+              <div class="chunk">
+                <div class="ci">👁</div>
+                <div class="ct">Visibilité</div>
+                <div class="cs">Grand public ou professionnels uniquement</div>
+                <span class="ce">PATCH /visibility</span>
+              </div>
+              <div class="chunk">
+                <div class="ci">🔵</div>
+                <div class="ct">Statut d'ouverture</div>
+                <div class="cs">Ouvert · fermé temporairement · définitif</div>
+                <span class="ce">PATCH /status</span>
+              </div>
+            </div>
+
+            <div class="skip-box">
+              <div class="skip-title">Règles de décision par section</div>
+              <div class="skip-rule">
+                <span class="skip-badge sb-skip">IGNORÉ</span>
+                <span>La date de dernière modification dans Soliguide est plus récente que la donnée source → section ignorée, Soliguide est considéré plus fiable</span>
+              </div>
+              <div class="skip-rule">
+                <span class="skip-badge sb-skip">IGNORÉ</span>
+                <span>La fiche Soliguide contient plus de champs renseignés que la source → section ignorée, Soliguide est plus complet</span>
+              </div>
+              <div class="skip-rule">
+                <span class="skip-badge sb-diff">COMPARÉ</span>
+                <span>Dans tous les autres cas : comparaison champ par champ et calcul d'un score d'intérêt pour la section</span>
+              </div>
+            </div>
+
+            <div class="arr-v c-green" style="height: 24px; margin-top: 14px"></div>
+
+            <div class="node n-score">
+              <div class="node-step">Étape 4 — Évaluation de la pertinence</div>
+              <div class="node-title">Calcul du taux d'intérêt global de la mise à jour</div>
+              <div class="node-desc">
+                Pour chaque section comparée, on mesure combien de champs apportent une information plus riche que Soliguide. Les sections ignorées ne sont pas comptées. Le score global détermine si
+                la mise à jour mérite d'être proposée.
+              </div>
+              <div class="node-detail">
+                Score par section = champs modifiés et pertinents / total champs comparés<br />
+                Score global = moyenne pondérée des sections retenues (horaires et services comptent davantage)<br />
+                Si score global &lt; seuil configuré → mise à jour esquivée, loggée, reportée dans le bilan Slack
+              </div>
+              <span class="node-tag" style="background: #0a2a0a; color: #4ade80">Score de 0 à 1 · seuil minimum configurable par connecteur</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arr-v c-purple" style="height: 32px"></div>
+
+        <!-- ══════════════════════════════════════
+       PHASE 3 — PUSH
+  ══════════════════════════════════════ -->
+        <div class="sbox" style="border-color: #3a1a50">
+          <div class="slabel" style="color: #e879f9">Phase 3 — Proposition et validation manuelle</div>
+          <div class="col">
+            <div class="node n-push">
+              <div class="node-step">Étape 5 — Création de la proposition de mise à jour</div>
+              <div class="node-title">Envoi des modifications vers l'interface admin</div>
+              <div class="node-desc">
+                Seules les sections dont le score dépasse le seuil sont incluses. Pour chaque section retenue, un résumé lisible des changements est généré automatiquement et soumis à validation.
+              </div>
+              <div class="node-detail">
+                Statut dans Soliguide : pending_review<br />
+                Exemple de diff lisible : "Le téléphone passe de 01 23 45 67 à 06 78 90 12"<br />
+                "2 nouveaux services ajoutés : Hébergement d'urgence · Douche"<br />
+                Notification Slack #imports-updates · Bilan récapitulatif quotidien
+              </div>
+              <span class="node-tag" style="background: #2a0a40; color: #e879f9">Événement BullMQ : update.proposed</span>
+            </div>
+
+            <div class="arr-v c-purple"></div>
+
+            <div class="node n-manual">
+              <div class="node-step">Validation manuelle — Interface admin Soliguide</div>
+              <div class="node-title">Vérification et approbation par l'équipe</div>
+              <div class="node-desc">
+                Chaque proposition est visible dans l'interface d'administration. L'équipe valide ou rejette chaque modification, section par section. Aucune donnée n'est écrite dans Soliguide sans
+                cette validation explicite.
+              </div>
+              <div class="node-detail">
+                Interface : /admin/mises-a-jour<br />
+                Validation → appel de l'endpoint correspondant : PATCH /hours, PATCH /infos, etc.<br />
+                Rejet → marqué "esquivé", raison loggée, comptabilisé dans le bilan<br />
+                Historique complet de chaque décision conservé en base
+              </div>
+              <span class="node-tag" style="background: #280808; color: #fca5a5">Aucune écriture automatique dans Soliguide</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BILAN SLACK -->
+    <div class="report-bar">
+      <div class="report-section">Bilan Slack quotidien</div>
+      <div class="report-pill">
+        <div class="mon-dot" style="background: #4ade80"></div>
+        <span style="color: #4ade80">Mises à jour proposées</span><span class="mon-sub">en attente de validation</span>
+      </div>
+      <div class="report-pill">
+        <div class="mon-dot" style="background: #94a3b8"></div>
+        <span style="color: #94a3b8">Esquivées</span><span class="mon-sub">Soliguide plus complet ou récent</span>
+      </div>
+      <div class="report-pill">
+        <div class="mon-dot" style="background: #fbbf24"></div>
+        <span style="color: #fbbf24">Appairages en attente</span><span class="mon-sub">structures non reconnues</span>
+      </div>
+      <div class="report-pill">
+        <div class="mon-dot" style="background: #f87171"></div>
+        <span style="color: #f87171">Erreurs</span><span class="mon-sub">traduction ou connexion</span>
+      </div>
+      <div class="report-pill">
+        <div class="mon-dot" style="background: #22d3ee"></div>
+        <span style="color: #22d3ee">Score moyen d'intérêt</span><span class="mon-sub">qualité globale de la source</span>
+      </div>
+    </div>
+
+    <!-- MONITORING TECHNIQUE -->
+    <div class="monitoring">
+      <div class="mon-section">Monitoring technique</div>
+      <div class="mon-item">
+        <div class="mon-dot pulse" style="background: #60a5fa"></div>
+        <span style="color: #60a5fa">Bull Board</span><span class="mon-sub">File d'attente · jobs actifs · erreurs · relance manuelle</span>
+      </div>
+      <div class="mon-item">
+        <div class="mon-dot" style="background: #a78bfa"></div>
+        <span style="color: #a78bfa">MongoDB pipeline_runs</span><span class="mon-sub">État de chaque fiche · historique des étapes</span>
+      </div>
+      <div class="mon-item">
+        <div class="mon-dot" style="background: #f87171"></div>
+        <span style="color: #f87171">Sentry</span><span class="mon-sub">Alertes d'erreur · traces · monitoring crons</span>
+      </div>
+      <div class="mon-item">
+        <div class="mon-dot pulse" style="background: #4ade80"></div>
+        <span style="color: #4ade80">Slack #imports</span><span class="mon-sub">Bilan quotidien · alertes critiques</span>
+      </div>
+    </div>
+  </body>
+</html>

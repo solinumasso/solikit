@@ -1,0 +1,20 @@
+{
+  "name": "ccas-domiciliation",
+  "version": "1.0.0",
+  "description": "CCAS de France × Soliguide : couverture domiciliation",
+  "type": "module",
+  "scripts": {
+    "download": "npx tsx src/01-download-ccas.ts",
+    "transform": "npx tsx src/02-transform.ts",
+    "pipeline": "npx tsx src/01-download-ccas.ts && npx tsx src/02-transform.ts",
+    "dashboard": "npx -y serve ../.. -p 5555"
+  },
+  "dependencies": {
+    "papaparse": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/papaparse": "^5.3.14",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}

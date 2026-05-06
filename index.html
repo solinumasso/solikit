@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="soliguide">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soliguide Tools — Boîte à outils interne</title>
+  <link rel="icon" href="assets/images/icons/favicon.ico" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <link rel="stylesheet" href="assets/variables.css" />
+  <link rel="stylesheet" href="assets/soliguide-theme.css" />
+
+  <style>
+    .project-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(248, 75, 50, 0.15);
+    }
+    .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .section-label {
+      font-family: "Nunito", sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-base-100 min-h-screen flex flex-col">
+
+  <!-- NAVBAR -->
+  <header class="bg-white shadow-md border-b border-base-300">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-4 h-16">
+      <div class="flex items-center gap-3">
+        <img src="assets/images/themes/soliguide-inline.svg" alt="Soliguide" class="h-7" />
+        <span class="text-lg font-semibold text-primary opacity-60">|</span>
+        <span class="text-lg font-bold tracking-tight text-primary">Tools</span>
+      </div>
+      <a href="docs.html" class="text-sm font-semibold text-accent-content hover:text-primary transition-colors">📖 Documentation</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="text-white py-16" style="background: linear-gradient(rgba(39,19,50,0.95), rgba(39,19,50,0.95)), url('assets/images/background.png') center/cover no-repeat;">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h1 class="text-4xl font-black mb-4 section-label">Soliguide Tools</h1>
+      <p class="text-lg opacity-80 max-w-2xl mx-auto leading-relaxed">
+        La boîte à outils interne pour croiser, analyser et visualiser les données Soliguide avec des sources publiques.
+      </p>
+    </div>
+  </section>
+
+  <main class="max-w-5xl mx-auto px-6 py-12 flex-1">
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 1 : DASHBOARDS                      -->
+    <!-- ═══════════════════════════════════════════ -->
+    <h2 class="text-2xl font-bold text-primary-content mb-2 section-label">📊 Dashboards</h2>
+    <p class="text-sm text-base-content/60 mb-8">Tableaux de bord pour analyser et croiser les données Soliguide avec des sources publiques.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="dashboards-grid">
+
+      <!-- Card: Integration Santé -->
+      <a href="projects/integration-sante/" class="project-card block bg-white rounded-2xl border border-base-300 overflow-hidden">
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-3xl">🏥</span>
+            <span class="tag bg-success/15 text-success-content">Actif</span>
+          </div>
+          <h3 class="text-xl font-bold text-primary-content mb-2">Matching FINESS ↔ Soliguide</h3>
+          <p class="text-sm text-base-content/70 leading-relaxed mb-4">
+            Rapprochement automatique entre les établissements sanitaires et sociaux du fichier FINESS et les fiches Soliguide. Détecte les correspondances par nom, adresse et géolocalisation.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag bg-primary/10 text-primary">FINESS</span>
+            <span class="tag bg-primary/10 text-primary">Matching</span>
+            <span class="tag bg-primary/10 text-primary">Carte</span>
+          </div>
+        </div>
+        <div class="px-6 py-3 bg-base-200/50 border-t border-base-300 flex items-center justify-between">
+          <span class="text-xs text-base-content/50">🗺️ Carte · 📋 Tableau · 📊 Stats</span>
+          <span class="text-xs font-semibold text-accent-content">Ouvrir →</span>
+        </div>
+      </a>
+
+      <!-- Card: Subventions Associations -->
+      <a href="projects/subventions-associations/dashboard/" class="project-card block bg-white rounded-2xl border border-base-300 overflow-hidden">
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-3xl">💰</span>
+            <span class="tag bg-success/15 text-success-content">Actif</span>
+          </div>
+          <h3 class="text-xl font-bold text-primary-content mb-2">Subventions aux associations</h3>
+          <p class="text-sm text-base-content/70 leading-relaxed mb-4">
+            Croisement des subventions publiques versées aux associations parisiennes avec les fiches Soliguide. Permet de détecter des activités non référencées ou des structures manquantes.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag bg-primary/10 text-primary">Subventions</span>
+            <span class="tag bg-primary/10 text-primary">Paris</span>
+            <span class="tag bg-primary/10 text-primary">Matching</span>
+          </div>
+        </div>
+        <div class="px-6 py-3 bg-base-200/50 border-t border-base-300 flex items-center justify-between">
+          <span class="text-xs text-base-content/50">🗺️ Carte · 📋 Tableau · 📊 Stats</span>
+          <span class="text-xs font-semibold text-accent-content">Ouvrir →</span>
+        </div>
+      </a>
+
+      <!-- Card: CCAS & Domiciliation -->
+      <a href="projects/ccas-domiciliation/dashboard/" class="project-card block bg-white rounded-2xl border border-base-300 overflow-hidden">
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-3xl">🏛️</span>
+            <span class="tag bg-success/15 text-success-content">Actif</span>
+          </div>
+          <h3 class="text-xl font-bold text-primary-content mb-2">CCAS & Domiciliation</h3>
+          <p class="text-sm text-base-content/70 leading-relaxed mb-4">
+            Couverture des CCAS et services de domiciliation en France. Croisement avec l'annuaire service-public.gouv.fr pour mesurer la présence des CCAS dans Soliguide par région.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag bg-primary/10 text-primary">CCAS</span>
+            <span class="tag bg-primary/10 text-primary">Domiciliation</span>
+            <span class="tag bg-primary/10 text-primary">Couverture</span>
+          </div>
+        </div>
+        <div class="px-6 py-3 bg-base-200/50 border-t border-base-300 flex items-center justify-between">
+          <span class="text-xs text-base-content/50">🗺️ Carte · 📋 Tableau · 📊 Régions</span>
+          <span class="text-xs font-semibold text-accent-content">Ouvrir →</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 2 : MINI-SITES                      -->
+    <!-- ═══════════════════════════════════════════ -->
+    <h2 class="text-2xl font-bold text-primary-content mt-16 mb-2 section-label">🌐 Mini-sites</h2>
+    <p class="text-sm text-base-content/60 mb-8">Sites statiques autonomes, optimisés SEO, générés à partir de contenus Soliguide.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="minisites-grid">
+
+      <!-- Card: Aide à la régularisation Espagne -->
+      <a href="projects/aide-regularisation-espagne/dashboard/" class="project-card block bg-white rounded-2xl border border-base-300 overflow-hidden">
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-3xl">🇪🇸</span>
+            <span class="tag bg-success/15 text-success-content">Actif</span>
+          </div>
+          <h3 class="text-xl font-bold text-primary-content mb-2">Aide à la régularisation · Espagne</h3>
+          <p class="text-sm text-base-content/70 leading-relaxed mb-4">
+            Carte des lieux d'aide pour la nouvelle réforme de régularisation en Espagne (500 000 personnes éligibles). Croise les structures Soliguide qui aident à remplir les dossiers avec les bureaux officiels (Seguridad Social, Extranjería, Correos) où les déposer.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag bg-primary/10 text-primary">Régularisation</span>
+            <span class="tag bg-primary/10 text-primary">Carte</span>
+            <span class="tag bg-primary/10 text-primary">Espagne</span>
+          </div>
+        </div>
+        <div class="px-6 py-3 bg-base-200/50 border-t border-base-300 flex items-center justify-between">
+          <span class="text-xs text-base-content/50">🗺️ Carte · 📋 Liste · 🔍 Filtres</span>
+          <span class="text-xs font-semibold text-accent-content">Ouvrir →</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTION 3 : OUTILS (à venir)                -->
+    <!-- ═══════════════════════════════════════════ -->
+    <h2 class="text-2xl font-bold text-primary-content mt-16 mb-2 section-label">🛠️ Outils</h2>
+    <p class="text-sm text-base-content/60 mb-8">Outils internes d'analyse, de scoring et d'aide à la décision.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="outils-grid">
+
+      <!-- Card: SoliScore -->
+      <div class="project-card block bg-white rounded-2xl border border-base-300 overflow-hidden opacity-75">
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-3xl">🎯</span>
+            <span class="tag bg-warning/15 text-warning-content">À venir</span>
+          </div>
+          <h3 class="text-xl font-bold text-primary-content mb-2">SoliScore</h3>
+          <p class="text-sm text-base-content/70 leading-relaxed mb-4">
+            Score de qualité des fiches Soliguide, calculé par intelligence artificielle. Mesure l'impact de l'IA sur la qualité des données et priorise les fiches à améliorer.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag bg-primary/10 text-primary">Qualité</span>
+            <span class="tag bg-primary/10 text-primary">IA</span>
+            <span class="tag bg-primary/10 text-primary">Score</span>
+          </div>
+        </div>
+        <div class="px-6 py-3 bg-base-200/50 border-t border-base-300">
+          <span class="text-xs text-base-content/50">📊 Scoring · 📈 Suivi qualité · 🤖 IA</span>
+        </div>
+      </div>
+
+      <!-- Card: ABS -->
+      <div class="project-card block bg-white rounded-2xl border border-base-300 overflow-hidden opacity-75">
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-3">
+            <span class="text-3xl">📋</span>
+            <span class="tag bg-warning/15 text-warning-content">À venir</span>
+          </div>
+          <h3 class="text-xl font-bold text-primary-content mb-2">Analyse des Besoins Sociaux</h3>
+          <p class="text-sm text-base-content/70 leading-relaxed mb-4">
+            L'analyse des besoins sociaux (ABS) au service du développement social local. Croisement des données Soliguide avec les diagnostics sociaux pour adapter la réponse aux besoins des habitants.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag bg-primary/10 text-primary">ABS</span>
+            <span class="tag bg-primary/10 text-primary">CCAS</span>
+            <span class="tag bg-primary/10 text-primary">Territoire</span>
+          </div>
+        </div>
+        <div class="px-6 py-3 bg-base-200/50 border-t border-base-300">
+          <span class="text-xs text-base-content/50">🗺️ Diagnostic · 📊 Besoins · 🏘️ Territoire</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="mt-16 text-center">
+      <div class="inline-block bg-base-200 rounded-2xl p-8 max-w-lg">
+        <p class="text-3xl mb-3">💡</p>
+        <p class="text-lg font-semibold text-primary-content mb-2">Un nouveau besoin ?</p>
+        <p class="text-sm text-base-content/60 leading-relaxed">
+          Ouvre un terminal dans ce repo et lance <code class="bg-base-300 px-2 py-0.5 rounded text-xs font-mono">claude</code> pour pitcher ton idée. L'assistant crée tout de A à Z : pipeline de données, dashboard, le tout.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-primary text-white mt-auto">
+    <div class="max-w-5xl mx-auto flex items-center gap-4 px-6 py-5">
+      <img src="assets/images/themes/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
+      <div>
+        <p class="font-semibold text-sm">Soliguide Tools</p>
+        <p class="text-xs opacity-60">Outils internes · <a href="https://www.soliguide.fr" class="underline hover:opacity-100" target="_blank">soliguide.fr</a></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

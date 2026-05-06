@@ -1,0 +1,15 @@
+{
+  "name": "aide-regularisation-espagne",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "geocode": "tsx src/02-geocode.ts",
+    "soliguide": "tsx src/03-fetch-soliguide.ts",
+    "dashboard": "pnpm dlx serve ../.. -p 5555"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  }
+}

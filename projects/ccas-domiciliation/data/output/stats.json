@@ -1,0 +1,613 @@
+{
+  "totalCcasAnnuaire": 10000,
+  "totalSoliguide": 1892,
+  "ccasDansSoliguide": 1206,
+  "tauxCouverture": 12.06,
+  "ccasAvecDomiciliation": 1206,
+  "soliguideEstCcas": 1466,
+  "soliguideEstAsso": 426,
+  "parDepartement": {
+    "10": {
+      "total": 67,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "11": {
+      "total": 50,
+      "dansSoliguide": 7,
+      "avecDom": 7
+    },
+    "12": {
+      "total": 62,
+      "dansSoliguide": 7,
+      "avecDom": 7
+    },
+    "13": {
+      "total": 86,
+      "dansSoliguide": 15,
+      "avecDom": 15
+    },
+    "14": {
+      "total": 111,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "15": {
+      "total": 65,
+      "dansSoliguide": 5,
+      "avecDom": 5
+    },
+    "16": {
+      "total": 127,
+      "dansSoliguide": 25,
+      "avecDom": 25
+    },
+    "17": {
+      "total": 169,
+      "dansSoliguide": 25,
+      "avecDom": 25
+    },
+    "18": {
+      "total": 99,
+      "dansSoliguide": 4,
+      "avecDom": 4
+    },
+    "19": {
+      "total": 72,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "21": {
+      "total": 66,
+      "dansSoliguide": 11,
+      "avecDom": 11
+    },
+    "22": {
+      "total": 126,
+      "dansSoliguide": 10,
+      "avecDom": 10
+    },
+    "23": {
+      "total": 23,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "24": {
+      "total": 55,
+      "dansSoliguide": 6,
+      "avecDom": 6
+    },
+    "25": {
+      "total": 115,
+      "dansSoliguide": 2,
+      "avecDom": 2
+    },
+    "26": {
+      "total": 105,
+      "dansSoliguide": 4,
+      "avecDom": 4
+    },
+    "27": {
+      "total": 162,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "28": {
+      "total": 127,
+      "dansSoliguide": 13,
+      "avecDom": 13
+    },
+    "29": {
+      "total": 157,
+      "dansSoliguide": 13,
+      "avecDom": 13
+    },
+    "30": {
+      "total": 121,
+      "dansSoliguide": 29,
+      "avecDom": 29
+    },
+    "31": {
+      "total": 155,
+      "dansSoliguide": 76,
+      "avecDom": 76
+    },
+    "32": {
+      "total": 173,
+      "dansSoliguide": 10,
+      "avecDom": 10
+    },
+    "33": {
+      "total": 251,
+      "dansSoliguide": 78,
+      "avecDom": 78
+    },
+    "34": {
+      "total": 174,
+      "dansSoliguide": 88,
+      "avecDom": 88
+    },
+    "35": {
+      "total": 200,
+      "dansSoliguide": 12,
+      "avecDom": 12
+    },
+    "36": {
+      "total": 64,
+      "dansSoliguide": 3,
+      "avecDom": 3
+    },
+    "37": {
+      "total": 63,
+      "dansSoliguide": 3,
+      "avecDom": 3
+    },
+    "38": {
+      "total": 226,
+      "dansSoliguide": 10,
+      "avecDom": 10
+    },
+    "39": {
+      "total": 57,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "40": {
+      "total": 102,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "41": {
+      "total": 63,
+      "dansSoliguide": 5,
+      "avecDom": 5
+    },
+    "42": {
+      "total": 85,
+      "dansSoliguide": 16,
+      "avecDom": 16
+    },
+    "43": {
+      "total": 79,
+      "dansSoliguide": 12,
+      "avecDom": 12
+    },
+    "44": {
+      "total": 149,
+      "dansSoliguide": 83,
+      "avecDom": 83
+    },
+    "45": {
+      "total": 112,
+      "dansSoliguide": 12,
+      "avecDom": 12
+    },
+    "46": {
+      "total": 32,
+      "dansSoliguide": 7,
+      "avecDom": 7
+    },
+    "47": {
+      "total": 56,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "48": {
+      "total": 34,
+      "dansSoliguide": 3,
+      "avecDom": 3
+    },
+    "49": {
+      "total": 99,
+      "dansSoliguide": 5,
+      "avecDom": 5
+    },
+    "50": {
+      "total": 81,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "51": {
+      "total": 91,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "52": {
+      "total": 33,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "53": {
+      "total": 54,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "54": {
+      "total": 171,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "55": {
+      "total": 66,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "56": {
+      "total": 158,
+      "dansSoliguide": 25,
+      "avecDom": 25
+    },
+    "57": {
+      "total": 146,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "58": {
+      "total": 57,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "59": {
+      "total": 356,
+      "dansSoliguide": 37,
+      "avecDom": 37
+    },
+    "60": {
+      "total": 196,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "61": {
+      "total": 80,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "62": {
+      "total": 303,
+      "dansSoliguide": 4,
+      "avecDom": 4
+    },
+    "63": {
+      "total": 148,
+      "dansSoliguide": 8,
+      "avecDom": 8
+    },
+    "64": {
+      "total": 114,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "65": {
+      "total": 106,
+      "dansSoliguide": 2,
+      "avecDom": 2
+    },
+    "66": {
+      "total": 65,
+      "dansSoliguide": 18,
+      "avecDom": 18
+    },
+    "67": {
+      "total": 144,
+      "dansSoliguide": 23,
+      "avecDom": 23
+    },
+    "68": {
+      "total": 88,
+      "dansSoliguide": 18,
+      "avecDom": 18
+    },
+    "69": {
+      "total": 140,
+      "dansSoliguide": 6,
+      "avecDom": 6
+    },
+    "70": {
+      "total": 59,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "71": {
+      "total": 98,
+      "dansSoliguide": 3,
+      "avecDom": 3
+    },
+    "72": {
+      "total": 100,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "73": {
+      "total": 88,
+      "dansSoliguide": 2,
+      "avecDom": 2
+    },
+    "74": {
+      "total": 131,
+      "dansSoliguide": 4,
+      "avecDom": 4
+    },
+    "76": {
+      "total": 197,
+      "dansSoliguide": 34,
+      "avecDom": 34
+    },
+    "77": {
+      "total": 187,
+      "dansSoliguide": 43,
+      "avecDom": 43
+    },
+    "78": {
+      "total": 107,
+      "dansSoliguide": 61,
+      "avecDom": 61
+    },
+    "79": {
+      "total": 62,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "80": {
+      "total": 152,
+      "dansSoliguide": 2,
+      "avecDom": 2
+    },
+    "81": {
+      "total": 67,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "82": {
+      "total": 39,
+      "dansSoliguide": 4,
+      "avecDom": 4
+    },
+    "83": {
+      "total": 96,
+      "dansSoliguide": 38,
+      "avecDom": 38
+    },
+    "84": {
+      "total": 69,
+      "dansSoliguide": 4,
+      "avecDom": 4
+    },
+    "85": {
+      "total": 133,
+      "dansSoliguide": 2,
+      "avecDom": 2
+    },
+    "86": {
+      "total": 84,
+      "dansSoliguide": 26,
+      "avecDom": 26
+    },
+    "87": {
+      "total": 65,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "88": {
+      "total": 92,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "89": {
+      "total": 105,
+      "dansSoliguide": 2,
+      "avecDom": 2
+    },
+    "90": {
+      "total": 31,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "91": {
+      "total": 110,
+      "dansSoliguide": 53,
+      "avecDom": 53
+    },
+    "92": {
+      "total": 29,
+      "dansSoliguide": 28,
+      "avecDom": 28
+    },
+    "93": {
+      "total": 33,
+      "dansSoliguide": 32,
+      "avecDom": 32
+    },
+    "94": {
+      "total": 37,
+      "dansSoliguide": 36,
+      "avecDom": 36
+    },
+    "95": {
+      "total": 94,
+      "dansSoliguide": 32,
+      "avecDom": 32
+    },
+    "971": {
+      "total": 23,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "972": {
+      "total": 32,
+      "dansSoliguide": 2,
+      "avecDom": 2
+    },
+    "973": {
+      "total": 12,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "974": {
+      "total": 13,
+      "dansSoliguide": 5,
+      "avecDom": 5
+    },
+    "975": {
+      "total": 1,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "976": {
+      "total": 12,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "01": {
+      "total": 141,
+      "dansSoliguide": 2,
+      "avecDom": 2
+    },
+    "02": {
+      "total": 198,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "03": {
+      "total": 86,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "04": {
+      "total": 50,
+      "dansSoliguide": 4,
+      "avecDom": 4
+    },
+    "05": {
+      "total": 46,
+      "dansSoliguide": 2,
+      "avecDom": 2
+    },
+    "06": {
+      "total": 71,
+      "dansSoliguide": 14,
+      "avecDom": 14
+    },
+    "07": {
+      "total": 119,
+      "dansSoliguide": 7,
+      "avecDom": 7
+    },
+    "08": {
+      "total": 98,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "09": {
+      "total": 60,
+      "dansSoliguide": 10,
+      "avecDom": 10
+    },
+    "2A": {
+      "total": 14,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "2B": {
+      "total": 23,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    }
+  },
+  "parRegion": {
+    "Auvergne-Rhône-Alpes": {
+      "total": 1413,
+      "dansSoliguide": 77,
+      "avecDom": 77
+    },
+    "Hauts-de-France": {
+      "total": 1205,
+      "dansSoliguide": 44,
+      "avecDom": 44
+    },
+    "Nouvelle-Aquitaine": {
+      "total": 1180,
+      "dansSoliguide": 164,
+      "avecDom": 164
+    },
+    "Occitanie": {
+      "total": 1138,
+      "dansSoliguide": 261,
+      "avecDom": 261
+    },
+    "Grand Est": {
+      "total": 996,
+      "dansSoliguide": 44,
+      "avecDom": 44
+    },
+    "Bretagne": {
+      "total": 641,
+      "dansSoliguide": 60,
+      "avecDom": 60
+    },
+    "Normandie": {
+      "total": 631,
+      "dansSoliguide": 37,
+      "avecDom": 37
+    },
+    "Île-de-France": {
+      "total": 597,
+      "dansSoliguide": 285,
+      "avecDom": 285
+    },
+    "Bourgogne-Franche-Comté": {
+      "total": 588,
+      "dansSoliguide": 18,
+      "avecDom": 18
+    },
+    "Pays de la Loire": {
+      "total": 535,
+      "dansSoliguide": 91,
+      "avecDom": 91
+    },
+    "Centre-Val de Loire": {
+      "total": 528,
+      "dansSoliguide": 40,
+      "avecDom": 40
+    },
+    "Provence-Alpes-Côte d'Azur": {
+      "total": 418,
+      "dansSoliguide": 77,
+      "avecDom": 77
+    },
+    "Corse": {
+      "total": 37,
+      "dansSoliguide": 1,
+      "avecDom": 1
+    },
+    "Martinique": {
+      "total": 32,
+      "dansSoliguide": 2,
+      "avecDom": 2
+    },
+    "Guadeloupe": {
+      "total": 23,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "La Réunion": {
+      "total": 13,
+      "dansSoliguide": 5,
+      "avecDom": 5
+    },
+    "Guyane": {
+      "total": 12,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "Mayotte": {
+      "total": 12,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    },
+    "Autre": {
+      "total": 1,
+      "dansSoliguide": 0,
+      "avecDom": 0
+    }
+  }
+}

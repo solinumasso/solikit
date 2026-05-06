@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude plugin:*)",
+      "Bash(claude mcp:*)",
+      "Bash(python3:*)",
+      "mcp__claude_ai_DataGouv__get_dataset_info",
+      "mcp__claude_ai_DataGouv__list_dataset_resources",
+      "mcp__claude_ai_DataGouv__query_resource_data",
+      "Bash(wc:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm:*)",
+      "Bash(touch:*)",
+      "Bash(npx tsx:*)",
+      "Bash(lsof:*)",
+      "mcp__claude_ai_DataGouv__search_datasets",
+      "mcp__claude_ai_DataGouv__search_dataservices",
+      "WebSearch",
+      "WebFetch(domain:api.gouv.fr)",
+      "mcp__claude_ai_DataGouv__get_dataservice_info",
+      "WebFetch(domain:www.data.inclusion.beta.gouv.fr)",
+      "mcp__claude_ai_DataGouv__get_dataservice_openapi_spec",
+      "WebFetch(domain:echanges.dila.gouv.fr)",
+      "Bash(head:*)",
+      "Bash(curl:*)",
+      "Bash(tar tjf:*)",
+      "Bash(tar xjf:*)",
+      "Bash(unzip:*)",
+      "Bash(open:*)",
+      "Bash(find:*)"
+    ]
+  }
+}

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="soliguide">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation — Soliguide Tools</title>
+  <link rel="icon" href="assets/images/icons/favicon.ico" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <link rel="stylesheet" href="assets/variables.css" />
+  <link rel="stylesheet" href="assets/soliguide-theme.css" />
+
+  <style>
+    .doc-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .doc-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(39, 19, 50, 0.12);
+    }
+    code.inline {
+      background: var(--color-base-200, #f5f5f5);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-family: monospace;
+    }
+    .step-number {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body class="bg-base-100 min-h-screen flex flex-col">
+
+  <!-- NAVBAR -->
+  <header class="bg-white shadow-md border-b border-base-300">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-4 h-16">
+      <a href="index.html" class="text-sm text-accent-content hover:text-primary font-semibold">← Accueil</a>
+      <div class="flex items-center gap-3">
+        <img src="assets/images/themes/soliguide-inline.svg" alt="Soliguide" class="h-6" />
+        <span class="font-bold opacity-20 text-lg hidden sm:inline text-primary">|</span>
+        <span class="text-sm font-semibold tracking-tight hidden sm:inline text-primary">Documentation</span>
+      </div>
+      <div class="w-16"></div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="text-white py-12" style="background: linear-gradient(rgba(39,19,50,0.95), rgba(39,19,50,0.95)), url('assets/images/background.png') center/cover no-repeat;">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h1 class="text-3xl font-black mb-3" style="font-family: Nunito, sans-serif;">Documentation Soliguide Tools</h1>
+      <p class="text-base opacity-80 max-w-2xl mx-auto leading-relaxed">
+        Tout ce qu'il faut savoir pour utiliser, concevoir et développer dans la boîte à outils Soliguide.
+      </p>
+    </div>
+  </section>
+
+  <!-- NAV CARDS -->
+  <div class="max-w-5xl mx-auto px-6 -mt-6 relative z-10 mb-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <a href="tuto.html" class="doc-card bg-white rounded-xl border border-base-300 p-4 text-center">
+        <span class="text-2xl block mb-1">🚀</span>
+        <span class="text-xs font-bold text-primary-content">Premiers pas</span>
+      </a>
+      <a href="design-guide.html" class="doc-card bg-white rounded-xl border border-base-300 p-4 text-center">
+        <span class="text-2xl block mb-1">🎨</span>
+        <span class="text-xs font-bold text-primary-content">Design System</span>
+      </a>
+      <a href="docs-skills.html" class="doc-card bg-white rounded-xl border border-base-300 p-4 text-center">
+        <span class="text-2xl block mb-1">🤖</span>
+        <span class="text-xs font-bold text-primary-content">Skills</span>
+      </a>
+      <a href="docs-regles.html" class="doc-card bg-white rounded-xl border border-base-300 p-4 text-center">
+        <span class="text-2xl block mb-1">📋</span>
+        <span class="text-xs font-bold text-primary-content">Règles & cadre</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- FONCTIONNEMENT GLOBAL -->
+  <main class="max-w-5xl mx-auto px-6 pb-16 flex-1">
+    <div class="bg-white rounded-2xl border border-base-300 p-6 lg:p-8 mb-10">
+      <h2 class="text-xl font-bold text-primary-content mb-4" style="font-family: Nunito, sans-serif;">Comment ça marche ?</h2>
+
+      <p class="text-sm text-base-content/70 leading-relaxed mb-6">
+        <strong>Soliguide Tools</strong> est une boîte à outils interne pour croiser les données Soliguide avec des sources publiques (data.gouv.fr, FINESS, subventions…). L'objectif : identifier les structures absentes de Soliguide, mesurer la couverture par territoire, et enrichir la base.
+      </p>
+
+      <!-- Schéma pipeline -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="flex flex-col items-center text-center p-4 rounded-xl bg-base-200/50">
+          <div class="step-number bg-secondary text-white mb-3">1</div>
+          <h3 class="font-bold text-primary-content text-sm mb-1">Source publique</h3>
+          <p class="text-xs text-base-content/60">Les scripts TypeScript téléchargent les données depuis data.gouv.fr, des API publiques, ou des fichiers CSV.</p>
+        </div>
+        <div class="flex flex-col items-center text-center p-4 rounded-xl bg-base-200/50">
+          <div class="step-number bg-secondary text-white mb-3">2</div>
+          <h3 class="font-bold text-primary-content text-sm mb-1">Traitement & matching</h3>
+          <p class="text-xs text-base-content/60">Les scripts nettoient, transforment et croisent les données avec Soliguide. Le résultat est exporté en JSON.</p>
+        </div>
+        <div class="flex flex-col items-center text-center p-4 rounded-xl bg-base-200/50">
+          <div class="step-number bg-secondary text-white mb-3">3</div>
+          <h3 class="font-bold text-primary-content text-sm mb-1">Dashboard interactif</h3>
+          <p class="text-xs text-base-content/60">Le dashboard HTML/JS affiche les résultats : cartes, tableaux, statistiques. Pas de build, pas de framework.</p>
+        </div>
+      </div>
+
+      <!-- Piloté par Claude -->
+      <div class="bg-info/10 border border-info/30 rounded-xl px-5 py-4 flex items-start gap-4">
+        <span class="text-2xl">🤖</span>
+        <div>
+          <h3 class="font-bold text-primary-content text-sm mb-1">Piloté par Claude Code</h3>
+          <p class="text-xs text-base-content/60 leading-relaxed">
+            Tu n'as pas besoin de coder. Ouvre un terminal, tape <code class="inline">claude</code>, et décris ce que tu veux en français. L'assistant crée les scripts, le pipeline de données et le dashboard. Les <a href="docs-skills.html" class="text-accent-content underline">skills</a> (commandes slash) accélèrent le processus.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rubriques détaillées -->
+    <h2 class="text-xl font-bold text-primary-content mb-6" style="font-family: Nunito, sans-serif;">Rubriques</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <a href="tuto.html" class="doc-card block bg-white rounded-2xl border border-base-300 overflow-hidden">
+        <div class="p-6">
+          <div class="flex items-start gap-4">
+            <span class="text-3xl">🚀</span>
+            <div>
+              <h3 class="text-lg font-bold text-primary-content mb-1">Pas à pas : faire mon 1er outil</h3>
+              <p class="text-sm text-base-content/60 leading-relaxed">
+                Installer l'environnement, comprendre la structure du repo, et créer ton premier projet avec Claude Code.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="px-6 py-3 bg-base-200/50 border-t border-base-300">
+          <span class="text-xs font-semibold text-accent-content">Lire le tuto →</span>
+        </div>
+      </a>
+
+      <a href="design-guide.html" class="doc-card block bg-white rounded-2xl border border-base-300 overflow-hidden">
+        <div class="p-6">
+          <div class="flex items-start gap-4">
+            <span class="text-3xl">🎨</span>
+            <div>
+              <h3 class="text-lg font-bold text-primary-content mb-1">Design System</h3>
+              <p class="text-sm text-base-content/60 leading-relaxed">
+                Palette de couleurs, typographie, composants DaisyUI, tableaux, conventions CSS. La référence visuelle.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="px-6 py-3 bg-base-200/50 border-t border-base-300">
+          <span class="text-xs font-semibold text-accent-content">Voir le guide →</span>
+        </div>
+      </a>
+
+      <a href="docs-skills.html" class="doc-card block bg-white rounded-2xl border border-base-300 overflow-hidden">
+        <div class="p-6">
+          <div class="flex items-start gap-4">
+            <span class="text-3xl">🤖</span>
+            <div>
+              <h3 class="text-lg font-bold text-primary-content mb-1">Comprendre les skills</h3>
+              <p class="text-sm text-base-content/60 leading-relaxed">
+                Les commandes slash disponibles dans Claude Code : <code class="inline">/pitch</code>, <code class="inline">/new-project</code>, <code class="inline">/process-data</code> et les autres.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="px-6 py-3 bg-base-200/50 border-t border-base-300">
+          <span class="text-xs font-semibold text-accent-content">Voir les skills →</span>
+        </div>
+      </a>
+
+      <a href="docs-regles.html" class="doc-card block bg-white rounded-2xl border border-base-300 overflow-hidden">
+        <div class="p-6">
+          <div class="flex items-start gap-4">
+            <span class="text-3xl">📋</span>
+            <div>
+              <h3 class="text-lg font-bold text-primary-content mb-1">Règles & cadre</h3>
+              <p class="text-sm text-base-content/60 leading-relaxed">
+                Les 7 règles du projet : pipeline scripts → JSON → dashboard, thème obligatoire, pas de framework, données jamais committées.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="px-6 py-3 bg-base-200/50 border-t border-base-300">
+          <span class="text-xs font-semibold text-accent-content">Voir les règles →</span>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-primary text-white mt-auto">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-6 py-5">
+      <div class="flex items-center gap-4">
+        <img src="assets/images/themes/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
+        <div>
+          <p class="font-semibold text-sm">Soliguide Tools</p>
+          <p class="text-xs opacity-60">Documentation interne</p>
+        </div>
+      </div>
+      <a href="index.html" class="text-xs opacity-60 hover:opacity-100 underline">← Retour à l'accueil</a>
+    </div>
+  </footer>
+
+</body>
+</html>

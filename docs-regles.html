@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="soliguide">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Règles & cadre — Documentation — Soliguide Tools</title>
+  <link rel="icon" href="assets/images/icons/favicon.ico" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <link rel="stylesheet" href="assets/variables.css" />
+  <link rel="stylesheet" href="assets/soliguide-theme.css" />
+
+  <style>
+    code.inline {
+      background: var(--color-base-200, #f5f5f5);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body class="bg-base-100 min-h-screen flex flex-col">
+
+  <!-- NAVBAR -->
+  <header class="bg-white shadow-md border-b border-base-300">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-4 h-16">
+      <a href="docs.html" class="text-sm text-accent-content hover:text-primary font-semibold">← Documentation</a>
+      <div class="flex items-center gap-3">
+        <img src="assets/images/themes/soliguide-inline.svg" alt="Soliguide" class="h-6" />
+        <span class="font-bold opacity-20 text-lg hidden sm:inline text-primary">|</span>
+        <span class="text-sm font-semibold tracking-tight hidden sm:inline text-primary">Règles & cadre</span>
+      </div>
+      <div class="w-24"></div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="text-white py-10" style="background: linear-gradient(rgba(39,19,50,0.95), rgba(39,19,50,0.95)), url('assets/images/background.png') center/cover no-repeat;">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="flex items-center gap-4">
+        <span class="text-4xl">📋</span>
+        <div>
+          <h1 class="text-2xl font-black" style="font-family: Nunito, sans-serif;">Règles & cadre</h1>
+          <p class="text-sm opacity-70 mt-1">Les 7 règles obligatoires du projet. À respecter pour chaque outil.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-5xl mx-auto px-6 py-10 flex-1 space-y-10">
+
+    <!-- Les 7 règles -->
+    <div class="space-y-4">
+
+      <!-- Règle 1 -->
+      <div class="bg-white rounded-xl border border-base-300 p-5">
+        <div class="flex items-start gap-4">
+          <span class="text-2xl">📦</span>
+          <div>
+            <h3 class="font-bold text-primary-content mb-1">Scripts → JSON → Dashboard</h3>
+            <p class="text-sm text-base-content/60 leading-relaxed">Les scripts TypeScript font tout le travail lourd (téléchargement, parsing, calculs) et produisent du <strong>JSON</strong> dans <code class="inline">data/output/</code>. Le dashboard ne fait <strong>que lire et afficher</strong> ce JSON. Jamais de CSV ou de calculs côté navigateur.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Règle 2 -->
+      <div class="bg-white rounded-xl border border-base-300 p-5">
+        <div class="flex items-start gap-4">
+          <span class="text-2xl">🎨</span>
+          <div>
+            <h3 class="font-bold text-primary-content mb-1">Thème Soliguide obligatoire</h3>
+            <p class="text-sm text-base-content/60 leading-relaxed">Chaque dashboard utilise <code class="inline">assets/soliguide-theme.css</code> avec <code class="inline">data-theme="soliguide"</code>. Ne jamais redéfinir les couleurs ou le thème. Utiliser les classes DaisyUI, pas des hex hardcodés.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Règle 3 -->
+      <div class="bg-white rounded-xl border border-base-300 p-5">
+        <div class="flex items-start gap-4">
+          <span class="text-2xl">🚀</span>
+          <div>
+            <h3 class="font-bold text-primary-content mb-1">HTML/CSS/JS pur, pas de framework</h3>
+            <p class="text-sm text-base-content/60 leading-relaxed">Pas de React, Vue, Svelte ou Angular. Les dashboards sont en vanilla JS avec DaisyUI 5 + Tailwind CSS 4 via CDN. Déployables directement sur GitHub Pages, sans build step.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Règle 4 -->
+      <div class="bg-white rounded-xl border border-base-300 p-5">
+        <div class="flex items-start gap-4">
+          <span class="text-2xl">🗂️</span>
+          <div>
+            <h3 class="font-bold text-primary-content mb-1">Données publiques, jamais committées</h3>
+            <p class="text-sm text-base-content/60 leading-relaxed">Les données viennent de sources ouvertes (data.gouv.fr, API publiques). Le dossier <code class="inline">data/</code> est dans <code class="inline">.gitignore</code>. Chaque projet doit permettre de re-télécharger les données depuis les scripts.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Règle 5 -->
+      <div class="bg-white rounded-xl border border-base-300 p-5">
+        <div class="flex items-start gap-4">
+          <span class="text-2xl">🔤</span>
+          <div>
+            <h3 class="font-bold text-primary-content mb-1">Polices Roboto & Nunito uniquement</h3>
+            <p class="text-sm text-base-content/60 leading-relaxed"><strong>Roboto</strong> pour le corps de texte et les données. <strong>Nunito</strong> pour les titres. Via Google Fonts CDN. Aucune autre police autorisée.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Règle 6 -->
+      <div class="bg-white rounded-xl border border-base-300 p-5">
+        <div class="flex items-start gap-4">
+          <span class="text-2xl">🖼️</span>
+          <div>
+            <h3 class="font-bold text-primary-content mb-1">Logo & favicon Soliguide</h3>
+            <p class="text-sm text-base-content/60 leading-relaxed">Chaque dashboard affiche le logo Soliguide dans la navbar (en couleurs naturelles) et utilise le favicon. Les assets sont dans <code class="inline">assets/images/</code> et copiés localement dans <code class="inline">dashboard/assets/</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Règle 7 -->
+      <div class="bg-white rounded-xl border border-base-300 p-5">
+        <div class="flex items-start gap-4">
+          <span class="text-2xl">⌨️</span>
+          <div>
+            <h3 class="font-bold text-primary-content mb-1">pnpm dashboard sur le port 5555</h3>
+            <p class="text-sm text-base-content/60 leading-relaxed">Chaque <code class="inline">package.json</code> a un script <code class="inline">"dashboard": "npx -y serve ../.. -p 5555"</code>. Le serveur sert depuis la racine du repo pour que les chemins <code class="inline">../../assets/</code> fonctionnent.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Résumé Faire / Ne pas faire -->
+    <div>
+      <h2 class="text-lg font-bold text-primary-content mb-4" style="font-family: Nunito, sans-serif;">En résumé</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-success/5 rounded-xl border border-success/30 p-5">
+          <h3 class="font-bold text-success-content text-sm mb-3">Faire</h3>
+          <ul class="text-sm text-base-content/70 space-y-2">
+            <li>Utiliser les classes DaisyUI pour les couleurs</li>
+            <li>Produire du JSON en sortie des scripts</li>
+            <li>Numéroter les scripts (01-, 02-, 03-…)</li>
+            <li>Copier les assets Soliguide dans <code class="inline">dashboard/assets/</code></li>
+            <li>Ajouter le lien doc dans le menu hamburger</li>
+          </ul>
+        </div>
+        <div class="bg-error/5 rounded-xl border border-error/30 p-5">
+          <h3 class="font-bold text-error-content text-sm mb-3">Ne pas faire</h3>
+          <ul class="text-sm text-base-content/70 space-y-2">
+            <li>Hardcoder des couleurs hex dans le CSS</li>
+            <li>Utiliser un framework JS (React, Vue…)</li>
+            <li>Parser du CSV côté navigateur</li>
+            <li>Committer des fichiers de données</li>
+            <li>Utiliser des polices autres que Roboto/Nunito</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-primary text-white mt-auto">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-6 py-5">
+      <div class="flex items-center gap-4">
+        <img src="assets/images/themes/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
+        <div>
+          <p class="font-semibold text-sm">Soliguide Tools</p>
+          <p class="text-xs opacity-60">Documentation interne</p>
+        </div>
+      </div>
+      <a href="docs.html" class="text-xs opacity-60 hover:opacity-100 underline">← Documentation</a>
+    </div>
+  </footer>
+
+</body>
+</html>

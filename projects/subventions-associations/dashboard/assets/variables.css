@@ -1,0 +1,561 @@
+:root {
+  /* Color Styles */
+
+  /* Text Styles */
+  --font-family-tailwind-primary-font-xs-normal: "Roboto";
+  --font-size-tailwind-primary-font-xs-normal: 12px;
+  --font-weight-tailwind-primary-font-xs-normal: 400;
+  --font-family-tailwind-primary-font-xs-medium: "Roboto";
+  --font-size-tailwind-primary-font-xs-medium: 12px;
+  --font-weight-tailwind-primary-font-xs-medium: 500;
+  --font-family-tailwind-primary-font-xs-bold: "Roboto";
+  --font-size-tailwind-primary-font-xs-bold: 12px;
+  --font-weight-tailwind-primary-font-xs-bold: 700;
+  --font-family-tailwind-primary-font-sm-normal: "Roboto";
+  --font-size-tailwind-primary-font-sm-normal: 14px;
+  --font-weight-tailwind-primary-font-sm-normal: 400;
+  --font-family-tailwind-primary-font-sm-medium: "Roboto";
+  --font-size-tailwind-primary-font-sm-medium: 14px;
+  --font-weight-tailwind-primary-font-sm-medium: 500;
+  --font-family-tailwind-primary-font-sm-bold: "Roboto";
+  --font-size-tailwind-primary-font-sm-bold: 14px;
+  --font-weight-tailwind-primary-font-sm-bold: 700;
+  --font-family-tailwind-primary-font-base-normal: "Roboto";
+  --font-size-tailwind-primary-font-base-normal: 16px;
+  --font-weight-tailwind-primary-font-base-normal: 400;
+  --font-family-tailwind-primary-font-base-medium: "Roboto";
+  --font-size-tailwind-primary-font-base-medium: 16px;
+  --font-weight-tailwind-primary-font-base-medium: 500;
+  --font-family-tailwind-primary-font-base-bold: "Roboto";
+  --font-size-tailwind-primary-font-base-bold: 16px;
+  --font-weight-tailwind-primary-font-base-bold: 700;
+  --font-family-tailwind-primary-font-lg-normal: "Roboto";
+  --font-size-tailwind-primary-font-lg-normal: 18px;
+  --font-weight-tailwind-primary-font-lg-normal: 400;
+  --font-family-tailwind-primary-font-lg-medium: "Roboto";
+  --font-size-tailwind-primary-font-lg-medium: 18px;
+  --font-weight-tailwind-primary-font-lg-medium: 500;
+  --font-family-tailwind-primary-font-lg-bold: "Roboto";
+  --font-size-tailwind-primary-font-lg-bold: 18px;
+  --font-weight-tailwind-primary-font-lg-bold: 700;
+  --font-family-tailwind-primary-font-xl-normal: "Roboto";
+  --font-size-tailwind-primary-font-xl-normal: 20px;
+  --font-weight-tailwind-primary-font-xl-normal: 400;
+  --font-family-tailwind-primary-font-xl-medium: "Roboto";
+  --font-size-tailwind-primary-font-xl-medium: 20px;
+  --font-weight-tailwind-primary-font-xl-medium: 500;
+  --font-family-tailwind-primary-font-xl-bold: "Roboto";
+  --font-size-tailwind-primary-font-xl-bold: 20px;
+  --font-weight-tailwind-primary-font-xl-bold: 700;
+  --font-family-tailwind-primary-font-2xl-normal: "Roboto";
+  --font-size-tailwind-primary-font-2xl-normal: 24px;
+  --font-weight-tailwind-primary-font-2xl-normal: 400;
+  --font-family-tailwind-primary-font-2xl-medium: "Roboto";
+  --font-size-tailwind-primary-font-2xl-medium: 24px;
+  --font-weight-tailwind-primary-font-2xl-medium: 500;
+  --font-family-tailwind-primary-font-2xl-bold: "Roboto";
+  --font-size-tailwind-primary-font-2xl-bold: 24px;
+  --font-weight-tailwind-primary-font-2xl-bold: 700;
+  --font-family-tailwind-primary-font-3xl-normal: "Roboto";
+  --font-size-tailwind-primary-font-3xl-normal: 30px;
+  --font-weight-tailwind-primary-font-3xl-normal: 400;
+  --font-family-tailwind-primary-font-3xl-medium: "Roboto";
+  --font-size-tailwind-primary-font-3xl-medium: 30px;
+  --font-weight-tailwind-primary-font-3xl-medium: 500;
+  --font-family-tailwind-primary-font-3xl-bold: "Roboto";
+  --font-size-tailwind-primary-font-3xl-bold: 30px;
+  --font-weight-tailwind-primary-font-3xl-bold: 700;
+  --font-family-tailwind-secondary-font-xs-bold: "Nunito";
+  --font-size-tailwind-secondary-font-xs-bold: 12px;
+  --font-weight-tailwind-secondary-font-xs-bold: 700;
+  --font-family-tailwind-secondary-font-xs-extrabold: "Nunito";
+  --font-size-tailwind-secondary-font-xs-extrabold: 12px;
+  --font-weight-tailwind-secondary-font-xs-extrabold: 700;
+  --font-family-tailwind-secondary-font-base-bold: "Nunito";
+  --font-size-tailwind-secondary-font-base-bold: 16px;
+  --font-weight-tailwind-secondary-font-base-bold: 700;
+  --font-family-tailwind-secondary-font-base-extrabold: "Nunito";
+  --font-size-tailwind-secondary-font-base-extrabold: 16px;
+  --font-weight-tailwind-secondary-font-base-extrabold: 700;
+  --font-family-tailwind-secondary-font-lg-bold: "Nunito";
+  --font-size-tailwind-secondary-font-lg-bold: 18px;
+  --font-weight-tailwind-secondary-font-lg-bold: 700;
+  --font-family-tailwind-secondary-font-lg-extrabold: "Nunito";
+  --font-size-tailwind-secondary-font-lg-extrabold: 18px;
+  --font-weight-tailwind-secondary-font-lg-extrabold: 700;
+  --font-family-tailwind-secondary-font-xl-bold: "Nunito";
+  --font-size-tailwind-secondary-font-xl-bold: 20px;
+  --font-weight-tailwind-secondary-font-xl-bold: 700;
+  --font-family-tailwind-secondary-font-xl-extrabold: "Nunito";
+  --font-size-tailwind-secondary-font-xl-extrabold: 20px;
+  --font-weight-tailwind-secondary-font-xl-extrabold: 700;
+  --font-family-tailwind-secondary-font-2xl-bold: "Nunito";
+  --font-size-tailwind-secondary-font-2xl-bold: 24px;
+  --font-weight-tailwind-secondary-font-2xl-bold: 700;
+  --font-family-tailwind-secondary-font-2xl-extrabold: "Nunito";
+  --font-size-tailwind-secondary-font-2xl-extrabold: 24px;
+  --font-weight-tailwind-secondary-font-2xl-extrabold: 700;
+  --font-family-tailwind-secondary-font-3xl-extrabold: "Nunito";
+  --font-size-tailwind-secondary-font-3xl-extrabold: 30px;
+  --font-weight-tailwind-secondary-font-3xl-extrabold: 700;
+  --font-family-tailwind-secondary-font-4xl-extrabold: "Nunito";
+  --font-size-tailwind-secondary-font-4xl-extrabold: 36px;
+  --font-weight-tailwind-secondary-font-4xl-extrabold: 700;
+  --font-family-tailwind-secondary-font-5xl-extrabold: "Nunito";
+  --font-size-tailwind-secondary-font-5xl-extrabold: 48px;
+  --font-weight-tailwind-secondary-font-5xl-extrabold: 700;
+  --line-height-tailwind-secondary-font-5xl-extrabold: 1px;
+  --font-family-tailwind-secondary-font-6xl-extrabold: "Nunito";
+  --font-size-tailwind-secondary-font-6xl-extrabold: 60px;
+  --font-weight-tailwind-secondary-font-6xl-extrabold: 700;
+  --line-height-tailwind-secondary-font-6xl-extrabold: 1px;
+  --font-family-tailwind-secondary-font-7xl-extrabold: "Nunito";
+  --font-size-tailwind-secondary-font-7xl-extrabold: 72px;
+  --font-weight-tailwind-secondary-font-7xl-extrabold: 700;
+  --line-height-tailwind-secondary-font-7xl-extrabold: 1px;
+  --font-family-tailwind-secondary-font-8xl-extrabold: "Nunito";
+  --font-size-tailwind-secondary-font-8xl-extrabold: 96px;
+  --font-weight-tailwind-secondary-font-8xl-extrabold: 700;
+  --line-height-tailwind-secondary-font-8xl-extrabold: 1px;
+
+  /* Effect Styles */
+  --effect-effects-glass-effect: 0px 0px 0px 2px rgba(0, 0, 0, 0.05), inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1);
+  --effect-effects-diff-blur: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  --effect-shadow-dropshadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  --effect-shadow-components-radial-progress-dropshadow: 0px 4px 3px -2px rgba(0, 0, 0, 0.15);
+  --effect-shadow-components-alert-dropshadow: 0px 4px 3px -2px rgba(0, 0, 0, 0.08);
+  --effect-shadow-components-calendar-dropshadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --effect-shadow-components-thumb-dropshadow: inset 0px 8px 0px 0px rgba(255, 255, 255, 0.1), inset 0px -1px 0px 4px rgba(0, 0, 0, 0.1);
+  --effect-shadow-components-list-dropshadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.1), 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --effect-shadow-components-modal-dropshadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --effect-shadow-components-text-box-dropshadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --effect-shadow-components-stat-dropshadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  --effect-shadow-components-checkbox-checked: inset 0px 8px 0px -4px rgba(255, 255, 255, 0.1), 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
+  --effect-shadow-components-button-dropshadow-foreground: 0px 0.5px 0px 0px rgba(255, 255, 255, 0.15);
+  --effect-shadow-components-button-dropshadow-default: 0px 3px 2px -2px #f5f5f5, 0px 4px 3px -2px #f5f5f5;
+  --effect-shadow-components-button-dropshadow-neutral: 0px 3px 2px -2px rgba(255, 255, 255, 0.2), 0px 4px 3px -2px rgba(255, 255, 255, 0.2);
+  --effect-shadow-components-button-dropshadow-primary: 0px 3px 2px -2px #f84b32, 0px 4px 3px -2px #f84b32;
+  --effect-shadow-components-button-dropshadow-secondary: 0px 3px 2px -2px #503b5c, 0px 4px 3px -2px #503b5c;
+  --effect-shadow-components-button-dropshadow-accent: 0px 3px 2px -2px #271332, 0px 4px 3px -2px #271332;
+  --effect-shadow-components-button-dropshadow-info: 0px 3px 2px -2px #dfbceb, 0px 4px 3px -2px #dfbceb;
+  --effect-shadow-components-button-dropshadow-success: 0px 3px 2px -2px #a7f3d0, 0px 4px 3px -2px #a7f3d0;
+  --effect-shadow-components-button-dropshadow-warning: 0px 3px 2px -2px #ffe1bd, 0px 4px 3px -2px #ffe1bd;
+  --effect-shadow-components-button-dropshadow-error: 0px 3px 2px -2px #d32f2f, 0px 4px 3px -2px #fecaca;
+  --effect-shadow-components-menu-container: 0px 3px 4px 0px rgba(0, 0, 0, 0.4), 0px 0px 3px -2px rgba(0, 0, 0, 0.3);
+  --effect-shadow-components-menu-item-active: 0px 2px 3px -2px #f84b32;
+  --effect-shadow-components-container-innershadow: inset 0px 1px 0px 0px rgba(0, 0, 0, 0.1);
+  --effect-shadow-components-stat-dropshadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  --effect-shadow-components-navbar-dropshadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  --effect-shadow-components-field-innershadow: inset 0px 1px 0px 0px #171717;
+  --effect-shadow-components-radio-shadow-checked: inset 0px 1px 0px 1px rgba(0, 0, 0, 0.1);
+  --effect-shadow-components-radio-shadow-innershadow-unchecked: inset 0px 1px 0px 1px rgba(0, 0, 0, 0.1);
+  --effect-shadow-components-radio-shadow-innerdot-checked: 0px 1px 0px 0px rgba(0, 0, 0, 0.1), inset 0px 8px 0px -4px rgba(255, 255, 255, 0.1), inset 0px -1px 0px 0px rgba(0, 0, 0, 0.1);
+  --effect-shadow-components-tab-box-shadow: 0px 1px 6px -4px #000000, 0px 1px 1px -1px rgba(0, 0, 0, 0.5), inset 0px 1px 0px 0px rgba(255, 255, 255, 0.1);
+  --effect-state-focus-default: 0px 0px 0px 5px #171717, 0px 0px 0px 3px #ffffff;
+  --effect-state-focus-neutral: 0px 0px 0px 5px rgba(255, 255, 255, 0.2), 0px 0px 0px 3px #ffffff;
+  --effect-state-focus-primary: 0px 0px 0px 5px #f84b32, 0px 0px 0px 3px #ffffff;
+  --effect-state-focus-secondary: 0px 0px 0px 5px #503b5c, 0px 0px 0px 3px #ffffff;
+  --effect-state-focus-accent: 0px 0px 0px 5px #271332, 0px 0px 0px 3px #ffffff;
+  --effect-state-focus-info: 0px 0px 0px 5px #dfbceb, 0px 0px 0px 3px #ffffff;
+  --effect-state-focus-success: 0px 0px 0px 5px #a7f3d0, 0px 0px 0px 3px #ffffff;
+  --effect-state-focus-warning: 0px 0px 0px 5px #ffe1bd, 0px 0px 0px 3px #ffffff;
+  --effect-state-focus-error: 0px 0px 0px 5px #fecaca, 0px 0px 0px 3px #ffffff;
+
+  /* Grid Styles */
+
+  /* 🌀 tailwind - spacing Collection */
+  --tailwind-spacing-0-0: 0px;
+  --tailwind-spacing-1-4: 4px;
+  --tailwind-spacing-2-8: 8px;
+  --tailwind-spacing-3-12: 12px;
+  --tailwind-spacing-4-16: 16px;
+  --tailwind-spacing-5-20: 20px;
+  --tailwind-spacing-6-24: 24px;
+  --tailwind-spacing-7-28: 28px;
+  --tailwind-spacing-8-32: 32px;
+  --tailwind-spacing-9-36: 36px;
+  --tailwind-spacing-10-40: 40px;
+  --tailwind-spacing-11-44: 44px;
+  --tailwind-spacing-12-48: 48px;
+  --tailwind-spacing-14-56: 56px;
+  --tailwind-spacing-16-64: 64px;
+  --tailwind-spacing-20-80: 80px;
+  --tailwind-spacing-24-96: 96px;
+  --tailwind-spacing-28-112: 112px;
+  --tailwind-spacing-32-128: 128px;
+  --tailwind-spacing-36-144: 144px;
+  --tailwind-spacing-40-160: 160px;
+  --tailwind-spacing-44-176: 176px;
+  --tailwind-spacing-48-192: 192px;
+  --tailwind-spacing-52-208: 208px;
+  --tailwind-spacing-56-224: 224px;
+  --tailwind-spacing-60-240: 240px;
+  --tailwind-spacing-64-256: 256px;
+  --tailwind-spacing-72-288: 288px;
+  --tailwind-spacing-80-320: 320px;
+  --tailwind-spacing-96-384: 384px;
+  --tailwind-spacing-3-5-14: 14px;
+  --tailwind-spacing-2-5-10: 10px;
+  --tailwind-spacing-1-5-6: 6px;
+  --tailwind-spacing-0-5-2: 2px;
+  --tailwind-spacing-px: 1px;
+  --tailwind-spacing-18-72: 72px;
+
+  /* 🎨 theme Collection */
+  --main-color-primary-primary: #f84b32;
+  --main-color-primary-content: #271332;
+  --main-color-secondary-secondary: #503b5c;
+  --main-color-secondary-content: #ecd9f5;
+  --main-color-accent-bg: #271332;
+  --main-color-accent-content: #ed3215;
+  --main-color-neutral-neutral: rgba(255, 255, 255, 0.2);
+  --main-color-neutral-content: #ffffff;
+  --main-color-base-100: #ffffff;
+  --main-color-base-200: #f5f5f5;
+  --main-color-base-300: #d4d4d4;
+  --main-color-base-content: #171717;
+  --main-color-info-info: #dfbceb;
+  --main-color-info-content: #503b5c;
+  --main-color-success-success: #a7f3d0;
+  --main-color-success-content: #019d4f;
+  --main-color-warning-warning: #ffe1bd;
+  --main-color-warning-content: #f29013;
+  --main-color-error-error: #fecaca;
+  --main-color-error-content: #d32f2f;
+  --main-color-base-hover: rgba(39, 19, 50, 0.07);
+  --main-radius-fields: 8px;
+  --main-radius-selectors: 8px;
+  --main-radius-boxes: 16px;
+  --main-border-width-border-medium: 2px;
+  --main-border-width-border-light: 1px;
+  --main-themename-theme: "Light";
+  --main-fontfamily-primary: "Roboto";
+  --main-fontfamily-code: "Roboto Mono";
+  --main-fontfamily-secondary: "Nunito";
+
+  /* 🌀 tailwind - typography Collection */
+  --tailwind-typography-size-xs: 12px;
+  --tailwind-typography-size-sm: 14px;
+  --tailwind-typography-size-base: 16px;
+  --tailwind-typography-size-lg: 18px;
+  --tailwind-typography-size-xl: 20px;
+  --tailwind-typography-size-2xl: 24px;
+  --tailwind-typography-size-3xl: 30px;
+  --tailwind-typography-size-4xl: 36px;
+  --tailwind-typography-size-5xl: 48px;
+  --tailwind-typography-size-6xl: 60px;
+  --tailwind-typography-size-7xl: 72px;
+  --tailwind-typography-size-8xl: 96px;
+  --tailwind-typography-weight-normal-400: 400px;
+  --tailwind-typography-weight-bold-700: 700px;
+  --tailwind-typography-weight-black-900: 900px;
+  --tailwind-typography-weight-medium-500: 500px;
+  --tailwind-typography-lineheight-leading-3: 12px;
+  --tailwind-typography-lineheight-leading-4: 16px;
+  --tailwind-typography-lineheight-leading-5: 20px;
+  --tailwind-typography-lineheight-leading-6: 24px;
+  --tailwind-typography-lineheight-leading-7: 28px;
+  --tailwind-typography-lineheight-leading-8: 32px;
+  --tailwind-typography-lineheight-leading-9: 36px;
+  --tailwind-typography-lineheight-leading-10: 40px;
+  --tailwind-typography-size-9xl: 128px;
+  --tailwind-typography-weight-thin-100: 100px;
+  --tailwind-typography-weight-extralight-200: 200px;
+  --tailwind-typography-weight-semibold-600: 600px;
+  --tailwind-typography-weight-extrabold-800: 800px;
+  --tailwind-typography-weight-light-300: 300px;
+  --tailwind-typography-lineheight-leading-11: 48px;
+  --tailwind-typography-lineheight-leading-normal: "150%";
+  --tailwind-typography-lineheight-leading-none: "100%";
+
+  /* 📐 size Collection */
+  --fields-size-xs: 18px;
+  --fields-size-sm: 24px;
+  --fields-size-md: 30px;
+  --fields-size-lg: 36px;
+  --fields-size-xl: 42px;
+  --fields-padding-xs: 8px;
+  --fields-padding-sm: 12px;
+  --fields-padding-md: 16px;
+  --fields-padding-lg: 20px;
+  --fields-padding-xl: 24px;
+  --selectors-size-xl: 24px;
+  --selectors-padding-xl: 16px;
+  --selectors-padding-lg: 14px;
+  --selectors-padding-md: 12px;
+  --selectors-padding-sm: 10px;
+  --selectors-padding-xs: 8px;
+  --selectors-size-lg: 21px;
+  --selectors-size-md: 18px;
+  --selectors-size-sm: 15px;
+  --selectors-size-xs: 12px;
+  --fields-size-2xl: 48px;
+
+  /* 🕳️ depth Collection */
+  --btn-dropshadow-01-y: 4px;
+  --btn-dropshadow-01-blur: 3px;
+  --btn-dropshadow-01-spread: -2px;
+  --btn-dropshadow-02-y: 3px;
+  --btn-dropshadow-02-blur: 2px;
+  --btn-dropshadow-02-spread: -2px;
+  --depth: false;
+  --foreground-shadow: true;
+  --foreground-noshadow: false;
+
+  /* ● noise Collection */
+  --noise: false;
+
+  /* 🔲 border Collection */
+  --border-medium-width: 1px;
+  --border-light-width: 1px;
+
+  /* ⭕ Radius Collection */
+  --radius-fields: 8px;
+  --radius-boxes: 16px;
+  --radius-selectors: 8px;
+  --radius-round: 1000px;
+  --radius-null: 0px;
+
+  /* ❖ List Collection */
+  --list-padding-horizontal: 8px;
+  --list-padding-vertical: 16px;
+  --list-gap-horizontal: 8px;
+
+  /* ❖ Navbar Collection */
+  --navbar-padding-vertical: 8px;
+  --navbar-min-height: 64px;
+  --navbar-gap: 48px;
+  --navbar-padding-horizontal: 8px;
+
+  /* 🛠️ utilities Collection */
+  --daisy-shadow-state-focus-offset: 3px;
+  --daisy-shadow-state-focus-shadow: 5px;
+
+  /* ↪ ✴️ join-direction Collection */
+  --join-direction-fields-top-left: 0px;
+  --join-direction-fields-top-right: 0px;
+  --join-direction-fields-bot-right: 0px;
+  --join-direction-fields-bot-left: 0px;
+  --join-direction-boxes-top-left: 0px;
+  --join-direction-boxes-top-right: 0px;
+  --join-direction-boxes-bot-right: 0px;
+  --join-direction-boxes-bot-left: 0px;
+  --join-direction-selectors-top-left: 0px;
+  --join-direction-selectors-top-right: 0px;
+  --join-direction-selectors-bot-right: 0px;
+  --join-direction-selectors-bot-left: 0px;
+
+  /* ✴️ Join Collection */
+  --radius-join-fieds-top-left: 0px;
+  --radius-join-fieds-top-right: 0px;
+  --radius-join-fieds-bot-right: 0px;
+  --radius-join-fieds-bot-left: 0px;
+  --radius-join-boxes-top-left: 0px;
+  --radius-join-boxes-top-right: 0px;
+  --radius-join-boxes-bot-right: 0px;
+  --radius-join-boxes-bot-left: 0px;
+  --radius-join-selectors-top-left: 0px;
+  --radius-join-selectors-top-right: 0px;
+  --radius-join-selectors-bot-right: 0px;
+  --radius-join-selectors-bot-left: 0px;
+
+  /* 📱 Device Collection */
+  --safe-area: 16px;
+
+  /* ⬜️ square-apply Collection */
+  --square-fields-padding-xl: 24px;
+  --square-fields-padding-lg: 20px;
+  --square-fields-padding-md: 16px;
+  --square-fields-padding-sm: 12px;
+  --square-fields-padding-xs: 8px;
+  --square-selectors-padding-xl: 16px;
+  --square-selectors-padding-lg: 14px;
+  --square-selectors-padding-md: 12px;
+  --square-selectors-padding-sm: 10px;
+  --square-selectors-padding-xs: 8px;
+  --square-fields-max-width-xl: 1000px;
+  --square-fields-max-width-lg: 1000px;
+  --square-fields-max-width-md: 1000px;
+  --square-fields-max-width-sm: 1000px;
+  --square-fields-max-width-xs: 1000px;
+  --square-selectors-max-width-xl: 1000px;
+  --square-selectors-max-width-lg: 1000px;
+  --square-selectors-max-width-md: 1000px;
+  --square-selectors-max-width-sm: 1000px;
+  --square-selectors-max-width-xs: 1000px;
+  --square-selectors-padding-2xs: 6px;
+  --square-selectors-padding-3xs: 4px;
+  --square-label: true;
+
+  /* 🌼 Component fontSize Collection */
+  --daisy-typography-fields-fontsize-xs: 12px;
+  --daisy-typography-fields-fontsize-sm: 14px;
+  --daisy-typography-fields-fontsize-md: 16px;
+  --daisy-typography-fields-fontsize-lg: 18px;
+  --daisy-typography-fields-fontsize-xl: 24px;
+  --daisy-typography-selectors-fontsize-xl: 18px;
+  --daisy-typography-selectors-fontsize-lg: 16px;
+  --daisy-typography-selectors-fontsize-md: 14px;
+  --daisy-typography-selectors-fontsize-sm: 12px;
+  --daisy-typography-selectors-fontsize-xs: 10px;
+  --daisy-typography-fields-fontsize-2xl: 32px;
+  --daisy-typography-fields-fontsize-3xl: 42px;
+  --daisy-typography-fields-fontsize-xxs: 10px;
+
+  /* ❖ fieldset & labels Collection */
+  --component-fieldset-fontsize: 14px;
+  --component-fieldset-padding-fieldset-label: 6px;
+  --component-fieldset-padding-legend: 8px;
+  --component-labels-fontsize-xs: 12px;
+  --component-fieldset-container-padding: 16px;
+  --component-labels-fontsize-sm: 14px;
+  --component-labels-fontsize-md: 16px;
+  --component-labels-fontsize-lg: 18px;
+  --component-labels-fontsize-xl: 24px;
+  --component-fieldset-gap-gap: 4px;
+
+  /* 🎨 themes alias Collection */
+  --alias-light-color-base-100: #ffffff;
+  --alias-light-color-base-200: #f5f5f5;
+  --alias-light-color-base-300: #d4d4d4;
+  --alias-light-color-base-content: #171717;
+  --alias-light-color-primary-primary: #f84b32;
+  --alias-light-color-primary-content: #271332;
+  --alias-light-color-secondary-secondary: #503b5c;
+  --alias-light-color-secondary-content: #ecd9f5;
+  --alias-light-color-accent-accent: #271332;
+  --alias-light-color-accent-content: #ed3215;
+  --alias-light-color-neutral-neutral: rgba(255, 255, 255, 0.2);
+  --alias-light-color-neutral-content: #ffffff;
+  --alias-light-color-info-info: #dfbceb;
+  --alias-light-color-info-content: #503b5c;
+  --alias-light-color-success-success: #a7f3d0;
+  --alias-light-color-success-content: #019d4f;
+  --alias-light-color-warning-warning: #ffe1bd;
+  --alias-light-color-warning-content: #f29013;
+  --alias-light-color-error-error: #fecaca;
+  --alias-light-color-error-content: #d32f2f;
+  --alias-dark-color-base-100: #171717;
+  --alias-dark-color-base-200: #262626;
+  --alias-dark-color-base-300: #525252;
+  --alias-dark-color-base-content: #f5f5f5;
+  --alias-dark-color-primary-primary: #f84b32;
+  --alias-dark-color-primary-content: #271332;
+  --alias-dark-color-secondary-secondary: #503b5c;
+  --alias-dark-color-secondary-content: #ecd9f5;
+  --alias-dark-color-accent-accent: #271332;
+  --alias-dark-color-accent-content: #ed3215;
+  --alias-dark-color-neutral-neutral: #ffffff;
+  --alias-dark-color-neutral-content: #271332;
+  --alias-dark-color-info-info: #503b5c;
+  --alias-dark-color-info-content: #dfbceb;
+  --alias-dark-color-success-success: #a7f3d0;
+  --alias-dark-color-success-content: #019d4f;
+  --alias-dark-color-warning-warning: #ffe1bd;
+  --alias-dark-color-warning-content: #f29013;
+  --alias-dark-color-error-error: #fecaca;
+  --alias-dark-color-error-content: #d32f2f;
+  --alias-restos-color-base-100: #ffffff;
+  --alias-restos-color-base-200: #f5f5f5;
+  --alias-restos-color-base-300: #d4d4d4;
+  --alias-restos-color-base-content: #171717;
+  --alias-restos-color-primary-primary: #e5007d;
+  --alias-restos-color-primary-content: #271332;
+  --alias-restos-color-secondary-secondary: #f7b52a;
+  --alias-restos-color-secondary-content: #ffe1a3;
+  --alias-restos-color-accent-accent: #271332;
+  --alias-restos-color-accent-content: #e5007d;
+  --alias-restos-color-neutral-content: #ffffff;
+  --alias-restos-color-info-info: #ffddef;
+  --alias-restos-color-info-content: #e5007d;
+  --alias-restos-color-success-success: #019d4f;
+  --alias-restos-color-success-content: #a7f3d0;
+  --alias-restos-color-warning-warning: #ffe1bd;
+  --alias-restos-color-warning-content: #f29013;
+  --alias-restos-color-error-error: #d32f2f;
+  --alias-restos-color-error-content: #fecaca;
+  --alias-light-color-base-400: #737373;
+  --alias-restos-color-base-400: #737373;
+  --alias-dark-color-base-400: #737373;
+  --alias-light-color-base-hover: rgba(39, 19, 50, 0.07);
+  --alias-dark-color-base-hover: rgba(255, 255, 255, 0.07);
+  --alias-restos-color-base-hover: rgba(39, 19, 50, 0.07);
+  --alias-seneo-color-base-hover: rgba(39, 19, 50, 0.07);
+  --alias-seneo-color-base-content: #171717;
+  --alias-seneo-color-base-400: #737373;
+  --alias-seneo-color-base-300: #d4d4d4;
+  --alias-seneo-color-base-200: #f5f5f5;
+  --alias-seneo-color-base-100: #ffffff;
+  --alias-seneo-color-secondary-content: #ffe6c5;
+  --alias-seneo-color-secondary-secondary: #f3a33d;
+  --alias-seneo-color-primary-content: #271332;
+  --alias-seneo-color-primary-primary: #00a9ce;
+  --alias-seneo-color-accent-accent: #271332;
+  --alias-seneo-color-neutral-neutral: rgba(255, 255, 255, 0.2);
+  --alias-seneo-color-neutral-content: #ffffff;
+  --alias-seneo-color-info-info: #aee7f4;
+  --alias-seneo-color-info-content: #00a9ce;
+  --alias-seneo-color-success-success: #019d4f;
+  --alias-seneo-color-success-content: #a7f3d0;
+  --alias-seneo-color-warning-warning: #fdc69f;
+  --alias-seneo-color-warning-content: #ff720d;
+  --alias-seneo-color-error-error: #d32f2f;
+  --alias-seneo-color-error-content: #fecaca;
+  --alias-seneo-color-accent-content: #006a8e;
+  --alias-restos-color-neutral-neutral: rgba(255, 255, 255, 0.2);
+  --alias-light-fontfamily-primary: "Roboto";
+  --alias-light-fontfamily-code: "Roboto Mono";
+  --alias-light-themename-theme: "Light";
+  --alias-dark-fontfamily-primary: "Roboto";
+  --alias-dark-fontfamily-code: "Roboto Mono";
+  --alias-dark-themename-theme: "Dark";
+  --alias-restos-fontfamily-primary: "Roboto";
+  --alias-restos-fontfamily-code: "Roboto Mono";
+  --alias-restos-themename-theme: "Restos du Coeur";
+  --alias-light-fontfamily-secondary: "Nunito";
+  --alias-dark-fontfamily-secondary: "Nunito";
+  --alias-restos-fontfamily-secondary: "Buenard";
+  --alias-seneo-themename-theme: "Seneo";
+  --alias-seneo-fontfamily-primary: "Roboto";
+  --alias-seneo-fontfamily-secondary: "Raleway";
+  --alias-seneo-fontfamily-code: "Roboto Mono";
+
+  /* ❖ footer Collection */
+  --footer-padding-md-xy: 40px;
+  --footer-padding-sm-y: 16px;
+  --footer-gap: 40px;
+
+  /* ❖ Modal Collection */
+  --modal-radius: 16px;
+  --modal-padding-around: 24px;
+  --modal-gap-content: 16px;
+
+  /* ❖ Stat Collection */
+  --stat-padding-y: 16px;
+  --stat-gap: 16px;
+  --stat-padding-x: 24px;
+
+  /* ❖ Card Collection */
+  --card-gap: 24px;
+  --card-padding-xs: 8px;
+  --card-padding-sm: 16px;
+  --card-padding-md: 24px;
+  --card-padding-lg: 32px;
+  --card-padding-xl: 40px;
+
+  /* ❖ Tab Collection */
+  --tab-padding-xl: 8px;
+  --tab-padding-lg: 8px;
+  --tab-padding-md: 6px;
+  --tab-padding-sm: 6px;
+  --tab-padding-xs: 6px;
+
+  /* ❖ Collapse Collection */
+  --collapse-padding-padding-vertical: 8px;
+  --collapse-gap: 8px;
+  --collapse-padding-padding-horizontal: 16px;
+
+  /* ❖ Alert Collection */
+  --alert-gap-gap-horizontal: 16px;
+  --alert-gap-gap-vertical: 8px;
+}

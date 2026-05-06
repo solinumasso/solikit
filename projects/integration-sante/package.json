@@ -1,0 +1,23 @@
+{
+  "name": "soliguide-finess-matching",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "download": "tsx src/01-download.ts",
+    "match": "tsx src/02-match.ts",
+    "dashboard": "npx -y serve . -p 5555"
+  },
+  "dependencies": {
+    "fast-levenshtein": "^3.0.0",
+    "papaparse": "^5.4.1",
+    "proj4": "^2.12.1"
+  },
+  "devDependencies": {
+    "@types/fast-levenshtein": "^0.0.4",
+    "@types/papaparse": "^5.3.14",
+    "@types/proj4": "^2.5.5",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  }
+}

@@ -1,0 +1,52 @@
+/* Fix Leaflet + Tailwind conflict */
+.leaflet-container img {
+  max-width: none !important;
+  max-height: none !important;
+}
+.leaflet-tile-pane {
+  z-index: 1 !important;
+}
+#map {
+  z-index: 1;
+}
+
+/* Leaflet cluster overrides */
+.marker-cluster-small {
+  background-color: rgba(248, 75, 50, 0.2);
+}
+.marker-cluster-small div {
+  background-color: rgba(248, 75, 50, 0.5);
+  color: white;
+  font-weight: 700;
+}
+.marker-cluster-medium {
+  background-color: rgba(248, 75, 50, 0.35);
+}
+.marker-cluster-medium div {
+  background-color: rgba(248, 75, 50, 0.6);
+  color: white;
+  font-weight: 700;
+}
+.marker-cluster-large {
+  background-color: rgba(248, 75, 50, 0.5);
+}
+.marker-cluster-large div {
+  background-color: rgba(248, 75, 50, 0.75);
+  color: white;
+  font-weight: 700;
+}
+
+/* Progress bar */
+.coverage-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: #e5e7eb;
+  overflow: hidden;
+  min-width: 80px;
+}
+.coverage-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: #f84b32;
+  transition: width 0.3s;
+}

@@ -1,0 +1,77 @@
+/*
+ * Thème DaisyUI Soliguide
+ *
+ * Pont Figma → DaisyUI : ce fichier ne contient AUCUNE valeur en dur.
+ * Toutes les couleurs/radius/fonts viennent de `assets/css/variables.css`,
+ * qui est l'export brut depuis le Figma officiel Soliguide.
+ *
+ * Ordre de chargement obligatoire :
+ *   1. <link href="…/css/variables.css">     ← Figma tokens (--main-*, --tailwind-*…)
+ *   2. <link href="…/soliguide-theme.css">   ← ce fichier (mappe Figma → DaisyUI)
+ *
+ * Prérequis dans le <head> AVANT ces fichiers :
+ *   <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+ *   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+ *   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+ *
+ * Mise à jour des tokens : ré-exporter depuis Figma vers `assets/css/variables.css`.
+ * Les `var(--main-*)` ci-dessous récupèrent automatiquement les nouvelles valeurs.
+ */
+
+[data-theme="soliguide"] {
+  /* ─── Base ─── */
+  --color-base-100: var(--main-color-base-100);
+  --color-base-200: var(--main-color-base-200);
+  --color-base-300: var(--main-color-base-300);
+  --color-base-content: var(--main-color-base-content);
+
+  /* ─── Couleurs principales ─── */
+  --color-primary: var(--main-color-primary-primary);
+  --color-primary-content: var(--main-color-primary-content);
+  --color-secondary: var(--main-color-secondary-secondary);
+  --color-secondary-content: var(--main-color-secondary-content);
+  --color-accent: var(--main-color-accent-bg);
+  --color-accent-content: var(--main-color-accent-content);
+  --color-neutral: var(--main-color-neutral-neutral);
+  --color-neutral-content: var(--main-color-neutral-content);
+
+  /* ─── États ─── */
+  --color-info: var(--main-color-info-info);
+  --color-info-content: var(--main-color-info-content);
+  --color-success: var(--main-color-success-success);
+  --color-success-content: var(--main-color-success-content);
+  --color-warning: var(--main-color-warning-warning);
+  --color-warning-content: var(--main-color-warning-content);
+  --color-error: var(--main-color-error-error);
+  --color-error-content: var(--main-color-error-content);
+
+  /* ─── Radius ─── */
+  --radius-field: var(--main-radius-fields);
+  --radius-box: var(--main-radius-boxes);
+  --radius-selector: var(--main-radius-selectors);
+
+  /* ─── Bordure ─── */
+  --border: var(--main-border-width-border-light);
+
+  /* ─── Hover ─── */
+  --color-base-hover: var(--main-color-base-hover);
+
+  /* ─── Typographie ─── */
+  font-family: var(--main-fontfamily-primary), sans-serif;
+}
+
+/* ─── Titres en font secondaire (Nunito) ─── */
+[data-theme="soliguide"] h1,
+[data-theme="soliguide"] h2,
+[data-theme="soliguide"] h3 {
+  font-family: var(--main-fontfamily-secondary), sans-serif;
+  font-weight: 800;
+}
+
+/* ─── Liens en primary ─── */
+[data-theme="soliguide"] a:not([class]) {
+  color: var(--color-primary);
+}
+[data-theme="soliguide"] a:not([class]):hover {
+  color: var(--color-secondary);
+}

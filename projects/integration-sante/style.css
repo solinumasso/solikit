@@ -1,0 +1,46 @@
+/* ── Styles spécifiques au projet integration-sante ── */
+
+/* Map */
+#map { z-index: 0; border-radius: 0 0 0.75rem 0.75rem; }
+.leaflet-popup-content { font-size: 0.8rem; line-height: 1.5; }
+
+/* Fix Leaflet tiles with Tailwind preflight */
+.leaflet-tile-pane img { max-width: none !important; }
+.leaflet-container { z-index: 0; }
+
+/* Stats cards clickable */
+.stat-clickable { cursor: pointer; transition: all 0.15s ease; }
+.stat-clickable:hover { filter: brightness(0.95); }
+.stat-clickable.active { outline: 2px solid var(--color-primary-content); outline-offset: -2px; border-radius: 0.75rem; }
+
+/* Panels */
+.left-panel { max-height: calc(100vh - 4rem); overflow-y: auto; }
+.right-panel { min-height: 400px; }
+
+/* Popup badge in Leaflet popups */
+.popup-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-size: 0.65rem;
+  color: #fff;
+}
+
+/* ── Tabs ── */
+.tab-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  border-bottom: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--color-primary-content); }
+.tab-btn-active {
+  color: var(--color-primary-content);
+  border-bottom-color: var(--color-primary-content);
+  font-weight: 700;
+}

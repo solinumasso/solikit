@@ -1,0 +1,32 @@
+# Dépendances
+node_modules/
+
+# Build
+dist/
+
+# Données brutes (téléchargées, pas committées)
+projects/*/data/raw/
+
+# Articles Markdown (générés depuis Notion, pas committés)
+projects/*/articles/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# pnpm
+.pnpm-store/
+
+# Code vendor (sparse-checkout depuis solinumasso/soliguide, voir `pnpm vendor:sync`)
+vendor/

@@ -1,0 +1,10 @@
+{
+  "name": "soliguide-tools",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.11.0",
+  "scripts": {
+    "start": "pnpm -y serve . -p 5555",
+    "vendor:sync": "bash scripts/vendor-sync.sh"
+  }
+}

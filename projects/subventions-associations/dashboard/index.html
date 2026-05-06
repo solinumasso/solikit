@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="soliguide">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subventions ↔ Soliguide — Soliguide Tools</title>
+  <link rel="icon" href="assets/favicon.ico" />
+
+  <!-- DaisyUI 5 + Tailwind 4 -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+
+  <!-- Thème Soliguide (Figma tokens → DaisyUI) -->
+  <link rel="stylesheet" href="assets/variables.css" />
+  <link rel="stylesheet" href="assets/soliguide-theme.css" />
+
+  <!-- Leaflet + MarkerCluster (CSS) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1/dist/MarkerCluster.Default.css" />
+
+  <!-- Styles du projet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="min-h-screen bg-base-100 flex flex-col font-[Roboto]">
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="bg-white shadow-md border-b border-base-300">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 h-16">
+      <div class="relative">
+        <button id="menu-btn" class="p-2 rounded-full hover:bg-base-200 transition-colors text-primary" aria-label="Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+          </svg>
+        </button>
+        <div id="menu-dropdown" class="hidden absolute left-0 top-full mt-2 w-52 bg-white text-gray-800 rounded-lg shadow-xl py-2 z-[9999]">
+          <a href="../../../" class="block px-4 py-2 hover:bg-gray-100 text-sm font-semibold border-b border-gray-100">🏠 Accueil</a>
+          <a href="../../integration-sante/" class="block px-4 py-2 hover:bg-gray-100 text-sm">🏥 Matching FINESS</a>
+          <a href="../../bibliotheques-france/dashboard/" class="block px-4 py-2 hover:bg-gray-100 text-sm">📚 Bibliothèques</a>
+          <a href="../../ccas-domiciliation/dashboard/" class="block px-4 py-2 hover:bg-gray-100 text-sm">🏛️ CCAS & Domiciliation</a>
+          <div class="border-t border-gray-100 mt-1 pt-1">
+            <a href="../../../docs.html" class="block px-4 py-2 hover:bg-gray-100 text-sm font-semibold">📖 Documentation</a>
+          </div>
+          <div class="border-t border-gray-100 mt-1 pt-1">
+            <a href="#" data-tab-link="carte" class="block px-4 py-2 hover:bg-gray-100 text-sm">🗺️ Carte</a>
+            <a href="#" data-tab-link="tableau" class="block px-4 py-2 hover:bg-gray-100 text-sm">📋 Correspondances</a>
+            <a href="#" data-tab-link="non-trouvees" class="block px-4 py-2 hover:bg-gray-100 text-sm">🔎 Non trouvées</a>
+            <a href="#" data-tab-link="secteurs" class="block px-4 py-2 hover:bg-gray-100 text-sm">📊 Secteurs</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <img src="assets/soliguide-inline.svg" alt="Soliguide" class="h-6" />
+        <span class="font-bold opacity-20 text-lg hidden sm:inline text-primary">|</span>
+        <span class="text-sm font-semibold tracking-tight hidden sm:inline text-primary">Subventions aux associations</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <select id="secteur-select" class="bg-base-200 border border-base-300 text-primary text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/30">
+          <option value="all">Tous domaines</option>
+        </select>
+        <select id="year-select" class="bg-base-200 border border-base-300 text-primary text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/30">
+          <option value="all">Toutes années</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="flex-1 w-full max-w-7xl mx-auto p-4 lg:p-6 space-y-6">
+
+    <!-- Hero avec background -->
+    <div class="relative rounded-2xl overflow-hidden bg-primary" style="background: linear-gradient(rgba(39,19,50,0.85), rgba(39,19,50,0.9)), url('assets/background.png') center/cover no-repeat;">
+      <div class="relative z-10 p-5 lg:p-6 space-y-3">
+        <!-- Stats -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div class="hero-stat hero-stat-dark">
+            <span class="hero-stat-icon">🔗</span>
+            <span class="hero-stat-value text-white" id="stat-matches">—</span>
+            <span class="hero-stat-label">correspondances trouvées</span>
+          </div>
+          <div class="hero-stat hero-stat-dark">
+            <span class="hero-stat-icon">📍</span>
+            <span class="hero-stat-value text-white" id="stat-fiches">—</span>
+            <span class="hero-stat-label">fiches Soliguide Paris</span>
+          </div>
+          <div class="hero-stat hero-stat-dark">
+            <span class="hero-stat-icon">🏛️</span>
+            <span class="hero-stat-value text-white" id="stat-assos">—</span>
+            <span class="hero-stat-label">assos subventionnées</span>
+          </div>
+          <div class="hero-stat hero-stat-dark">
+            <span class="hero-stat-icon">📊</span>
+            <span class="hero-stat-value text-secondary" id="stat-taux">—</span>
+            <span class="hero-stat-label">taux de correspondance</span>
+          </div>
+        </div>
+
+        <!-- Montants -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="flex items-center gap-4 bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-3xl">💰</div>
+            <div>
+              <div class="text-xl font-black text-secondary" id="stat-montant-matchs">—</div>
+              <div class="text-xs text-white/60">montant cumulé des subventions matchées</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 bg-white/10 backdrop-blur rounded-xl p-4">
+            <div class="text-3xl">🏦</div>
+            <div>
+              <div class="text-xl font-black text-accent" id="stat-montant-total">—</div>
+              <div class="text-xs text-white/60">montant total des subventions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-1 border-b border-base-300">
+      <button class="tab-btn tab-btn-active" data-tab="carte">🗺️ Carte</button>
+      <button class="tab-btn" data-tab="tableau">📋 Correspondances</button>
+      <button class="tab-btn" data-tab="non-trouvees">🔎 Non trouvées</button>
+      <button class="tab-btn" data-tab="secteurs">📊 Secteurs</button>
+    </div>
+
+    <!-- Tab: Carte -->
+    <div id="tab-carte" class="tab-panel">
+      <div class="rounded-xl overflow-hidden shadow-sm border border-base-300">
+        <div id="map" style="height: 520px; width: 100%;"></div>
+      </div>
+    </div>
+
+    <!-- Tab: Tableau correspondances -->
+    <div id="tab-tableau" class="tab-panel hidden">
+      <div class="bg-base-200 rounded-xl shadow-sm p-5">
+        <div class="flex flex-col md:flex-row gap-3 mb-4">
+          <input type="text" id="search-matches" placeholder="Rechercher une association…"
+            class="border border-base-300 rounded-lg px-3 py-2 text-sm flex-1 bg-white focus:outline-none focus:ring-2 focus:ring-primary/30" />
+          <select id="filter-score" class="border border-base-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none">
+            <option value="0">Tous les scores</option>
+            <option value="0.9">Score ≥ 90%</option>
+            <option value="0.8">Score ≥ 80%</option>
+            <option value="0.7">Score ≥ 70%</option>
+          </select>
+        </div>
+        <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="cursor-pointer select-none hover:text-accent-content" data-sort-matches="association">Association (subvention) <span class="sort-indicator"></span></th>
+                <th>Fiche Soliguide</th>
+                <th>Services</th>
+                <th>Subventions</th>
+                <th class="cursor-pointer select-none hover:text-accent-content" data-sort-matches="montant">Montant <span class="sort-indicator"></span></th>
+                <th class="cursor-pointer select-none hover:text-accent-content" data-sort-matches="score">Score <span class="sort-indicator"></span></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="matches-body"></tbody>
+          </table>
+        </div>
+        <div class="text-sm text-base-content/60 mt-3" id="matches-count"></div>
+      </div>
+    </div>
+
+    <!-- Tab: Non trouvées -->
+    <div id="tab-non-trouvees" class="tab-panel hidden">
+      <div class="bg-base-200 rounded-xl shadow-sm p-5">
+        <div class="bg-warning/10 border border-warning text-warning-content rounded-lg px-4 py-3 text-sm mb-4">
+          Associations subventionnées par la Ville de Paris sans correspondance sur Soliguide. Triées par montant décroissant — potentiel d'enrichissement.
+        </div>
+        <input type="text" id="search-non-trouvees" placeholder="Rechercher…"
+          class="border border-base-300 rounded-lg px-3 py-2 text-sm w-full mb-4 bg-white focus:outline-none focus:ring-2 focus:ring-primary/30" />
+        <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="cursor-pointer select-none hover:text-accent-content" data-sort-nontrouvees="association">Association <span class="sort-indicator"></span></th>
+                <th>SIRET</th>
+                <th>Dernières subventions</th>
+                <th class="cursor-pointer select-none hover:text-accent-content" data-sort-nontrouvees="montant">Montant <span class="sort-indicator"></span></th>
+                <th>Années actives</th>
+              </tr>
+            </thead>
+            <tbody id="non-trouvees-body"></tbody>
+          </table>
+        </div>
+        <div class="text-sm text-base-content/60 mt-3" id="non-trouvees-count"></div>
+      </div>
+    </div>
+
+    <!-- Tab: Secteurs -->
+    <div id="tab-secteurs" class="tab-panel hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-base-200 rounded-xl shadow-sm p-5">
+          <h3 class="text-sm font-bold mb-3 text-primary-content">Secteurs d'activité</h3>
+          <canvas id="chart-secteurs" height="300"></canvas>
+        </div>
+        <div class="bg-base-200 rounded-xl shadow-sm p-5">
+          <h3 class="text-sm font-bold mb-3 text-primary-content">Directions municipales</h3>
+          <canvas id="chart-directions" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-primary text-white">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-5">
+      <div class="flex items-center gap-4">
+        <img src="assets/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
+        <div>
+          <p class="font-semibold text-sm">Soliguide Tools</p>
+          <p class="text-xs opacity-60">
+            Données : <a href="https://www.data.gouv.fr/datasets/subventions-aux-associations-votees-1" class="underline hover:opacity-100" target="_blank">Ville de Paris — data.gouv.fr</a>
+          </p>
+        </div>
+      </div>
+      <a href="../../../" class="text-xs opacity-60 hover:opacity-100 underline">← Retour à l'accueil</a>
+    </div>
+  </footer>
+
+  <!-- Scripts (tous en bas, dans l'ordre de dépendance) -->
+  <script src="https://unpkg.com/leaflet@1/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1/dist/leaflet.markercluster.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script src="app.js"></script>
+</body>
+</html>

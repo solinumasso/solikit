@@ -1,0 +1,110 @@
+{
+  "totalSubventions": 106463,
+  "totalAssociations": 8731,
+  "associationsRecentes": 5653,
+  "totalFichesSoliguide": 1301,
+  "correspondances": 143,
+  "nonTrouvees": 5446,
+  "tauxCorrespondance": 2.5,
+  "montantTotalSubventions": 3546591960,
+  "montantMatchs": 127403094,
+  "anneesDisponibles": [
+    2025,
+    2024,
+    2023,
+    2022,
+    2021,
+    2020,
+    2019,
+    2018,
+    2017,
+    2016,
+    2015,
+    2014,
+    2013
+  ],
+  "topDirections": [
+    {
+      "label": "DDCT",
+      "count": 16263
+    },
+    {
+      "label": "DAC",
+      "count": 9987
+    },
+    {
+      "label": "DJS",
+      "count": 8160
+    },
+    {
+      "label": "DAE",
+      "count": 5674
+    },
+    {
+      "label": "DASES",
+      "count": 5194
+    },
+    {
+      "label": "DFPE",
+      "count": 4341
+    },
+    {
+      "label": "DSOL",
+      "count": 2931
+    },
+    {
+      "label": "DASCO",
+      "count": 2329
+    },
+    {
+      "label": "DEVE",
+      "count": 1374
+    },
+    {
+      "label": "DPVI",
+      "count": 1276
+    }
+  ],
+  "topSecteurs": [
+    {
+      "label": "Social",
+      "count": 17899
+    },
+    {
+      "label": "Culture & Arts",
+      "count": 16859
+    },
+    {
+      "label": "Education & formation",
+      "count": 15013
+    },
+    {
+      "label": "Vie et animation locale",
+      "count": 13303
+    },
+    {
+      "label": "Sport",
+      "count": 7971
+    },
+    {
+      "label": "Précarité & Exclusion",
+      "count": 6158
+    },
+    {
+      "label": "Loisirs",
+      "count": 5888
+    },
+    {
+      "label": "Santé",
+      "count": 4132
+    },
+    {
+      "label": "Emploi",
+      "count": 3533
+    },
+    {
+      "label": "Défense des droits et des intérêts",
+      "count": 3059
+    }
+  ]
+}
