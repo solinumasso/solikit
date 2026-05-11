@@ -47,7 +47,22 @@
       "Bash(grep *)",
       "Bash(xargs kill *)",
       "Bash(git config *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(tee /tmp/finess-match.log)",
+      "Bash(awk '/\\\\[Categories.HEALTH_SPECIALISTS\\\\]: \\\\[/,/^  \\\\],/' /Users/humans/Documents/dev/soliguide-tools/vendor/soliguide/packages/common/src/categories/constants/CATEGORIES.const.ts)",
+      "Bash(awk '/\\\\[Categories.PHYSICAL_HEALTH\\\\]: \\\\[/,/^  \\\\],/' /Users/humans/Documents/dev/soliguide-tools/vendor/soliguide/packages/common/src/categories/constants/CATEGORIES.const.ts)",
+      "mcp__claude_ai_DataGouv__get_dataset_info",
+      "mcp__claude_ai_DataGouv__search_dataservices",
+      "Bash(chmod +x /Users/humans/Documents/dev/soliguide-tools/scripts/deploy-finess.sh)",
+      "Bash(git remote *)",
+      "Bash(command -v clever)",
+      "Bash(clever status *)",
+      "Bash(clever link *)",
+      "Bash(clever restart *)",
+      "Bash(clever deploy *)",
+      "Bash(clever --version)"
     ]
   }
 }

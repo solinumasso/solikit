@@ -5,6 +5,10 @@
   "packageManager": "pnpm@10.11.0",
   "scripts": {
     "start": "pnpm -y serve . -p 5555",
-    "vendor:sync": "bash scripts/vendor-sync.sh"
+    "vendor:sync": "bash scripts/vendor-sync.sh",
+    "build:finess": "pnpm dlx tsx scripts/build-finess.ts",
+    "deploy:finess": "pnpm dlx tsx scripts/build-finess.ts --push",
+    "build:aide-es": "pnpm dlx tsx scripts/build-aide-es.ts",
+    "deploy:aide-es": "pnpm dlx tsx scripts/build-aide-es.ts --push"
   }
 }

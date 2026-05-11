@@ -29,22 +29,6 @@ export interface FinessRecord {
   lon?: number;
 }
 
-export interface SoliguideRecord {
-  rowId: string;
-  ficheId: string;
-  dateMaj: string;
-  nom: string;
-  adresse: string;
-  ville: string;
-  codePostal: string;
-  email: string;
-  telephone: string;
-  services: string;
-  lien: string;
-  lat: number | null;
-  lon: number | null;
-}
-
 // FINESS CSV columns (separator ;, first line is metadata, no header row)
 // Column indices (0-based) for structureet rows:
 const FINESS_COLS = {
@@ -83,34 +67,33 @@ const FINESS_COLS = {
 
 export function parseFinessCSV(filePath: string): FinessRecord[] {
   const content = readFileSync(filePath, "utf-8");
-  const lines = content.split("\n");
 
-  // Skip first line (metadata: "finess;etalab;96;2026-03-11")
-  const structureLines: string[] = [];
+  // CSV avec quoting standard : noms à guillemets internes encodés "X ""Y"" Z"
+  // PapaParse gère le déquoting et la dégémination des "" → ".
+  const result = Papa.parse<string[]>(content, {
+    delimiter: ";",
+    quoteChar: '"',
+    header: false,
+    skipEmptyLines: true,
+  });
+
   const geoMap = new Map<string, { x: number; y: number }>();
+  const structureRows: string[][] = [];
 
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-
-    if (line.startsWith("structureet;")) {
-      structureLines.push(line);
-    } else if (line.startsWith("geolocalisation;")) {
-      const parts = line.split(";");
-      const nofinesset = parts[1];
-      const x = parseFloat(parts[2]);
-      const y = parseFloat(parts[3]);
+  for (const cols of result.data) {
+    if (cols[0] === "structureet") {
+      structureRows.push(cols);
+    } else if (cols[0] === "geolocalisation") {
+      const nofinesset = cols[1];
+      const x = parseFloat(cols[2]);
+      const y = parseFloat(cols[3]);
       if (nofinesset && !isNaN(x) && !isNaN(y)) {
         geoMap.set(nofinesset, { x, y });
       }
     }
   }
 
-  const records: FinessRecord[] = [];
-
-  for (const line of structureLines) {
-    const cols = line.split(";");
-
+  return structureRows.map((cols) => {
     const record: FinessRecord = {
       nofinesset: cols[FINESS_COLS.nofinesset] || "",
       nofinessej: cols[FINESS_COLS.nofinessej] || "",
@@ -134,40 +117,13 @@ export function parseFinessCSV(filePath: string): FinessRecord[] {
       datemaj: cols[FINESS_COLS.datemaj] || "",
     };
 
-    // Attach geo data if available
     const geo = geoMap.get(record.nofinesset);
     if (geo) {
       record.coordX = geo.x;
       record.coordY = geo.y;
     }
 
-    records.push(record);
-  }
-
-  return records;
-}
-
-export function parseSoliguideCSV(filePath: string): SoliguideRecord[] {
-  const content = readFileSync(filePath, "utf-8");
-
-  const result = Papa.parse(content, {
-    header: true,
-    skipEmptyLines: true,
+    return record;
   });
-
-  return result.data.map((row: any) => ({
-    rowId: row["rowId"] || "",
-    ficheId: row["Numéro de la fiche"] || "",
-    dateMaj: row["Dernière mise à jour"] || "",
-    nom: row["Nom de la structure"] || "",
-    adresse: row["Adresse postale"] || "",
-    ville: row["Ville"] || "",
-    codePostal: row["Code Postal"] || "",
-    email: row["L'adresse email"] || "",
-    telephone: row["Numéros de téléphone"] || "",
-    services: row["Les services"] || "",
-    lien: row["Le lien de la fiche soliguide"] || "",
-    lat: row["Latitude"] ? parseFloat(row["Latitude"]) : null,
-    lon: row["Longitude"] ? parseFloat(row["Longitude"]) : null,
-  }));
 }
+

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="fr" data-theme="soliguide">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catégories FINESS — Matching FINESS ↔ Soliguide</title>
+    <link rel="icon" href="assets/favicon.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="assets/variables.css" />
+    <link rel="stylesheet" href="assets/soliguide-theme.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-base-100 min-h-screen flex flex-col">
+    <!-- Loading -->
+    <div id="loading" class="hero min-h-screen bg-base-200">
+      <div class="hero-content text-center">
+        <div>
+          <h1 class="text-4xl font-bold mb-2 text-primary-content">Catégories FINESS</h1>
+          <p class="text-base-content/60 mb-6">Chargement…</p>
+          <span class="loading loading-spinner loading-lg text-primary"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- App -->
+    <div id="app" class="hidden flex-1 flex flex-col">
+      <!-- NAVBAR (même structure que index.html) -->
+      <header class="bg-white shadow-md border-b border-base-300 sticky top-0 z-50">
+        <div class="max-w-[1600px] mx-auto flex items-center justify-between px-4 h-16">
+          <div class="relative">
+            <button id="menu-btn" class="p-2 rounded-full hover:bg-base-200 transition-colors text-primary" aria-label="Menu">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <div id="menu-dropdown" class="hidden absolute left-0 top-full mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-xl py-2 z-[9999]">
+              <a href="./" class="block px-4 py-2 hover:bg-gray-100 text-sm">🔗 Matching</a>
+              <a href="./categories.html" class="block px-4 py-2 hover:bg-gray-100 text-sm font-semibold text-primary">🗂️ Catégories FINESS</a>
+              <a href="./stats-departements.html" class="block px-4 py-2 hover:bg-gray-100 text-sm">📊 Stats départements</a>
+              <div class="border-t border-gray-100 mt-1 pt-1">
+                <a href="./docs.html" class="block px-4 py-2 hover:bg-gray-100 text-sm font-semibold">📖 Documentation</a>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <img src="assets/soliguide-inline.svg" alt="Soliguide" class="h-6" />
+            <span class="text-lg font-semibold text-primary opacity-60">|</span>
+            <span class="text-sm font-semibold tracking-tight text-primary hidden sm:inline">Catégories FINESS</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="meta-info" class="text-xs text-base-content/60 hidden lg:inline"></span>
+          </div>
+        </div>
+      </header>
+
+      <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 py-4">
+        <!-- Stats globales -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+          <div class="stat bg-white rounded-box shadow-sm py-3">
+            <div class="stat-title text-xs">Catégories</div>
+            <div class="stat-value text-2xl text-primary-content" id="stat-categories">—</div>
+          </div>
+          <div class="stat bg-white rounded-box shadow-sm py-3">
+            <div class="stat-title text-xs">FINESS retenus</div>
+            <div class="stat-value text-2xl text-primary-content" id="stat-total">—</div>
+          </div>
+          <div class="stat bg-white rounded-box shadow-sm py-3">
+            <div class="stat-title text-xs">Matchés (certains)</div>
+            <div class="stat-value text-2xl text-success-content" id="stat-certain">—</div>
+          </div>
+          <div class="stat bg-white rounded-box shadow-sm py-3">
+            <div class="stat-title text-xs">Couverture moyenne</div>
+            <div class="stat-value text-2xl text-primary-content" id="stat-coverage">—</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+          <!-- LEFT : liste des catégories -->
+          <div class="lg:col-span-2">
+            <div class="card bg-white shadow-sm">
+              <div class="card-body p-0">
+                <div class="p-3 border-b border-base-300">
+                  <input id="search-cat" type="text" placeholder="Rechercher une catégorie…" class="input input-sm input-bordered w-full" />
+                </div>
+                <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100" style="max-height: 70vh; overflow-y: auto;">
+                  <table class="table table-sm table-pin-rows">
+                    <thead>
+                      <tr>
+                        <th class="cursor-pointer hover:text-accent-content" data-sort="name">Catégorie</th>
+                        <th class="text-right cursor-pointer hover:text-accent-content" data-sort="total">Total</th>
+                        <th class="text-right cursor-pointer hover:text-accent-content" data-sort="coverage">Couverture</th>
+                      </tr>
+                    </thead>
+                    <tbody id="cat-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT : détail de la catégorie sélectionnée -->
+          <div class="lg:col-span-3">
+            <div class="card bg-white shadow-sm">
+              <div class="card-body p-0">
+                <div class="p-3 border-b border-base-300 flex items-center justify-between gap-3">
+                  <h2 id="detail-title" class="text-sm font-semibold text-primary-content truncate">Sélectionne une catégorie ←</h2>
+                  <div class="flex items-center gap-2">
+                    <select id="filter-status" class="select select-xs select-bordered">
+                      <option value="">Tous statuts</option>
+                      <option value="certain">Matchés certains</option>
+                      <option value="possible">Possibles</option>
+                      <option value="none">Non matchés</option>
+                    </select>
+                    <input id="search-finess" type="text" placeholder="Filtrer…" class="input input-xs input-bordered w-40" />
+                  </div>
+                </div>
+                <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100" style="max-height: 70vh; overflow-y: auto;">
+                  <table class="table table-sm table-pin-rows">
+                    <thead>
+                      <tr>
+                        <th>Nom FINESS</th>
+                        <th>Ville</th>
+                        <th>Statut</th>
+                        <th>Fiche Soliguide</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="detail-tbody">
+                      <tr><td colspan="5" class="text-center text-base-content/40 py-8">Choisis une catégorie à gauche</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="p-2 border-t border-base-300 text-xs text-base-content/60" id="detail-count"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Modal détail -->
+      <dialog id="detail-modal" class="modal">
+        <div class="modal-box max-w-3xl">
+          <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+          </form>
+          <h2 class="font-bold text-lg mb-3 text-primary-content">Détail FINESS ↔ Soliguide</h2>
+          <div id="detail-modal-body"></div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
+
+      <footer class="bg-primary text-white mt-auto">
+        <div class="max-w-[1600px] mx-auto flex items-center justify-between px-6 py-5">
+          <div class="flex items-center gap-4">
+            <img src="assets/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
+            <div>
+              <p class="font-semibold text-sm">Soliguide Tools</p>
+              <p class="text-xs opacity-60">Données : FINESS (data.gouv.fr) × Soliguide API</p>
+            </div>
+          </div>
+          <a href="../../" class="text-xs opacity-60 hover:opacity-100 underline">← Retour à l'accueil</a>
+        </div>
+      </footer>
+    </div>
+
+    <script src="categories.js"></script>
+  </body>
+</html>

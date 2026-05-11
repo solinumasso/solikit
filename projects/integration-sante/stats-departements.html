@@ -1,450 +1,244 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme="soliguide">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Soliguide — Score moyen de matching par département</title>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap");
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        background: #0d0f14;
-        font-family: "Inter", sans-serif;
-        color: #e2e8f0;
-        min-height: 100vh;
-        padding-bottom: 40px;
-      }
+    <title>Stats départements — Matching FINESS ↔ Soliguide</title>
+    <link rel="icon" href="assets/favicon.ico" />
 
-      .header {
-        padding: 20px 40px 16px;
-        border-bottom: 1px solid #1e2535;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .header-badge {
-        background: #1a2340;
-        border: 1px solid #2a3a60;
-        border-radius: 6px;
-        padding: 4px 10px;
-        font-size: 13px;
-        font-family: "JetBrains Mono", monospace;
-        color: #60a5fa;
-        letter-spacing: 0.05em;
-      }
-      .header h1 {
-        font-size: 18px;
-        font-weight: 700;
-        color: #f8fafc;
-      }
-      .header-nav {
-        margin-left: auto;
-        display: flex;
-        gap: 8px;
-      }
-      .header-nav a {
-        font-size: 12px;
-        color: #94a3b8;
-        text-decoration: none;
-        padding: 4px 10px;
-        border: 1px solid #1e2535;
-        border-radius: 6px;
-        transition: border-color 0.15s, color 0.15s;
-      }
-      .header-nav a:hover {
-        border-color: #3b82f6;
-        color: #60a5fa;
-      }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
 
-      .canvas {
-        padding: 36px 40px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-      }
-      .canvas::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background-image: linear-gradient(rgba(30, 37, 53, 0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(30, 37, 53, 0.35) 1px, transparent 1px);
-        background-size: 28px 28px;
-        pointer-events: none;
-        z-index: 0;
-      }
-
-      .content {
-        position: relative;
-        z-index: 1;
-        width: 100%;
-        max-width: 900px;
-      }
-
-      /* ── SUMMARY CARDS ── */
-      .summary {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        margin-bottom: 28px;
-      }
-      .card {
-        background: #0f1520;
-        border: 1px solid #1e2535;
-        border-radius: 10px;
-        padding: 16px;
-        text-align: center;
-        transition: border-color 0.15s, transform 0.15s;
-      }
-      .card:hover {
-        border-color: #3b82f6;
-        transform: translateY(-2px);
-      }
-      .card-value {
-        font-size: 28px;
-        font-weight: 800;
-        font-family: "JetBrains Mono", monospace;
-        margin-bottom: 4px;
-      }
-      .card-label {
-        font-size: 11px;
-        color: #94a3b8;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        font-weight: 700;
-      }
-
-      /* ── TABLE ── */
-      .table-wrap {
-        background: #090b0f;
-        border: 1px solid #1e2535;
-        border-radius: 12px;
-        overflow: hidden;
-      }
-      .table-header {
-        padding: 16px 20px;
-        border-bottom: 1px solid #1e2535;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .table-title {
-        font-size: 14px;
-        font-weight: 700;
-        color: #f8fafc;
-      }
-      .table-subtitle {
-        font-size: 11px;
-        color: #94a3b8;
-        font-family: "JetBrains Mono", monospace;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      thead th {
-        font-size: 11px;
-        font-family: "Inter", sans-serif;
-        color: #94a3b8;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        font-weight: 700;
-        padding: 10px 16px;
-        text-align: left;
-        border-bottom: 1px solid #1e2535;
-        cursor: pointer;
-        user-select: none;
-        transition: color 0.15s;
-        white-space: nowrap;
-      }
-      thead th:hover {
-        color: #60a5fa;
-      }
-      thead th.sorted-asc::after {
-        content: " \25B2";
-        font-size: 9px;
-      }
-      thead th.sorted-desc::after {
-        content: " \25BC";
-        font-size: 9px;
-      }
-      tbody tr {
-        border-bottom: 1px solid #111520;
-        transition: background 0.1s;
-      }
-      tbody tr:hover {
-        background: #0f1520;
-      }
-      tbody td {
-        padding: 10px 16px;
-        font-size: 13px;
-        font-family: "JetBrains Mono", monospace;
-      }
-      .col-dept {
-        font-weight: 700;
-        color: #60a5fa;
-      }
-      .col-count {
-        color: #cbd5e1;
-      }
-      .col-score {
-        font-weight: 700;
-      }
-
-      /* ── SCORE BAR ── */
-      .score-cell {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .score-bar-bg {
-        flex: 1;
-        height: 6px;
-        background: #1e2535;
-        border-radius: 3px;
-        overflow: hidden;
-        max-width: 120px;
-      }
-      .score-bar-fill {
-        height: 100%;
-        border-radius: 3px;
-        transition: width 0.3s;
-      }
-
-      /* ── CONFIDENCE BADGES ── */
-      .badge {
-        font-size: 10px;
-        font-family: "JetBrains Mono", monospace;
-        padding: 3px 8px;
-        border-radius: 3px;
-        font-weight: 700;
-      }
-      .badge-certain {
-        background: #0a2a0a;
-        color: #4ade80;
-      }
-      .badge-possible {
-        background: #1a1200;
-        color: #fbbf24;
-      }
-
-      /* ── LOADING ── */
-      .loading {
-        text-align: center;
-        padding: 60px 20px;
-        color: #94a3b8;
-        font-size: 14px;
-      }
-      .loading-spinner {
-        display: inline-block;
-        width: 24px;
-        height: 24px;
-        border: 3px solid #1e2535;
-        border-top-color: #60a5fa;
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-        margin-bottom: 12px;
-      }
-      @keyframes spin {
-        to { transform: rotate(360deg); }
-      }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="assets/variables.css" />
+    <link rel="stylesheet" href="assets/soliguide-theme.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <div class="header">
-      <div class="header-badge">STATS</div>
-      <h1>Score moyen de matching par département</h1>
-      <div class="header-nav">
-        <a href="plan.html">Pipeline</a>
+  <body class="bg-base-100 min-h-screen flex flex-col">
+    <!-- Loading -->
+    <div id="loading" class="hero min-h-screen bg-base-200">
+      <div class="hero-content text-center">
+        <div>
+          <h1 class="text-4xl font-bold mb-2 text-primary-content">Stats départements</h1>
+          <p class="text-base-content/60 mb-6">Chargement des matchings…</p>
+          <span class="loading loading-spinner loading-lg text-primary"></span>
+        </div>
       </div>
     </div>
 
-    <div class="canvas">
-      <div class="content">
-        <div class="summary" id="summary">
-          <div class="card">
-            <div class="card-value" style="color: #60a5fa" id="stat-total">—</div>
-            <div class="card-label">Matchings totaux</div>
+    <!-- App -->
+    <div id="app" class="hidden flex-1 flex flex-col">
+      <!-- NAVBAR (identique aux autres pages) -->
+      <header class="bg-white shadow-md border-b border-base-300 sticky top-0 z-50">
+        <div class="max-w-[1600px] mx-auto flex items-center justify-between px-4 h-16">
+          <div class="relative">
+            <button id="menu-btn" class="p-2 rounded-full hover:bg-base-200 transition-colors text-primary" aria-label="Menu">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <div id="menu-dropdown" class="hidden absolute left-0 top-full mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-xl py-2 z-[9999]">
+              <a href="./" class="block px-4 py-2 hover:bg-gray-100 text-sm">🔗 Matching</a>
+              <a href="./categories.html" class="block px-4 py-2 hover:bg-gray-100 text-sm">🗂️ Catégories FINESS</a>
+              <a href="./stats-departements.html" class="block px-4 py-2 hover:bg-gray-100 text-sm font-semibold text-primary">📊 Stats départements</a>
+              <div class="border-t border-gray-100 mt-1 pt-1">
+                <a href="./docs.html" class="block px-4 py-2 hover:bg-gray-100 text-sm font-semibold">📖 Documentation</a>
+              </div>
+            </div>
           </div>
-          <div class="card">
-            <div class="card-value" style="color: #4ade80" id="stat-avg">—</div>
-            <div class="card-label">Score moyen global</div>
+          <div class="flex items-center gap-3">
+            <img src="assets/soliguide-inline.svg" alt="Soliguide" class="h-6" />
+            <span class="text-lg font-semibold text-primary opacity-60">|</span>
+            <span class="text-sm font-semibold tracking-tight text-primary hidden sm:inline">Stats départements</span>
           </div>
-          <div class="card">
-            <div class="card-value" style="color: #fbbf24" id="stat-depts">—</div>
-            <div class="card-label">Départements</div>
+          <div class="flex items-center gap-2">
+            <span id="meta-info" class="text-xs text-base-content/60 hidden lg:inline"></span>
           </div>
-          <div class="card">
-            <div class="card-value" style="color: #e879f9" id="stat-certain">—</div>
-            <div class="card-label">Matchings certains</div>
+        </div>
+      </header>
+
+      <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 py-4">
+        <!-- Stat cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+          <div class="stat bg-white rounded-box shadow-sm py-3">
+            <div class="stat-title text-xs">Matchings totaux</div>
+            <div class="stat-value text-2xl text-primary-content" id="stat-total">—</div>
+          </div>
+          <div class="stat bg-white rounded-box shadow-sm py-3">
+            <div class="stat-title text-xs">Score moyen global</div>
+            <div class="stat-value text-2xl text-success-content" id="stat-avg">—</div>
+          </div>
+          <div class="stat bg-white rounded-box shadow-sm py-3">
+            <div class="stat-title text-xs">Départements</div>
+            <div class="stat-value text-2xl text-primary-content" id="stat-depts">—</div>
+          </div>
+          <div class="stat bg-white rounded-box shadow-sm py-3">
+            <div class="stat-title text-xs">Matchings certains</div>
+            <div class="stat-value text-2xl text-secondary" id="stat-certain">—</div>
           </div>
         </div>
 
-        <div class="table-wrap">
-          <div class="table-header">
-            <div class="table-title">Détail par département</div>
-            <div class="table-subtitle" id="table-info"></div>
-          </div>
-          <div id="table-container">
-            <div class="loading">
-              <div class="loading-spinner"></div>
-              <div>Chargement des données…</div>
+        <!-- Table -->
+        <div class="card bg-white shadow-sm">
+          <div class="card-body p-0">
+            <div class="p-3 border-b border-base-300 flex items-center justify-between">
+              <h2 class="text-sm font-semibold text-primary-content">Détail par département</h2>
+              <span id="table-info" class="text-xs text-base-content/60"></span>
+            </div>
+            <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100" style="max-height: 75vh; overflow-y: auto;">
+              <table class="table table-pin-rows">
+                <thead>
+                  <tr>
+                    <th class="cursor-pointer hover:text-accent-content" data-col="dept">Dept</th>
+                    <th class="cursor-pointer hover:text-accent-content text-right" data-col="count">Nb matchings</th>
+                    <th class="cursor-pointer hover:text-accent-content" data-col="avg">Score moyen</th>
+                    <th class="cursor-pointer hover:text-accent-content text-right" data-col="certain">Certains</th>
+                    <th class="cursor-pointer hover:text-accent-content text-right" data-col="possible">Possibles</th>
+                  </tr>
+                </thead>
+                <tbody id="dept-tbody"></tbody>
+              </table>
             </div>
           </div>
         </div>
-      </div>
+      </main>
+
+      <footer class="bg-primary text-white mt-auto">
+        <div class="max-w-[1600px] mx-auto flex items-center justify-between px-6 py-5">
+          <div class="flex items-center gap-4">
+            <img src="assets/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
+            <div>
+              <p class="font-semibold text-sm">Soliguide Tools</p>
+              <p class="text-xs opacity-60">Données : FINESS (data.gouv.fr) × Soliguide API</p>
+            </div>
+          </div>
+          <a href="../../" class="text-xs opacity-60 hover:opacity-100 underline">← Retour à l'accueil</a>
+        </div>
+      </footer>
     </div>
 
     <script>
+      const $ = (s) => document.querySelector(s);
+      const ESC_MAP = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" };
+      const esc = (s) => String(s ?? "").replaceAll(/[&<>"]/g, (c) => ESC_MAP[c]);
+      const fmt = (n) => Number(n).toLocaleString("fr-FR");
+
       function getDept(codePostal) {
         if (!codePostal) return null;
         const cp = String(codePostal).padStart(5, "0");
-        // Corse
         if (cp.startsWith("20")) {
           const num = parseInt(cp.slice(0, 3), 10);
           return num <= 201 ? "2A" : "2B";
         }
-        // DOM-TOM (97x, 98x)
-        if (cp.startsWith("97") || cp.startsWith("98")) {
-          return cp.slice(0, 3);
-        }
+        if (cp.startsWith("97") || cp.startsWith("98")) return cp.slice(0, 3);
         return cp.slice(0, 2);
       }
 
-      function scoreColor(score) {
-        if (score >= 0.85) return "#4ade80";
-        if (score >= 0.7) return "#60a5fa";
-        if (score >= 0.5) return "#fbbf24";
-        return "#f87171";
+      function scoreClasses(score) {
+        if (score >= 0.85) return { color: "text-success-content", progress: "progress-success" };
+        if (score >= 0.7) return { color: "text-primary-content", progress: "progress-info" };
+        if (score >= 0.5) return { color: "text-warning-content", progress: "progress-warning" };
+        return { color: "text-error-content", progress: "progress-error" };
       }
 
-      async function init() {
-        let data;
-        try {
-          const res = await fetch("data/matching-results.json");
-          data = await res.json();
-        } catch (e) {
-          document.getElementById("table-container").innerHTML =
-            '<div class="loading" style="color:#f87171">Erreur : impossible de charger data/matching-results.json</div>';
-          return;
-        }
+      let rows = [];
+      let sortCol = "dept";
+      let sortDir = "asc";
 
+      function renderTable() {
+        const sorted = [...rows].sort((a, b) => {
+          let va = a[sortCol];
+          let vb = b[sortCol];
+          if (typeof va === "string") { va = va.toLowerCase(); vb = vb.toLowerCase(); }
+          if (va < vb) return sortDir === "asc" ? -1 : 1;
+          if (va > vb) return sortDir === "asc" ? 1 : -1;
+          return 0;
+        });
+
+        $("#dept-tbody").innerHTML = sorted.map((r) => {
+          const sc = scoreClasses(r.avg);
+          const pct = Math.round(r.avg * 100);
+          return `
+            <tr class="hover:bg-base-200">
+              <td class="font-mono font-semibold text-primary-content">${esc(r.dept)}</td>
+              <td class="text-right tabular-nums">${fmt(r.count)}</td>
+              <td>
+                <div class="flex items-center gap-2">
+                  <span class="tabular-nums font-mono ${sc.color}">${r.avg.toFixed(3)}</span>
+                  <progress class="progress ${sc.progress} w-24 h-2" value="${pct}" max="100"></progress>
+                </div>
+              </td>
+              <td class="text-right"><span class="badge badge-soft badge-success">${fmt(r.certain)}</span></td>
+              <td class="text-right"><span class="badge badge-soft badge-warning">${fmt(r.possible)}</span></td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      function setupEvents() {
+        $("#menu-btn").addEventListener("click", (e) => {
+          e.stopPropagation();
+          $("#menu-dropdown").classList.toggle("hidden");
+        });
+        document.addEventListener("click", () => $("#menu-dropdown").classList.add("hidden"));
+
+        document.querySelectorAll("th[data-col]").forEach((th) => {
+          th.addEventListener("click", () => {
+            const col = th.dataset.col;
+            if (sortCol === col) sortDir = sortDir === "asc" ? "desc" : "asc";
+            else { sortCol = col; sortDir = col === "dept" ? "asc" : "desc"; }
+            renderTable();
+          });
+        });
+      }
+
+      async function main() {
+        const data = await fetch("data/matching-results.json").then((r) => r.json());
         const matches = data.matches || [];
 
-        // Aggregate by dept
         const deptMap = {};
         for (const m of matches) {
           const cp = m.finess?.codePostal || m.soliguide?.codePostal;
           const dept = getDept(cp);
           if (!dept) continue;
-
-          if (!deptMap[dept]) {
-            deptMap[dept] = { scores: [], certain: 0, possible: 0 };
-          }
+          if (!deptMap[dept]) deptMap[dept] = { scores: [], certain: 0, possible: 0 };
           deptMap[dept].scores.push(m.scoring.score);
           if (m.scoring.confidence === "certain") deptMap[dept].certain++;
           else deptMap[dept].possible++;
         }
 
-        // Build rows
-        let rows = Object.entries(deptMap).map(([dept, d]) => {
-          const avg = d.scores.reduce((a, b) => a + b, 0) / d.scores.length;
-          return {
-            dept,
-            count: d.scores.length,
-            avg,
-            certain: d.certain,
-            possible: d.possible,
-          };
-        });
+        rows = Object.entries(deptMap).map(([dept, d]) => ({
+          dept,
+          count: d.scores.length,
+          avg: d.scores.reduce((a, b) => a + b, 0) / d.scores.length,
+          certain: d.certain,
+          possible: d.possible,
+        }));
 
-        // Summary stats
         const totalMatches = matches.length;
-        const globalAvg = matches.length
-          ? matches.reduce((a, m) => a + m.scoring.score, 0) / matches.length
-          : 0;
+        const globalAvg = totalMatches ? matches.reduce((a, m) => a + m.scoring.score, 0) / totalMatches : 0;
         const totalCertain = matches.filter((m) => m.scoring.confidence === "certain").length;
 
-        document.getElementById("stat-total").textContent = totalMatches.toLocaleString("fr-FR");
-        document.getElementById("stat-avg").textContent = globalAvg.toFixed(3);
-        document.getElementById("stat-depts").textContent = rows.length;
-        document.getElementById("stat-certain").textContent = totalCertain.toLocaleString("fr-FR");
-        document.getElementById("table-info").textContent =
-          rows.length + " départements · " + totalMatches.toLocaleString("fr-FR") + " matchings";
-
-        // Sort state
-        let sortCol = "dept";
-        let sortDir = "asc";
-
-        function renderTable() {
-          const sorted = [...rows].sort((a, b) => {
-            let va = a[sortCol];
-            let vb = b[sortCol];
-            if (typeof va === "string") {
-              va = va.toLowerCase();
-              vb = vb.toLowerCase();
-            }
-            if (va < vb) return sortDir === "asc" ? -1 : 1;
-            if (va > vb) return sortDir === "asc" ? 1 : -1;
-            return 0;
-          });
-
-          let html = `<table>
-            <thead>
-              <tr>
-                <th data-col="dept" class="${sortCol === "dept" ? "sorted-" + sortDir : ""}">Dept</th>
-                <th data-col="count" class="${sortCol === "count" ? "sorted-" + sortDir : ""}">Nb matchings</th>
-                <th data-col="avg" class="${sortCol === "avg" ? "sorted-" + sortDir : ""}">Score moyen</th>
-                <th data-col="certain" class="${sortCol === "certain" ? "sorted-" + sortDir : ""}">Certains</th>
-                <th data-col="possible" class="${sortCol === "possible" ? "sorted-" + sortDir : ""}">Possibles</th>
-              </tr>
-            </thead>
-            <tbody>`;
-
-          for (const r of sorted) {
-            const color = scoreColor(r.avg);
-            const pct = Math.round(r.avg * 100);
-            html += `<tr>
-              <td class="col-dept">${r.dept}</td>
-              <td class="col-count">${r.count}</td>
-              <td>
-                <div class="score-cell">
-                  <span class="col-score" style="color:${color}">${r.avg.toFixed(3)}</span>
-                  <div class="score-bar-bg">
-                    <div class="score-bar-fill" style="width:${pct}%;background:${color}"></div>
-                  </div>
-                </div>
-              </td>
-              <td><span class="badge badge-certain">${r.certain}</span></td>
-              <td><span class="badge badge-possible">${r.possible}</span></td>
-            </tr>`;
-          }
-
-          html += "</tbody></table>";
-          document.getElementById("table-container").innerHTML = html;
-
-          // Attach sort listeners
-          document.querySelectorAll("thead th[data-col]").forEach((th) => {
-            th.addEventListener("click", () => {
-              const col = th.dataset.col;
-              if (sortCol === col) {
-                sortDir = sortDir === "asc" ? "desc" : "asc";
-              } else {
-                sortCol = col;
-                sortDir = col === "dept" ? "asc" : "desc";
-              }
-              renderTable();
-            });
-          });
-        }
+        $("#stat-total").textContent = fmt(totalMatches);
+        $("#stat-avg").textContent = globalAvg.toFixed(3);
+        $("#stat-depts").textContent = rows.length;
+        $("#stat-certain").textContent = fmt(totalCertain);
+        $("#table-info").textContent = `${rows.length} départements · ${fmt(totalMatches)} matchings`;
+        $("#meta-info").textContent = data.meta?.date || "";
 
         renderTable();
+        setupEvents();
+        $("#loading").classList.add("hidden");
+        $("#app").classList.remove("hidden");
       }
 
-      init();
+      main().catch((e) => {
+        console.error(e);
+        $("#loading").innerHTML =
+          `<div class="hero-content"><div class="alert alert-error">Erreur de chargement : ${esc(e.message)}</div></div>`;
+      });
     </script>
   </body>
 </html>

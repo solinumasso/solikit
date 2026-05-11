@@ -1,160 +1,165 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr" data-theme="soliguide">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tuto — Soliguide Tools</title>
-  <link rel="icon" href="assets/images/icons/favicon.ico" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tuto — Soliguide Tools</title>
+    <link rel="icon" href="assets/images/icons/favicon.ico" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
 
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-  <link rel="stylesheet" href="assets/variables.css" />
-  <link rel="stylesheet" href="assets/soliguide-theme.css" />
+    <link rel="stylesheet" href="assets/variables.css" />
+    <link rel="stylesheet" href="assets/soliguide-theme.css" />
 
-  <style>
-    .step-number {
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 1rem;
-      flex-shrink: 0;
-    }
-    code.inline {
-      background: var(--b2, #e8ecf2);
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-family: monospace;
-    }
-    pre.code-block {
-      background: #1e1e2e;
-      color: #cdd6f4;
-      padding: 1rem 1.25rem;
-      border-radius: 0.75rem;
-      font-size: 0.8rem;
-      line-height: 1.6;
-      overflow-x: auto;
-      font-family: monospace;
-    }
-    pre.code-block .comment { color: #6c7086; }
-    pre.code-block .cmd { color: #a6e3a1; }
-  </style>
-</head>
-<body class="bg-base-100 min-h-screen flex flex-col font-[Roboto]">
-
-  <!-- NAVBAR -->
-  <header class="bg-white shadow-md border-b border-base-300">
-    <div class="max-w-4xl mx-auto flex items-center justify-between px-4 h-16">
-      <a href="index.html" class="text-sm text-accent-content hover:text-primary font-semibold">← Accueil</a>
-      <div class="flex items-center gap-3">
-        <img src="assets/images/themes/soliguide-inline.svg" alt="Soliguide" class="h-6" />
-        <span class="font-bold opacity-20 text-lg hidden sm:inline text-primary">|</span>
-        <span class="text-sm font-semibold tracking-tight hidden sm:inline text-primary">Tuto</span>
+    <style>
+      .step-number {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: 1rem;
+        flex-shrink: 0;
+      }
+      code.inline {
+        background: var(--b2, #e8ecf2);
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-family: monospace;
+      }
+      pre.code-block {
+        background: #1e1e2e;
+        color: #cdd6f4;
+        padding: 1rem 1.25rem;
+        border-radius: 0.75rem;
+        font-size: 0.8rem;
+        line-height: 1.6;
+        overflow-x: auto;
+        font-family: monospace;
+      }
+      pre.code-block .comment {
+        color: #6c7086;
+      }
+      pre.code-block .cmd {
+        color: #a6e3a1;
+      }
+    </style>
+  </head>
+  <body class="bg-base-100 min-h-screen flex flex-col font-[Roboto]">
+    <!-- NAVBAR -->
+    <header class="bg-white shadow-md border-b border-base-300">
+      <div class="max-w-4xl mx-auto flex items-center justify-between px-4 h-16">
+        <a href="index.html" class="text-sm text-accent-content hover:text-primary font-semibold">← Accueil</a>
+        <div class="flex items-center gap-3">
+          <img src="assets/images/themes/soliguide-inline.svg" alt="Soliguide" class="h-6" />
+          <span class="font-bold opacity-20 text-lg hidden sm:inline text-primary">|</span>
+          <span class="text-sm font-semibold tracking-tight hidden sm:inline text-primary">Tuto</span>
+        </div>
+        <a href="docs.html" class="text-sm text-accent-content hover:text-primary font-semibold">📖 Doc</a>
       </div>
-      <a href="docs.html" class="text-sm text-accent-content hover:text-primary font-semibold">📖 Doc</a>
-    </div>
-  </header>
+    </header>
 
-  <!-- HERO -->
-  <section class="text-white py-12" style="background: linear-gradient(rgba(39,19,50,0.95), rgba(39,19,50,0.95)), url('assets/images/background.png') center/cover no-repeat;">
-    <div class="max-w-4xl mx-auto px-6 text-center">
-      <h1 class="text-3xl font-black mb-3">Comment utiliser Soliguide Tools</h1>
-      <p class="text-base opacity-80 max-w-2xl mx-auto leading-relaxed">
-        Guide pas à pas pour exploiter la boîte à outils, de l'installation au lancement d'un nouveau projet.
-      </p>
-    </div>
-  </section>
-
-  <main class="max-w-4xl mx-auto px-6 py-12 flex-1 space-y-12">
-
-    <!-- Section 1: C'est quoi -->
-    <section>
-      <h2 class="text-2xl font-bold text-primary-content mb-4">C'est quoi Soliguide Tools ?</h2>
-      <div class="bg-white rounded-xl border border-base-300 p-6 text-sm leading-relaxed text-base-content/80 space-y-3">
-        <p>Une <strong>boîte à outils interne</strong> pour croiser, analyser et visualiser les données Soliguide avec des sources publiques (data.gouv.fr, FINESS, subventions, etc.).</p>
-        <p>Chaque outil est un <strong>mini-projet autonome</strong> composé de deux parties :</p>
-        <ul class="list-disc list-inside space-y-1 ml-2">
-          <li><strong>Scripts de traitement</strong> (<code class="inline">src/</code>) — téléchargent, nettoient et transforment les données brutes en JSON</li>
-          <li><strong>Dashboard</strong> (<code class="inline">dashboard/</code>) — affiche les résultats dans une interface web statique (HTML/CSS/JS)</li>
-        </ul>
-        <p>Le repo est conçu pour être piloté par <strong>Claude Code</strong> : tu décris ce que tu veux, et l'assistant construit tout.</p>
+    <!-- HERO -->
+    <section
+      class="text-white py-12"
+      style="
+        background:
+          linear-gradient(rgba(39, 19, 50, 0.95), rgba(39, 19, 50, 0.95)),
+          url(&quot;assets/images/background.png&quot;) center/cover no-repeat;
+      "
+    >
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <h1 class="text-3xl font-black mb-3">Comment utiliser Soliguide Tools</h1>
+        <p class="text-base opacity-80 max-w-2xl mx-auto leading-relaxed">Guide pas à pas pour exploiter la boîte à outils, de l'installation au lancement d'un nouveau projet.</p>
       </div>
     </section>
 
-    <!-- Section 2: Prérequis -->
-    <section>
-      <h2 class="text-2xl font-bold text-primary-content mb-4">Prérequis</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-white rounded-xl border border-base-300 p-5 text-center">
-          <div class="text-3xl mb-2">🟢</div>
-          <h3 class="font-bold text-primary-content mb-1">Node.js</h3>
-          <p class="text-xs text-base-content/60">Version 18 ou supérieure</p>
+    <main class="max-w-4xl mx-auto px-6 py-12 flex-1 space-y-12">
+      <!-- Section 1: C'est quoi -->
+      <section>
+        <h2 class="text-2xl font-bold text-primary-content mb-4">C'est quoi Soliguide Tools ?</h2>
+        <div class="bg-white rounded-xl border border-base-300 p-6 text-sm leading-relaxed text-base-content/80 space-y-3">
+          <p>Une <strong>boîte à outils interne</strong> pour croiser, analyser et visualiser les données Soliguide avec des sources publiques (data.gouv.fr, FINESS, subventions, etc.).</p>
+          <p>Chaque outil est un <strong>mini-projet autonome</strong> composé de deux parties :</p>
+          <ul class="list-disc list-inside space-y-1 ml-2">
+            <li><strong>Scripts de traitement</strong> (<code class="inline">src/</code>) — téléchargent, nettoient et transforment les données brutes en JSON</li>
+            <li><strong>Dashboard</strong> (<code class="inline">dashboard/</code>) — affiche les résultats dans une interface web statique (HTML/CSS/JS)</li>
+          </ul>
+          <p>Le repo est conçu pour être piloté par <strong>Claude Code</strong> : tu décris ce que tu veux, et l'assistant construit tout.</p>
         </div>
-        <div class="bg-white rounded-xl border border-base-300 p-5 text-center">
-          <div class="text-3xl mb-2">📦</div>
-          <h3 class="font-bold text-primary-content mb-1">pnpm</h3>
-          <p class="text-xs text-base-content/60">Gestionnaire de paquets</p>
-        </div>
-        <div class="bg-white rounded-xl border border-base-300 p-5 text-center">
-          <div class="text-3xl mb-2">🤖</div>
-          <h3 class="font-bold text-primary-content mb-1">Claude Code</h3>
-          <p class="text-xs text-base-content/60">Recommandé pour l'usage guidé</p>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Section 3: Démarrer -->
-    <section>
-      <h2 class="text-2xl font-bold text-primary-content mb-4">Démarrer en 3 étapes</h2>
-      <div class="space-y-4">
-
-        <div class="bg-white rounded-xl border border-base-300 p-5 flex gap-4 items-start">
-          <div class="step-number bg-primary text-white">1</div>
-          <div class="flex-1">
-            <h3 class="font-bold text-primary-content mb-2">Installer Claude Code</h3>
-            <pre class="code-block"><span class="cmd">npm install -g @anthropic-ai/claude-code</span></pre>
+      <!-- Section 2: Prérequis -->
+      <section>
+        <h2 class="text-2xl font-bold text-primary-content mb-4">Prérequis</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white rounded-xl border border-base-300 p-5 text-center">
+            <div class="text-3xl mb-2">🟢</div>
+            <h3 class="font-bold text-primary-content mb-1">Node.js</h3>
+            <p class="text-xs text-base-content/60">Version 18 ou supérieure</p>
+          </div>
+          <div class="bg-white rounded-xl border border-base-300 p-5 text-center">
+            <div class="text-3xl mb-2">📦</div>
+            <h3 class="font-bold text-primary-content mb-1">pnpm</h3>
+            <p class="text-xs text-base-content/60">Gestionnaire de paquets</p>
+          </div>
+          <div class="bg-white rounded-xl border border-base-300 p-5 text-center">
+            <div class="text-3xl mb-2">🤖</div>
+            <h3 class="font-bold text-primary-content mb-1">Claude Code</h3>
+            <p class="text-xs text-base-content/60">Recommandé pour l'usage guidé</p>
           </div>
         </div>
+      </section>
 
-        <div class="bg-white rounded-xl border border-base-300 p-5 flex gap-4 items-start">
-          <div class="step-number bg-primary text-white">2</div>
-          <div class="flex-1">
-            <h3 class="font-bold text-primary-content mb-2">Ouvrir le repo et lancer Claude</h3>
-            <pre class="code-block"><span class="cmd">cd soliguide-tools</span>
+      <!-- Section 3: Démarrer -->
+      <section>
+        <h2 class="text-2xl font-bold text-primary-content mb-4">Démarrer en 3 étapes</h2>
+        <div class="space-y-4">
+          <div class="bg-white rounded-xl border border-base-300 p-5 flex gap-4 items-start">
+            <div class="step-number bg-primary text-white">1</div>
+            <div class="flex-1">
+              <h3 class="font-bold text-primary-content mb-2">Installer Claude Code</h3>
+              <pre class="code-block"><span class="cmd">npm install -g @anthropic-ai/claude-code</span></pre>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl border border-base-300 p-5 flex gap-4 items-start">
+            <div class="step-number bg-primary text-white">2</div>
+            <div class="flex-1">
+              <h3 class="font-bold text-primary-content mb-2">Ouvrir le repo et lancer Claude</h3>
+              <pre class="code-block"><span class="cmd">cd soliguide-tools</span>
 <span class="cmd">claude</span></pre>
-            <p class="text-sm text-base-content/60 mt-2">Claude comprend automatiquement le contexte du repo et te guide en français.</p>
+              <p class="text-sm text-base-content/60 mt-2">Claude comprend automatiquement le contexte du repo et te guide en français.</p>
+            </div>
           </div>
-        </div>
 
-        <div class="bg-white rounded-xl border border-base-300 p-5 flex gap-4 items-start">
-          <div class="step-number bg-primary text-white">3</div>
-          <div class="flex-1">
-            <h3 class="font-bold text-primary-content mb-2">Décrire ce que tu veux faire</h3>
-            <div class="space-y-2 mt-2">
-              <div class="bg-base-200 rounded-lg px-4 py-2 text-sm italic text-base-content/70">"Je veux créer un outil pour calculer le score de qualité des fiches"</div>
-              <div class="bg-base-200 rounded-lg px-4 py-2 text-sm italic text-base-content/70">"Lance le téléchargement des données FINESS"</div>
-              <div class="bg-base-200 rounded-lg px-4 py-2 text-sm italic text-base-content/70">"Aide-moi à comprendre le projet integration-sante"</div>
+          <div class="bg-white rounded-xl border border-base-300 p-5 flex gap-4 items-start">
+            <div class="step-number bg-primary text-white">3</div>
+            <div class="flex-1">
+              <h3 class="font-bold text-primary-content mb-2">Décrire ce que tu veux faire</h3>
+              <div class="space-y-2 mt-2">
+                <div class="bg-base-200 rounded-lg px-4 py-2 text-sm italic text-base-content/70">"Je veux créer un outil pour calculer le score de qualité des fiches"</div>
+                <div class="bg-base-200 rounded-lg px-4 py-2 text-sm italic text-base-content/70">"Lance le téléchargement des données FINESS"</div>
+                <div class="bg-base-200 rounded-lg px-4 py-2 text-sm italic text-base-content/70">"Aide-moi à comprendre le projet integration-sante"</div>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-      </div>
-    </section>
-
-    <!-- Section 4: Structure -->
-    <section>
-      <h2 class="text-2xl font-bold text-primary-content mb-4">Structure du repo</h2>
-      <div class="bg-white rounded-xl border border-base-300 p-5">
-        <pre class="code-block"><span class="comment"># Structure globale</span>
+      <!-- Section 4: Structure -->
+      <section>
+        <h2 class="text-2xl font-bold text-primary-content mb-4">Structure du repo</h2>
+        <div class="bg-white rounded-xl border border-base-300 p-5">
+          <pre class="code-block"><span class="comment"># Structure globale</span>
 soliguide-tools/
 ├── CLAUDE.md              <span class="comment"># Instructions pour Claude Code</span>
 ├── index.html             <span class="comment"># Page d'accueil (cette page)</span>
@@ -164,14 +169,14 @@ soliguide-tools/
         ├── src/            <span class="comment"># Scripts de traitement</span>
         ├── dashboard/      <span class="comment"># Interface de visualisation</span>
         └── data/           <span class="comment"># Données (non committées)</span></pre>
-      </div>
-    </section>
+        </div>
+      </section>
 
-    <!-- Section 5: Structure d'un projet -->
-    <section>
-      <h2 class="text-2xl font-bold text-primary-content mb-4">Anatomie d'un projet</h2>
-      <div class="bg-white rounded-xl border border-base-300 p-5">
-        <pre class="code-block"><span class="comment"># Structure type</span>
+      <!-- Section 5: Structure d'un projet -->
+      <section>
+        <h2 class="text-2xl font-bold text-primary-content mb-4">Anatomie d'un projet</h2>
+        <div class="bg-white rounded-xl border border-base-300 p-5">
+          <pre class="code-block"><span class="comment"># Structure type</span>
 projects/mon-projet/
 ├── package.json           <span class="comment"># Dépendances</span>
 ├── tsconfig.json          <span class="comment"># Config TypeScript</span>
@@ -186,106 +191,130 @@ projects/mon-projet/
 └── data/
     ├── raw/               <span class="comment"># Données brutes (CSV, etc.)</span>
     └── output/            <span class="comment"># JSON prêt pour le dashboard</span></pre>
-      </div>
-    </section>
-
-    <!-- Section 6: Commandes utiles -->
-    <section>
-      <h2 class="text-2xl font-bold text-primary-content mb-4">Commandes utiles</h2>
-      <div class="space-y-3">
-        <div class="bg-white rounded-xl border border-base-300 p-5">
-          <h3 class="font-bold text-primary-content text-sm mb-2">Installer les dépendances d'un projet</h3>
-          <pre class="code-block"><span class="cmd">cd projects/mon-projet && pnpm install</span></pre>
         </div>
-        <div class="bg-white rounded-xl border border-base-300 p-5">
-          <h3 class="font-bold text-primary-content text-sm mb-2">Lancer un script de traitement</h3>
-          <pre class="code-block"><span class="cmd">cd projects/mon-projet && npx tsx src/01-download.ts</span></pre>
-        </div>
-        <div class="bg-white rounded-xl border border-base-300 p-5">
-          <h3 class="font-bold text-primary-content text-sm mb-2">Lancer le dashboard</h3>
-          <pre class="code-block"><span class="cmd">cd projects/mon-projet && pnpm dashboard</span></pre>
-          <p class="text-xs text-base-content/60 mt-2">Le dashboard s'ouvre sur <code class="inline">http://localhost:5555/projects/mon-projet/dashboard/</code></p>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Section 7: Skills -->
-    <section id="skills">
-      <h2 class="text-2xl font-bold text-primary-content mb-4">Commandes Claude disponibles</h2>
-      <p class="text-sm text-base-content/60 mb-4">Dans Claude Code, tu peux utiliser ces commandes slash pour accélérer le travail :</p>
-      <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Commande</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td class="font-mono text-accent-content font-semibold">/pitch</td><td>Pitcher une idée en langage naturel, Claude construit tout</td></tr>
-            <tr><td class="font-mono text-accent-content font-semibold">/new-project</td><td>Créer un nouveau projet de A à Z</td></tr>
-            <tr><td class="font-mono text-accent-content font-semibold">/new-dashboard</td><td>Créer ou refaire un dashboard pour un projet existant</td></tr>
-            <tr><td class="font-mono text-accent-content font-semibold">/process-data</td><td>Créer un pipeline de traitement de données</td></tr>
-            <tr><td class="font-mono text-accent-content font-semibold">/csv-data-summarizer</td><td>Analyser automatiquement un fichier CSV</td></tr>
-            <tr><td class="font-mono text-accent-content font-semibold">/frontend-design</td><td>Conseils de design frontend</td></tr>
-            <tr><td class="font-mono text-accent-content font-semibold">/writing-plans</td><td>Écrire un plan d'implémentation structuré avant de coder</td></tr>
-            <tr><td class="font-mono text-accent-content font-semibold">/skill-creator</td><td>Créer de nouvelles skills</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Section 8: Conventions CSS / Design -->
-    <section>
-      <h2 class="text-2xl font-bold text-primary-content mb-4">Conventions design</h2>
-      <p class="text-sm text-base-content/60 mb-4">Règles CSS obligatoires pour tous les dashboards. Utiliser les classes DaisyUI en priorité, minimiser le CSS custom.</p>
-
-      <div class="space-y-4">
-        <div class="bg-white rounded-xl border border-base-300 p-5">
-          <h3 class="font-bold text-primary-content text-sm mb-3">Couleurs par élément</h3>
-          <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
-            <table class="table table-sm">
-              <thead>
-                <tr>
-                  <th>Élément</th>
-                  <th>Classe DaisyUI</th>
-                  <th>Rendu</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Titres (h1, h2, h3)</td>
-                  <td><code class="inline">text-primary-content</code></td>
-                  <td><span class="text-primary-content font-bold">Exemple de titre</span></td>
-                </tr>
-                <tr>
-                  <td>Liens cliquables</td>
-                  <td><code class="inline">text-accent-content</code></td>
-                  <td><span class="text-accent-content underline">Lien exemple</span></td>
-                </tr>
-                <tr>
-                  <td>Navbar labels</td>
-                  <td><code class="inline">text-primary</code></td>
-                  <td><span class="text-primary font-semibold">Nom outil</span></td>
-                </tr>
-                <tr>
-                  <td>Tags / badges</td>
-                  <td><code class="inline">text-primary bg-primary/10</code></td>
-                  <td><span class="text-primary bg-primary/10 px-2 py-0.5 rounded-full text-xs font-semibold">Tag</span></td>
-                </tr>
-                <tr>
-                  <td>Hover en-têtes triables</td>
-                  <td><code class="inline">hover:text-accent-content</code></td>
-                  <td class="text-xs opacity-60">Au survol des colonnes triables</td>
-                </tr>
-              </tbody>
-            </table>
+      <!-- Section 6: Commandes utiles -->
+      <section>
+        <h2 class="text-2xl font-bold text-primary-content mb-4">Commandes utiles</h2>
+        <div class="space-y-3">
+          <div class="bg-white rounded-xl border border-base-300 p-5">
+            <h3 class="font-bold text-primary-content text-sm mb-2">Installer les dépendances d'un projet</h3>
+            <pre class="code-block"><span class="cmd">cd projects/mon-projet && pnpm install</span></pre>
+          </div>
+          <div class="bg-white rounded-xl border border-base-300 p-5">
+            <h3 class="font-bold text-primary-content text-sm mb-2">Lancer un script de traitement</h3>
+            <pre class="code-block"><span class="cmd">cd projects/mon-projet && npx tsx src/01-download.ts</span></pre>
+          </div>
+          <div class="bg-white rounded-xl border border-base-300 p-5">
+            <h3 class="font-bold text-primary-content text-sm mb-2">Lancer le dashboard</h3>
+            <pre class="code-block"><span class="cmd">cd projects/mon-projet && pnpm dashboard</span></pre>
+            <p class="text-xs text-base-content/60 mt-2">Le dashboard s'ouvre sur <code class="inline">http://localhost:5555/projects/mon-projet/dashboard/</code></p>
           </div>
         </div>
+      </section>
 
-        <div class="bg-white rounded-xl border border-base-300 p-5">
-          <h3 class="font-bold text-primary-content text-sm mb-3">Structure de tableau (DaisyUI obligatoire)</h3>
-          <pre class="code-block"><span class="comment">&lt;!-- Toujours ce wrapper autour des tableaux --&gt;</span>
+      <!-- Section 7: Skills -->
+      <section id="skills">
+        <h2 class="text-2xl font-bold text-primary-content mb-4">Commandes Claude disponibles</h2>
+        <p class="text-sm text-base-content/60 mb-4">Dans Claude Code, tu peux utiliser ces commandes slash pour accélérer le travail :</p>
+        <div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Commande</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/pitch</td>
+                <td>Pitcher une idée en langage naturel, Claude construit tout</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/new-project</td>
+                <td>Créer un nouveau projet de A à Z</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/new-dashboard</td>
+                <td>Créer ou refaire un dashboard pour un projet existant</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/process-data</td>
+                <td>Créer un pipeline de traitement de données</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/csv-data-summarizer</td>
+                <td>Analyser automatiquement un fichier CSV</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/frontend-design</td>
+                <td>Conseils de design frontend</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/writing-plans</td>
+                <td>Écrire un plan d'implémentation structuré avant de coder</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/skill-creator</td>
+                <td>Créer de nouvelles skills</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 8: Conventions CSS / Design -->
+      <section>
+        <h2 class="text-2xl font-bold text-primary-content mb-4">Conventions design</h2>
+        <p class="text-sm text-base-content/60 mb-4">Règles CSS obligatoires pour tous les dashboards. Utiliser les classes DaisyUI en priorité, minimiser le CSS custom.</p>
+
+        <div class="space-y-4">
+          <div class="bg-white rounded-xl border border-base-300 p-5">
+            <h3 class="font-bold text-primary-content text-sm mb-3">Couleurs par élément</h3>
+            <div>
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>Élément</th>
+                    <th>Classe DaisyUI</th>
+                    <th>Rendu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Titres (h1, h2, h3)</td>
+                    <td><code class="inline">text-primary-content</code></td>
+                    <td><span class="text-primary-content font-bold">Exemple de titre</span></td>
+                  </tr>
+                  <tr>
+                    <td>Liens cliquables</td>
+                    <td><code class="inline">text-accent-content</code></td>
+                    <td><span class="text-accent-content underline">Lien exemple</span></td>
+                  </tr>
+                  <tr>
+                    <td>Navbar labels</td>
+                    <td><code class="inline">text-primary</code></td>
+                    <td><span class="text-primary font-semibold">Nom outil</span></td>
+                  </tr>
+                  <tr>
+                    <td>Tags / badges</td>
+                    <td><code class="inline">text-primary bg-primary/10</code></td>
+                    <td><span class="text-primary bg-primary/10 px-2 py-0.5 rounded-full text-xs font-semibold">Tag</span></td>
+                  </tr>
+                  <tr>
+                    <td>Hover en-têtes triables</td>
+                    <td><code class="inline">hover:text-accent-content</code></td>
+                    <td class="text-xs opacity-60">Au survol des colonnes triables</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl border border-base-300 p-5">
+            <h3 class="font-bold text-primary-content text-sm mb-3">Structure de tableau (DaisyUI obligatoire)</h3>
+            <pre class="code-block"><span class="comment">&lt;!-- Toujours ce wrapper autour des tableaux --&gt;</span>
 &lt;div class="<span class="cmd">overflow-x-auto rounded-box border border-base-content/5 bg-base-100</span>"&gt;
   &lt;table class="<span class="cmd">table</span>"&gt;
     &lt;thead&gt;
@@ -300,61 +329,59 @@ projects/mon-projet/
     &lt;/tbody&gt;
   &lt;/table&gt;
 &lt;/div&gt;</pre>
-          <p class="text-xs text-base-content/60 mt-2">Pas de styles CSS custom pour les tableaux. La classe <code class="inline">.table</code> gère padding, bordures, zebra, etc.</p>
-        </div>
+            <p class="text-xs text-base-content/60 mt-2">Pas de styles CSS custom pour les tableaux. La classe <code class="inline">.table</code> gère padding, bordures, zebra, etc.</p>
+          </div>
 
-        <div class="bg-white rounded-xl border border-base-300 p-5">
-          <h3 class="font-bold text-primary-content text-sm mb-3">Polices</h3>
-          <div class="space-y-2 text-sm">
-            <p><strong>Roboto</strong> — corps de texte, labels, données <span class="opacity-50">(défaut du thème)</span></p>
-            <p style="font-family: Nunito, sans-serif;"><strong>Nunito</strong> — titres, headings, éléments d'accroche</p>
+          <div class="bg-white rounded-xl border border-base-300 p-5">
+            <h3 class="font-bold text-primary-content text-sm mb-3">Polices</h3>
+            <div class="space-y-2 text-sm">
+              <p><strong>Roboto</strong> — corps de texte, labels, données <span class="opacity-50">(défaut du thème)</span></p>
+              <p style="font-family: Nunito, sans-serif"><strong>Nunito</strong> — titres, headings, éléments d'accroche</p>
+            </div>
           </div>
         </div>
+      </section>
+
+      <!-- Section 9: Principes -->
+      <section>
+        <h2 class="text-2xl font-bold text-primary-content mb-4">Principes clés</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white rounded-xl border border-base-300 p-5">
+            <div class="text-xl mb-2">📦</div>
+            <h3 class="font-bold text-primary-content text-sm mb-1">Scripts puis Dashboard</h3>
+            <p class="text-xs text-base-content/60">Les scripts font le travail lourd et produisent du JSON. Le dashboard ne fait que l'afficher.</p>
+          </div>
+          <div class="bg-white rounded-xl border border-base-300 p-5">
+            <div class="text-xl mb-2">🎨</div>
+            <h3 class="font-bold text-primary-content text-sm mb-1">Thème partagé</h3>
+            <p class="text-xs text-base-content/60">Toujours utiliser le thème Soliguide (DaisyUI 5 + Tailwind 4). Ne jamais redéfinir les couleurs.</p>
+          </div>
+          <div class="bg-white rounded-xl border border-base-300 p-5">
+            <div class="text-xl mb-2">🚀</div>
+            <h3 class="font-bold text-primary-content text-sm mb-1">Pas de build</h3>
+            <p class="text-xs text-base-content/60">HTML/CSS/JS vanilla uniquement. Pas de React, Vue ou Svelte. Déployable directement sur GitHub Pages.</p>
+          </div>
+          <div class="bg-white rounded-xl border border-base-300 p-5">
+            <div class="text-xl mb-2">🗂️</div>
+            <h3 class="font-bold text-primary-content text-sm mb-1">Données publiques</h3>
+            <p class="text-xs text-base-content/60">Les données viennent de sources ouvertes (data.gouv.fr, etc.) et ne sont jamais committées dans le repo.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-primary text-white mt-auto">
+      <div class="max-w-4xl mx-auto flex items-center justify-between px-6 py-5">
+        <div class="flex items-center gap-4">
+          <img src="assets/images/themes/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
+          <div>
+            <p class="font-semibold text-sm">Soliguide Tools</p>
+            <p class="text-xs opacity-60">Outils internes</p>
+          </div>
+        </div>
+        <a href="index.html" class="text-xs opacity-60 hover:opacity-100 underline">← Retour à l'accueil</a>
       </div>
-    </section>
-
-    <!-- Section 9: Principes -->
-    <section>
-      <h2 class="text-2xl font-bold text-primary-content mb-4">Principes clés</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="bg-white rounded-xl border border-base-300 p-5">
-          <div class="text-xl mb-2">📦</div>
-          <h3 class="font-bold text-primary-content text-sm mb-1">Scripts puis Dashboard</h3>
-          <p class="text-xs text-base-content/60">Les scripts font le travail lourd et produisent du JSON. Le dashboard ne fait que l'afficher.</p>
-        </div>
-        <div class="bg-white rounded-xl border border-base-300 p-5">
-          <div class="text-xl mb-2">🎨</div>
-          <h3 class="font-bold text-primary-content text-sm mb-1">Thème partagé</h3>
-          <p class="text-xs text-base-content/60">Toujours utiliser le thème Soliguide (DaisyUI 5 + Tailwind 4). Ne jamais redéfinir les couleurs.</p>
-        </div>
-        <div class="bg-white rounded-xl border border-base-300 p-5">
-          <div class="text-xl mb-2">🚀</div>
-          <h3 class="font-bold text-primary-content text-sm mb-1">Pas de build</h3>
-          <p class="text-xs text-base-content/60">HTML/CSS/JS vanilla uniquement. Pas de React, Vue ou Svelte. Déployable directement sur GitHub Pages.</p>
-        </div>
-        <div class="bg-white rounded-xl border border-base-300 p-5">
-          <div class="text-xl mb-2">🗂️</div>
-          <h3 class="font-bold text-primary-content text-sm mb-1">Données publiques</h3>
-          <p class="text-xs text-base-content/60">Les données viennent de sources ouvertes (data.gouv.fr, etc.) et ne sont jamais committées dans le repo.</p>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="bg-primary text-white mt-auto">
-    <div class="max-w-4xl mx-auto flex items-center justify-between px-6 py-5">
-      <div class="flex items-center gap-4">
-        <img src="assets/images/themes/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
-        <div>
-          <p class="font-semibold text-sm">Soliguide Tools</p>
-          <p class="text-xs opacity-60">Outils internes</p>
-        </div>
-      </div>
-      <a href="index.html" class="text-xs opacity-60 hover:opacity-100 underline">← Retour à l'accueil</a>
-    </div>
-  </footer>
-
-</body>
+    </footer>
+  </body>
 </html>

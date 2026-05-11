@@ -1,29 +1,43 @@
-import { writeFileSync, existsSync } from "fs";
-import proj4 from "proj4";
+import { writeFileSync, existsSync, readFileSync } from "fs";
 import {
-  parseFinessCSV,
-  parseSoliguideCSV,
-  type FinessRecord,
-  type SoliguideRecord,
-} from "./utils/csv-parser.js";
-import {
-  extractVilleFromLigneAcheminement,
-  extractCodePostalFromLigneAcheminement,
-  buildFinessAddress,
-  normalizeSoliguideAddress,
+  normalizeAddress,
   normalize,
   computeScore,
   type MatchConfidence,
   type ScoreDetail,
 } from "./utils/matching.js";
+import type { SoliguidePlace } from "../../../../.claude/skills/soliguide-api/place.js";
+import type { FinessPlace } from "./01c-finess-to-json.js";
+import type { BanAddress } from "../../../../.claude/skills/geocodage/ban-address.js";
+import type { DilaPlace } from "../../../../.claude/skills/dila/place.js";
 
-// Lambert-93 (EPSG:2154) -> WGS84 (EPSG:4326)
-const LAMBERT93 =
-  "+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
-
-function lambert93ToWGS84(x: number, y: number): [number, number] {
-  const [lon, lat] = proj4(LAMBERT93, "EPSG:4326", [x, y]);
-  return [lat, lon];
+/**
+ * DILA réduit pour le payload du dashboard : on garde uniquement les champs
+ * affichés (sites, contacts, horaires) — on vire description/SIRET/adresse
+ * qui sont soit lourds soit dupliqués avec FINESS.
+ */
+interface SlimDila {
+  websites: string[];
+  email: string;
+  phones: string[];
+  hours: any | null;
+  hoursComment: string;
+  partenaire: string;
+  url: string;
+  updatedAt: string;
+}
+function slim(d: DilaPlace | null | undefined): SlimDila | null {
+  if (!d) return null;
+  return {
+    websites: d.websites,
+    email: d.email,
+    phones: d.phones,
+    hours: d.hours,
+    hoursComment: d.hoursComment,
+    partenaire: d.partenaire,
+    url: d.url,
+    updatedAt: d.updatedAt,
+  };
 }
 
 // ── Output types ──
@@ -38,6 +52,9 @@ interface MatchEntry {
     categorie: string;
     lat: number | null;
     lon: number | null;
+    updatedAt: string;
+    banAddress?: BanAddress | null;
+    dila?: SlimDila | null;
   };
   soliguide: {
     ficheId: string;
@@ -48,6 +65,12 @@ interface MatchEntry {
     lien: string;
     lat: number | null;
     lon: number | null;
+    services: string[];
+    description: string;
+    phones: string[];
+    email: string;
+    updatedAt: string;
+    banAddress?: BanAddress | null;
   } | null;
   scoring: {
     score: number;
@@ -79,6 +102,9 @@ interface OutputJSON {
     categorie: string;
     lat: number | null;
     lon: number | null;
+    updatedAt: string;
+    banAddress?: BanAddress | null;
+    dila?: SlimDila | null;
   }>;
   soliguideNonMatchees: Array<{
     ficheId: string;
@@ -89,67 +115,54 @@ interface OutputJSON {
     lien: string;
     lat: number | null;
     lon: number | null;
+    services: string[];
+    description: string;
+    phones: string[];
+    email: string;
+    updatedAt: string;
+    banAddress?: BanAddress | null;
   }>;
 }
 
 async function main() {
-  const FINESS_PATH = "data/finess.csv";
-  const SOLIGUIDE_PATH = existsSync("data/soliguide.csv")
-    ? "data/soliguide.csv"
-    : "data/autoexport_soliguide.csv";
+  const FINESS_PATH = "data/raw/finess.json";
+  const SOLIGUIDE_PATH = "data/raw/soliguide.json";
   const OUTPUT_PATH = "data/matching-results.json";
 
   if (!existsSync(FINESS_PATH)) {
-    console.error(`Fichier manquant : ${FINESS_PATH}. Lancez: pnpm download`);
+    console.error(`Fichier manquant : ${FINESS_PATH}. Lance: pnpm finess:to-json`);
     process.exit(1);
   }
   if (!existsSync(SOLIGUIDE_PATH)) {
-    console.error(`Fichier manquant : ${SOLIGUIDE_PATH}`);
+    console.error(`Fichier manquant : ${SOLIGUIDE_PATH}. Lance: pnpm download:soliguide`);
     process.exit(1);
   }
 
-  // 1. Parse
-  console.log("Parsing FINESS...");
-  const finessRecords = parseFinessCSV(FINESS_PATH);
-  console.log(`  ${finessRecords.length} établissements FINESS`);
+  console.log("Lecture FINESS (JSON déjà filtré + géocodé)…");
+  const finessRecords: FinessPlace[] = JSON.parse(readFileSync(FINESS_PATH, "utf-8"));
+  console.log(`  ${finessRecords.length} fiches FINESS`);
 
-  console.log("Parsing Soliguide...");
-  const soliguideRecords = parseSoliguideCSV(SOLIGUIDE_PATH);
-  console.log(`  ${soliguideRecords.length} structures Soliguide`);
+  console.log("Lecture Soliguide…");
+  const soliguideRecords: SoliguidePlace[] = JSON.parse(readFileSync(SOLIGUIDE_PATH, "utf-8"));
+  console.log(`  ${soliguideRecords.length} fiches Soliguide`);
 
-  // 1b. Exclude pharmacies (620), EHPAD (500), laboratoires (611)
-  const EXCLUDED_CATEGORIES = new Set(["620", "500", "611"]);
-  const beforeFilter = finessRecords.length;
-  const filtered = finessRecords.filter((r) => !EXCLUDED_CATEGORIES.has(r.categetab));
-  console.log(`  Exclus (pharmacies + EHPAD + labo) : ${beforeFilter - filtered.length}`);
-  console.log(`  ${filtered.length} établissements après filtre`);
+  const finessBanCount = finessRecords.filter((r) => r.banAddress != null).length;
+  const soliguideBanCount = soliguideRecords.filter((r) => r.banAddress != null).length;
+  console.log(`  BAN : ${finessBanCount}/${finessRecords.length} FINESS, ${soliguideBanCount}/${soliguideRecords.length} Soliguide`);
 
-  // 2. Convert Lambert-93 → WGS84
-  console.log("Conversion coordonnées Lambert-93 → WGS84...");
-  let geoConverted = 0;
-  for (const rec of filtered) {
-    if (rec.coordX && rec.coordY) {
-      const [lat, lon] = lambert93ToWGS84(rec.coordX, rec.coordY);
-      rec.lat = lat;
-      rec.lon = lon;
-      geoConverted++;
-    }
-  }
-  console.log(`  ${geoConverted} coordonnées converties`);
-
-  // 3. Index by normalized city
-  console.log("Indexation par ville...");
-  const finessByVille = new Map<string, FinessRecord[]>();
-  for (const rec of filtered) {
-    const ville = extractVilleFromLigneAcheminement(rec.ligneacheminement);
+  // Index par ville (normalize pour éviter casse/accents)
+  console.log("Indexation par ville…");
+  const finessByVille = new Map<string, FinessPlace[]>();
+  for (const rec of finessRecords) {
+    const ville = rec.city;
     if (!ville) continue;
     if (!finessByVille.has(ville)) finessByVille.set(ville, []);
     finessByVille.get(ville)!.push(rec);
   }
 
-  const soliguideByVille = new Map<string, SoliguideRecord[]>();
+  const soliguideByVille = new Map<string, SoliguidePlace[]>();
   for (const rec of soliguideRecords) {
-    const ville = normalize(rec.ville);
+    const ville = normalize(rec.city);
     if (!ville) continue;
     if (!soliguideByVille.has(ville)) soliguideByVille.set(ville, []);
     soliguideByVille.get(ville)!.push(rec);
@@ -160,6 +173,9 @@ async function main() {
     if (soliguideByVille.has(ville)) villesCommunes++;
   }
   console.log(`  ${finessByVille.size} villes FINESS, ${soliguideByVille.size} villes Soliguide, ${villesCommunes} en commun`);
+
+  const filtered = finessRecords; // déjà filtré dans 01c-finess-to-json
+  const beforeFilter = filtered.length;
 
   // 4. Matching city by city
   console.log("Matching en cours...");
@@ -178,27 +194,33 @@ async function main() {
     const soliguideInVille = soliguideByVille.get(ville) || [];
 
     for (const fRec of finessInVille) {
-      const finessName = fRec.rslongue || fRec.rs;
-      const finessAddr = buildFinessAddress(fRec);
-      const finessPostal = extractCodePostalFromLigneAcheminement(fRec.ligneacheminement);
+      // Adresse de référence : si BAN dispo, on prend "housenumber street" (pas le label complet
+      // qui inclut CP+ville et fausse le Levenshtein contre des adresses sans CP).
+      const finessStreet = fRec.banAddress
+        ? `${fRec.banAddress.housenumber} ${fRec.banAddress.street}`.trim()
+        : fRec.address;
+      const finessAddr = normalizeAddress(finessStreet);
 
-      let best: { sRec: SoliguideRecord; score: number; confidence: MatchConfidence | null; detail: ScoreDetail } | null = null;
+      let best: { sRec: SoliguidePlace; score: number; confidence: MatchConfidence | null; detail: ScoreDetail } | null = null;
 
       for (const sRec of soliguideInVille) {
-        const sAddr = normalizeSoliguideAddress(sRec.adresse);
+        const sStreet = sRec.banAddress
+          ? `${sRec.banAddress.housenumber} ${sRec.banAddress.street}`.trim()
+          : sRec.address;
+        const sAddr = normalizeAddress(sStreet);
         const result = computeScore({
-          finessName,
+          finessName: fRec.name,
           finessAddress: finessAddr,
-          finessPostal,
-          finessPhone: fRec.telephone,
-          soliguideNom: sRec.nom,
+          finessPostal: fRec.banAddress?.postcode ?? fRec.postalCode,
+          finessPhone: fRec.phone,
+          soliguideNom: sRec.name,
           soliguideAddress: sAddr,
-          soliguidePostal: sRec.codePostal,
-          soliguidePhone: sRec.telephone,
-          finessLat: fRec.lat,
-          finessLon: fRec.lon,
-          soliguideLat: sRec.lat,
-          soliguideLon: sRec.lon,
+          soliguidePostal: sRec.banAddress?.postcode ?? sRec.postalCode,
+          soliguidePhone: sRec.phones[0] ?? "",
+          finessLat: fRec.banAddress?.lat ?? fRec.lat,
+          finessLon: fRec.banAddress?.lon ?? fRec.lon,
+          soliguideLat: sRec.banAddress?.lat ?? sRec.lat,
+          soliguideLon: sRec.banAddress?.lon ?? sRec.lon,
         });
 
         if (!best || result.score > best.score) {
@@ -209,28 +231,37 @@ async function main() {
       const confidence = best ? best.confidence : null;
       const hasMatch = best && confidence !== null;
 
-      if (!hasMatch) continue; // skip non-matched entries
+      if (!hasMatch) continue;
 
       const entry: MatchEntry = {
         finess: {
-          nofinesset: fRec.nofinesset,
-          nom: finessName,
-          adresse: [fRec.numvoie, fRec.typvoie, fRec.voie, fRec.compvoie].filter(Boolean).join(" "),
-          ville,
-          codePostal: finessPostal,
-          categorie: fRec.categetablib,
-          lat: fRec.lat || null,
-          lon: fRec.lon || null,
+          nofinesset: fRec.id,
+          nom: fRec.name,
+          adresse: fRec.address,
+          ville: fRec.city,
+          codePostal: fRec.postalCode,
+          categorie: fRec.category,
+          lat: fRec.lat,
+          lon: fRec.lon,
+          updatedAt: fRec.updatedAt ?? "",
+          banAddress: fRec.banAddress ?? null,
+          dila: slim(fRec.dila),
         },
         soliguide: {
-          ficheId: best!.sRec.ficheId,
-          nom: best!.sRec.nom,
-          adresse: best!.sRec.adresse,
-          ville: best!.sRec.ville,
-          codePostal: best!.sRec.codePostal,
-          lien: best!.sRec.lien,
+          ficheId: best!.sRec.id,
+          nom: best!.sRec.name,
+          adresse: best!.sRec.address,
+          ville: best!.sRec.city,
+          codePostal: best!.sRec.postalCode,
+          lien: best!.sRec.url,
           lat: best!.sRec.lat,
           lon: best!.sRec.lon,
+          services: best!.sRec.categories,
+          description: best!.sRec.description,
+          phones: best!.sRec.phones,
+          email: best!.sRec.email,
+          updatedAt: best!.sRec.updatedAt ?? "",
+          banAddress: best!.sRec.banAddress ?? null,
         },
         scoring: {
           score: best!.score,
@@ -239,43 +270,49 @@ async function main() {
         },
       };
 
-      matchedSoliguideIds.add(best!.sRec.ficheId);
-      matchedFinessIds.add(fRec.nofinesset);
+      matchedSoliguideIds.add(best!.sRec.id);
+      matchedFinessIds.add(fRec.id);
       counts[confidence!]++;
       matches.push(entry);
     }
   }
 
-  // 5a. FINESS non matchées
+  // 5a. FINESS non matchées (les "5 Soliguide les plus proches" sont désormais
+  // fetchés dynamiquement côté frontend via l'API Soliguide au clic Détail).
   const finessNonMatchees = filtered
-    .filter((r) => !matchedFinessIds.has(r.nofinesset))
-    .map((r) => {
-      const ville = extractVilleFromLigneAcheminement(r.ligneacheminement);
-      const cp = extractCodePostalFromLigneAcheminement(r.ligneacheminement);
-      return {
-        nofinesset: r.nofinesset,
-        nom: r.rslongue || r.rs,
-        adresse: [r.numvoie, r.typvoie, r.voie, r.compvoie].filter(Boolean).join(" "),
-        ville,
-        codePostal: cp,
-        categorie: r.categetablib,
-        lat: r.lat || null,
-        lon: r.lon || null,
-      };
-    });
+    .filter((r) => !matchedFinessIds.has(r.id))
+    .map((r) => ({
+      nofinesset: r.id,
+      nom: r.name,
+      adresse: r.address,
+      ville: r.city,
+      codePostal: r.postalCode,
+      categorie: r.category,
+      lat: r.lat,
+      lon: r.lon,
+      updatedAt: r.updatedAt ?? "",
+      banAddress: r.banAddress ?? null,
+      dila: slim(r.dila),
+    }));
 
   // 5b. Soliguide non matchées
   const soliguideNonMatchees = soliguideRecords
-    .filter((s) => !matchedSoliguideIds.has(s.ficheId))
+    .filter((s) => !matchedSoliguideIds.has(s.id))
     .map((s) => ({
-      ficheId: s.ficheId,
-      nom: s.nom,
-      adresse: s.adresse,
-      ville: s.ville,
-      codePostal: s.codePostal,
-      lien: s.lien,
+      ficheId: s.id,
+      nom: s.name,
+      adresse: s.address,
+      ville: s.city,
+      codePostal: s.postalCode,
+      lien: s.url,
       lat: s.lat,
       lon: s.lon,
+      services: s.categories,
+      description: s.description,
+      phones: s.phones,
+      email: s.email,
+      updatedAt: s.updatedAt ?? "",
+      banAddress: s.banAddress ?? null,
     }));
 
   // 6. Build output
@@ -302,7 +339,7 @@ async function main() {
   writeFileSync(OUTPUT_PATH, JSON.stringify(output, null, 2));
 
   console.log("\n=== Résultats ===");
-  console.log(`FINESS : ${filtered.length} (${beforeFilter - filtered.length} pharmacies exclues)`);
+  console.log(`FINESS retenus : ${filtered.length} (${beforeFilter - filtered.length} hors whitelist)`);
   console.log(`Soliguide : ${soliguideRecords.length}`);
   console.log(`Certains (score ≥75%) : ${counts.certain}`);
   console.log(`Possibles (score 60–75%) : ${counts.possible}`);

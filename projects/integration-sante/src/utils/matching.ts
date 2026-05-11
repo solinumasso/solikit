@@ -5,23 +5,48 @@ import levenshtein from "fast-levenshtein";
  * Used to expand abbreviations before Levenshtein comparison.
  */
 const ACRONYMS: Record<string, string> = {
-  "pmi": "protection maternelle et infantile",
-  "cmpp": "centre medico psycho pedagogique",
-  "cmp": "centre medico psychologique",
-  "cada": "centre d accueil de demandeurs d asile",
-  "chrs": "centre d hebergement et de reinsertion sociale",
-  "ccas": "centre communal d action sociale",
-  "cias": "centre intercommunal d action sociale",
-  "lhss": "lits halte soins sante",
-  "mds": "maison de sante",
-  "ch": "centre hospitalier",
-  "chr": "centre hospitalier regional",
-  "chu": "centre hospitalier universitaire",
-  "ssiad": "service de soins infirmiers a domicile",
-  "csapa": "centre de soins d accompagnement et de prevention en addictologie",
-  "caarud": "centre d accueil et d accompagnement a la reduction des risques pour usagers de drogues",
-  "pass": "permanence d acces aux soins de sante",
-  "cpef": "centre de planification et d education familiale",
+  // ── Action sociale / accueil ──
+  pmi: "protection maternelle et infantile",
+  cpmi: "protection maternelle et infantile",
+  ccas: "centre communal d action sociale",
+  cias: "centre intercommunal d action sociale",
+  cada: "centre d accueil de demandeurs d asile",
+  chrs: "centre d hebergement et de reinsertion sociale",
+  pass: "permanence d acces aux soins de sante",
+  cpef: "centre de planification et d education familiale",
+
+  // ── Etablissements sanitaires ──
+  ch: "centre hospitalier",
+  chr: "centre hospitalier regional",
+  chu: "centre hospitalier universitaire",
+  hj: "hopital de jour",
+  hdj: "hopital de jour",
+  had: "hospitalisation a domicile",
+  ssr: "soins de suite et de readaptation",
+  usld: "unite de soins de longue duree",
+  lhss: "lits halte soins sante",
+  mds: "maison de sante",
+  msp: "maison de sante",
+  ssiad: "service de soins infirmiers a domicile",
+
+  // ── Sante mentale / addictologie ──
+  cmp: "centre medico psychologique",
+  cmpp: "centre medico psycho pedagogique",
+  csapa: "centre de soins d accompagnement et de prevention en addictologie",
+  caarud: "centre d accueil et d accompagnement a la reduction des risques pour usagers de drogues",
+
+  // ── Etablissements medico-sociaux (handicap / personnes agees) ──
+  ehpad: "etablissement d hebergement pour personnes agees dependantes",
+  ime: "institut medico educatif",
+  itep: "institut therapeutique educatif et pedagogique",
+  mas: "maison d accueil specialisee",
+  fam: "foyer d accueil medicalise",
+  esat: "etablissement et service d aide par le travail",
+  sessad: "service d education speciale et de soins a domicile",
+  samsah: "service d accompagnement medico social pour adultes handicapes",
+  savs: "service d accompagnement a la vie sociale",
+  camsp: "centre d action medico sociale precoce",
+  cms: "centre medico social",
 };
 
 /**
@@ -30,31 +55,119 @@ const ACRONYMS: Record<string, string> = {
 const SYNONYMS: [string, string][] = [
   ["centre hospitalier", "hopital"],
   ["hopital", "hopital"],
+  ["centre de sante medical", "centre medical"],
+  // Libellés FINESS très abrégés → forme normalisée alignée avec l'expansion de l'acronyme
+  // équivalent (ex: "C. ACC. ACCOMP. ..." correspond à CAARUD).
+  [
+    "c acc accomp a la reduct ds risq usagers de drogues",
+    "centre accueil accompagnement reduction risques pour usagers drogues",
+  ],
+  [
+    "ctre d acc et d accomp a la reduct des risq p usag de drogue",
+    "centre accueil accompagnement reduction risques pour usagers drogues",
+  ],
+  // Ancien libellé FINESS "Centre de Soins Spécialisés aux Toxicomanes" (CSST,
+  // renommé CSAPA en 2010) → forme post-pipeline du slug `csapa`.
+  [
+    "centre de soins specialises aux toxicomanes",
+    "centre soins accompagnement prevention addictologie",
+  ],
 ];
 
 /**
- * Expand known acronyms and normalize synonyms in a normalized string.
+ * Abréviations BAN/Géoplateforme des types de voie → forme longue.
+ * Utilisé uniquement pour les adresses (pas les noms d'établissement).
+ */
+const STREET_TYPES: Record<string, string> = {
+  all: "allee",
+  av: "avenue",
+  ave: "avenue",
+  bd: "boulevard",
+  bld: "boulevard",
+  bvd: "boulevard",
+  ch: "chemin",
+  chs: "chaussee",
+  crs: "cours",
+  ctre: "centre",
+  esp: "esplanade",
+  espl: "esplanade",
+  fbg: "faubourg",
+  fg: "faubourg",
+  imp: "impasse",
+  ld: "lieu dit",
+  pass: "passage",
+  pl: "place",
+  pro: "promenade",
+  prom: "promenade",
+  pte: "porte",
+  qu: "quai",
+  r: "rue",
+  res: "residence",
+  rpt: "rond point",
+  rte: "route",
+  sq: "square",
+  tra: "traverse",
+  vla: "villa",
+  zi: "zone industrielle",
+  zac: "zone amenagement concerte",
+  za: "zone artisanale",
+  lot: "lotissement",
+  dom: "domaine",
+  ham: "hameau",
+};
+
+/**
+ * Mots vides FR à retirer après expansion. Apostrophes & accents déjà gérés
+ * par `normalize()` (donc "d'" → "d", "à" → "a"). Comme la même pipeline est
+ * appliquée des deux côtés, le retrait reste neutre pour la comparaison.
+ */
+const STOP_WORDS = new Set([
+  "d", "l",
+  "de", "du", "des",
+  "le", "la", "les",
+  "a", "au", "aux",
+  "et",
+]);
+
+/**
+ * Normalise une chaîne pour la comparaison :
+ * 1. Si l'acronyme ET sa forme longue coexistent (ex. "LHSS Lits Halte Soins Santé"),
+ *    on retire l'acronyme — sinon l'expansion produirait un doublon.
+ * 2. Expansion des acronymes restants.
+ * 3. Synonymes multi-mots → forme canonique.
+ * 4. Retrait des mots vides ("d", "de", "le"…) qui pénalisent Levenshtein.
  */
 export function expandAcronyms(str: string): string {
-  // 1. Single-word acronyms
+  // 1. Dédup acronyme/expansion
+  for (const [acronym, expansion] of Object.entries(ACRONYMS)) {
+    if (str.includes(expansion)) {
+      str = str.replace(new RegExp(`\\b${acronym}\\b`, "g"), "");
+    }
+  }
+  // 2. Expansion des acronymes
   let result = str.replace(/\b[a-z]{2,6}\b/g, (word) => ACRONYMS[word] || word);
-  // 2. Multi-word synonyms → canonical form
+  // 3. Synonymes multi-mots
   for (const [from, to] of SYNONYMS) {
     result = result.replaceAll(from, to);
   }
-  return result;
+  // 4. Retrait des mots vides + compactage des espaces
+  return result
+    .split(/\s+/)
+    .filter((w) => w && !STOP_WORDS.has(w))
+    .join(" ");
 }
 
 /**
  * Normalize a string for comparison:
- * lowercase, remove accents, trim, collapse whitespace
+ * lowercase, remove accents, strip all non-alphanumeric chars (punctuation,
+ * quotes droites/courbes, guillemets\u2026), trim, collapse whitespace.
  */
 export function normalize(str: string): string {
   return str
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[-_'/,.()]/g, " ")
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -89,6 +202,24 @@ export function extractCodePostalFromLigneAcheminement(ligne: string): string {
 }
 
 /**
+ * Normalise une adresse pour comparaison.
+ * - normalize() : casse, accents, ponctuation
+ * - expansion des types de voie (BD → BOULEVARD, AV → AVENUE…)
+ * - retrait des mots vides (de, du, le, la…)
+ *
+ * Convention BAN/Géoplateforme. Réutilisable pour avoir une adresse "clean"
+ * dans n'importe quel contexte de comparaison.
+ */
+export function normalizeAddress(addr: string): string {
+  let result = normalize(addr);
+  result = result.replace(/\b[a-z]{1,4}\b/g, (word) => STREET_TYPES[word] || word);
+  return result
+    .split(/\s+/)
+    .filter((w) => w && !STOP_WORDS.has(w))
+    .join(" ");
+}
+
+/**
  * Build a full address string from FINESS fields
  */
 export function buildFinessAddress(record: {
@@ -97,7 +228,7 @@ export function buildFinessAddress(record: {
   voie: string;
   compvoie: string;
 }): string {
-  return normalize(
+  return normalizeAddress(
     [record.numvoie, record.typvoie, record.voie, record.compvoie]
       .filter(Boolean)
       .join(" ")
@@ -105,12 +236,14 @@ export function buildFinessAddress(record: {
 }
 
 /**
- * Extract address without city/postal from Soliguide address
+ * Extract address without city/postal from Soliguide address.
+ * Soliguide a parfois des doublons en queue (ex: "rue X, 92160 Antony, 92160 Antony").
+ * On retire TOUS les motifs `<CP 5 chiffres> <ville>` et pas seulement la
+ * dernière partie après virgule.
  */
 export function normalizeSoliguideAddress(adresse: string): string {
-  const parts = adresse.split(",");
-  const streetPart = parts.length > 1 ? parts.slice(0, -1).join(",") : adresse;
-  return normalize(streetPart);
+  const stripped = adresse.replace(/,?\s*\b\d{5}\s+[^,]+/g, "");
+  return normalizeAddress(stripped);
 }
 
 /**
@@ -122,6 +255,32 @@ export function similarity(a: string, b: string): number {
   const dist = levenshtein.get(a, b);
   const maxLen = Math.max(a.length, b.length);
   return maxLen === 0 ? 1 : 1 - dist / maxLen;
+}
+
+/**
+ * Similarité par conteneur de tokens : fraction des tokens du côté le plus
+ * court présents de l'autre côté. Tolère les mots additionnels d'un côté
+ * (ex. "Foyer de vie Cèdre" vs "Foyer de vie Cèdre Bethsaide").
+ *
+ * Garde-fou : au moins 2 tokens partagés (sinon "centre" seul ferait matcher
+ * n'importe quel nom contenant "centre").
+ */
+export function tokenContainment(a: string, b: string): number {
+  const tokensA = new Set(a.split(/\s+/).filter(Boolean));
+  const tokensB = new Set(b.split(/\s+/).filter(Boolean));
+  if (tokensA.size === 0 || tokensB.size === 0) return 0;
+  const shared = [...tokensA].filter((t) => tokensB.has(t)).length;
+  if (shared < 2) return 0;
+  return shared / Math.min(tokensA.size, tokensB.size);
+}
+
+/**
+ * Similarité de nom : on prend le max entre Levenshtein (caractères) et
+ * containment (tokens). Le premier capte les variantes orthographiques,
+ * le second tolère qu'un côté ait des infos en plus (Bethsaide, sigles…).
+ */
+export function nameSimilarity(a: string, b: string): number {
+  return Math.max(similarity(a, b), tokenContainment(a, b));
 }
 
 /**
@@ -197,14 +356,14 @@ export function computeScore(input: ComputeScoreInput): MatchScoring {
     finessLat, finessLon, soliguideLat, soliguideLon,
   } = input;
 
-  // 1. Name similarity (with acronym expansion)
+  // 1. Name similarity (Levenshtein + token containment)
   const normFName = expandAcronyms(normalize(finessName));
   const normSName = expandAcronyms(normalize(soliguideNom));
-  const nomLev = similarity(normFName, normSName);
+  const nomLev = nameSimilarity(normFName, normSName);
   const nomMatch = nomLev >= 0.9;
 
-  // 2. Address similarity
-  const adresseLev = similarity(finessAddress, soliguideAddress);
+  // 2. Address similarity (max Levenshtein / token containment, comme pour le nom)
+  const adresseLev = nameSimilarity(finessAddress, soliguideAddress);
   const adresseMatch = adresseLev >= 0.9;
 
   // 3. Geo distance

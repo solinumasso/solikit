@@ -4,7 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "download": "tsx src/01-download.ts",
+    "download:finess": "tsx src/01-download.ts",
+    "download:soliguide": "tsx ../../.claude/skills/soliguide-api/download.ts --country fr --categories health,health_access,health_coverage,find_healthcare,physical_health,general_practitioner,health_assessment,child_care,dental_care,optical_care,hearing_care,infirmary,vaccination,std_testing,chronic_diseases,nutrition,medical_accommodation,mental_health,psychological_support,psychiatry,support_groups,mental_health_education,therapeutic_activities,addictions,addiction_care,addiction_prevention_and_material,sexual_health,emergency_contraception,contraception,gynecology,sti_prevention_testing,hiv_prevention,sexual_health_vaccination,sexual_health_education,sexual_violence_support,affective_life,abortion,parenthood,pregnancy_care,parent_assistance,health_specialists,allergology,cardiology,dermatology,endocrinology,gastroenterology,kinesitherapy,otorhinolaryngology,speech_therapy,pedicure,pneumology,radiology,rheumatology,stomatology,urology,vet_care,osteopathy,phlebology,neurology,vascular_surgery --out data/raw/soliguide.json",
+    "finess:to-json": "tsx src/01c-finess-to-json.ts",
+    "geocode:soliguide": "tsx ../../.claude/skills/geocodage/geocode.ts --in data/raw/soliguide.json --addressField address --postcodeField postalCode --cityField city",
+    "geocode:finess": "tsx ../../.claude/skills/geocodage/geocode.ts --in data/raw/finess.json --addressField address --postcodeField postalCode --cityField ville",
+    "download:dila": "tsx ../../.claude/skills/dila/download.ts --out data/raw/dila.json",
+    "enrich:finess-dila": "tsx src/01d-enrich-finess-dila.ts",
     "match": "tsx src/02-match.ts",
     "dashboard": "npx -y serve . -p 5555"
   },

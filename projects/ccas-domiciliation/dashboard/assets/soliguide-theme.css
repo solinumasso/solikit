@@ -32,8 +32,11 @@
   --color-secondary-content: var(--main-color-secondary-content);
   --color-accent: var(--main-color-accent-bg);
   --color-accent-content: var(--main-color-accent-content);
-  --color-neutral: var(--main-color-neutral-neutral);
-  --color-neutral-content: var(--main-color-neutral-content);
+  /* ⚠️ override : l'export Figma a `--main-color-neutral-neutral: rgba(255,255,255,0.2)`
+     ce qui rend invisibles tous les éléments DaisyUI utilisant `--color-neutral`
+     (tooltips, btn-neutral, badge-neutral…). On force ici un neutre lisible. */
+  --color-neutral: var(--main-color-base-content);            /* gris très foncé */
+  --color-neutral-content: var(--main-color-base-100);        /* blanc */
 
   /* ─── États ─── */
   --color-info: var(--main-color-info-info);
@@ -74,4 +77,13 @@
 }
 [data-theme="soliguide"] a:not([class]):hover {
   color: var(--color-secondary);
+}
+
+/* ─── Tableaux : bordures internes très discrètes (5% de base-content) ─── */
+/* Override du défaut DaisyUI qui dessine des séparateurs trop sombres avec
+   --color-base-content à pleine opacité (#171717). On aligne sur la bordure
+   externe `border-base-content/5` du wrapper. */
+[data-theme="soliguide"] .table :where(th, td),
+[data-theme="soliguide"] .table :where(thead, tbody, tfoot) tr {
+  border-color: color-mix(in oklab, var(--color-base-content) 5%, transparent);
 }

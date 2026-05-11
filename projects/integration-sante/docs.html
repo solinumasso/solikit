@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="fr" data-theme="soliguide">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentation — Matching FINESS ↔ Soliguide</title>
+    <link rel="icon" href="assets/favicon.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="assets/variables.css" />
+    <link rel="stylesheet" href="assets/soliguide-theme.css" />
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+      /* Sommaire latéral sticky */
+      .docs-toc { position: sticky; top: 5rem; max-height: calc(100vh - 6rem); overflow-y: auto; }
+      .docs-toc a { padding: 0.25rem 0.75rem; border-left: 2px solid transparent; }
+      .docs-toc a:hover { border-left-color: var(--color-primary); background: var(--color-base-200); }
+      .docs-content h2 { font-size: 1.5rem; font-weight: 800; margin-top: 2.5rem; margin-bottom: 1rem; scroll-margin-top: 5rem; }
+      .docs-content h3 { font-size: 1.125rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+      .docs-content p { margin-bottom: 0.75rem; line-height: 1.6; }
+      .docs-content ul, .docs-content ol { margin-left: 1.5rem; margin-bottom: 1rem; line-height: 1.7; }
+      .docs-content ul { list-style: disc; }
+      .docs-content ol { list-style: decimal; }
+      .docs-content code { font-family: ui-monospace, monospace; font-size: 0.85em; background: var(--color-base-200); padding: 0.1rem 0.4rem; border-radius: 4px; }
+    </style>
+  </head>
+  <body class="bg-base-100 min-h-screen flex flex-col">
+    <header class="bg-white shadow-md border-b border-base-300 sticky top-0 z-50">
+      <div class="max-w-[1600px] mx-auto flex items-center justify-between px-4 h-16">
+        <div class="relative">
+          <button id="menu-btn" class="p-2 rounded-full hover:bg-base-200 transition-colors text-primary" aria-label="Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div id="menu-dropdown" class="hidden absolute left-0 top-full mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-xl py-2 z-[9999]">
+            <a href="./" class="block px-4 py-2 hover:bg-gray-100 text-sm">🔗 Matching</a>
+            <a href="./categories.html" class="block px-4 py-2 hover:bg-gray-100 text-sm">🗂️ Catégories FINESS</a>
+            <a href="./stats-departements.html" class="block px-4 py-2 hover:bg-gray-100 text-sm">📊 Stats départements</a>
+            <div class="border-t border-gray-100 mt-1 pt-1">
+              <a href="./docs.html" class="block px-4 py-2 hover:bg-gray-100 text-sm font-semibold text-primary">📖 Documentation</a>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <img src="assets/soliguide-inline.svg" alt="Soliguide" class="h-6" />
+          <span class="text-lg font-semibold text-primary opacity-60">|</span>
+          <span class="text-sm font-semibold tracking-tight text-primary hidden sm:inline">Documentation</span>
+        </div>
+        <div></div>
+      </div>
+    </header>
+
+    <main class="flex-1 max-w-[1400px] w-full mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-[14rem_1fr] gap-8">
+      <!-- TOC -->
+      <nav class="docs-toc hidden lg:block">
+        <p class="text-xs font-bold text-base-content/50 uppercase tracking-wider mb-2 px-3">Sommaire</p>
+        <ul class="flex flex-col gap-0.5 text-sm">
+          <li><a class="block text-base-content hover:text-primary" href="#overview">Vue d'ensemble</a></li>
+          <li><a class="block text-base-content hover:text-primary" href="#sources">Sources de données</a></li>
+          <li><a class="block text-base-content hover:text-primary" href="#categories">Catégories FINESS retenues</a></li>
+          <li><a class="block text-base-content hover:text-primary" href="#matching">Algorithme de matching</a></li>
+          <li><a class="block text-base-content hover:text-primary" href="#noms">Normalisation des noms</a></li>
+          <li><a class="block text-base-content hover:text-primary" href="#adresses">Normalisation des adresses</a></li>
+          <li><a class="block text-base-content hover:text-primary" href="#dila">Enrichissement DILA</a></li>
+          <li><a class="block text-base-content hover:text-primary" href="#onglets">Les onglets du dashboard</a></li>
+        </ul>
+      </nav>
+
+      <article class="docs-content max-w-3xl">
+        <h1 class="text-3xl font-extrabold text-primary-content mb-2">📖 Documentation</h1>
+        <p class="text-base-content/70">
+          Comment fonctionne le matching entre la base <strong>FINESS</strong> (établissements sanitaires et
+          médico-sociaux français) et l'API <strong>Soliguide</strong>. Toutes les règles, dictionnaires et
+          algorithmes utilisés pour produire les données affichées.
+        </p>
+
+        <!-- ── 1 ── -->
+        <h2 id="overview">🎯 Vue d'ensemble</h2>
+        <p>
+          L'objectif est de <strong>rapprocher chaque établissement FINESS d'une fiche Soliguide existante</strong>
+          quand c'est possible. Cela permet à Soliguide de tenir à jour son référentiel à partir de la source
+          d'autorité officielle, et de repérer les structures qui mériteraient une fiche mais n'en ont pas
+          encore.
+        </p>
+        <p>Le pipeline en 4 étapes :</p>
+        <ol>
+          <li><strong>Téléchargement</strong> du CSV FINESS (mise à jour quotidienne ATLASANTÉ) + des fiches santé Soliguide via l'API.</li>
+          <li><strong>Normalisation</strong> + géocodage des adresses via la Géoplateforme (BAN).</li>
+          <li><strong>Matching</strong> ville par ville selon un score composite (nom, adresse, GPS, code postal, téléphone).</li>
+          <li><strong>Enrichissement</strong> via DILA (Annuaire Service-Public) sur les structures à SIRET commun.</li>
+        </ol>
+
+        <!-- ── 2 ── -->
+        <h2 id="sources">📚 Sources de données</h2>
+        <ul>
+          <li><strong>FINESS</strong> (data.gouv.fr) — extract quotidien ATLASANTÉ, ~100 000 établissements.</li>
+          <li><strong>Soliguide API</strong> — fiches santé en France (~6 500), API officielle authentifiée (JWT).</li>
+          <li><strong>BAN / Géoplateforme</strong> (IGN) — géocodage et normalisation d'adresses, 40 appels/s.</li>
+          <li><strong>DILA</strong> (Annuaire Service-Public) — 94 000 structures administratives, jointure par SIRET.</li>
+        </ul>
+
+        <!-- ── 3 ── -->
+        <h2 id="categories">🗂️ Catégories FINESS retenues</h2>
+        <p>
+          Sur les ~100 000 établissements FINESS, on filtre pour garder uniquement les <strong>34 catégories</strong>
+          pertinentes pour un référentiel solidaire (santé, social, médico-social), ce qui réduit à ~42 000 fiches
+          comparables.
+        </p>
+        <details class="bg-base-200 rounded-box p-3 my-3">
+          <summary class="cursor-pointer text-sm font-semibold text-primary-content">Voir la liste complète</summary>
+          <ul class="mt-3 text-sm columns-1 md:columns-2 gap-4">
+            <li>Appartement de Coordination Thérapeutique (A.C.T.)</li>
+            <li>Autre Centre d'Accueil</li>
+            <li>Centre Médico-Psychologique (C.M.P.)</li>
+            <li>Centre d'Accueil Thérapeutique à temps partiel (C.A.T.T.P.)</li>
+            <li>Centre de Jour pour Personnes Agées</li>
+            <li>Centre de Santé</li>
+            <li>Centre de Vaccination</li>
+            <li>Centre de Vaccination BCG</li>
+            <li>Centre de santé sexuelle</li>
+            <li>Centre gratuit d'information de dépistage et de diagnostic</li>
+            <li>Centre soins accompagnement prévention addictologie (CSAPA)</li>
+            <li>Club Equipe de Prévention</li>
+            <li>Communautés professionnelles territoriales de santé (CPTS)</li>
+            <li>Ctre.Accueil/ Accomp.Réduc.Risq.Usag. Drogues (C.A.A.R.U.D.)</li>
+            <li>Equipe Mobile Médico-sociale Précarité (EMMSP)</li>
+            <li>Etablissement Consultation Protection Infantile</li>
+            <li>Etablissement Expérimental pour Personnes Agées</li>
+            <li>Etablissement d'hébergement pour personnes âgées dépendantes</li>
+            <li>Groupement de coopération sanitaire - Etablissement de santé</li>
+            <li>Groupement de coopération sanitaire de moyens</li>
+            <li>Groupement de coopération sanitaire de moyens - Exploitant</li>
+            <li>Lits Halte Soins Santé (L.H.S.S.)</li>
+            <li>Lits d'Accueil Médicalisés (L.A.M.)</li>
+            <li>Maison de Santé pour Maladies Mentales</li>
+            <li>Maison de santé (L.6223-3)</li>
+            <li>Maisons Relais - Pensions de Famille</li>
+            <li>Protection Maternelle et Infantile (P.M.I.)</li>
+            <li>Résidences autonomie</li>
+            <li>Service autonomie aide (SAA)</li>
+            <li>Service autonomie aide et soins (SAAS)</li>
+            <li>Service d'Accompagnement à la Vie Sociale (S.A.V.S.)</li>
+            <li>Service d'accompagnement médico-social adultes handicapés</li>
+            <li>Service de Soins Infirmiers A Domicile (S.S.I.A.D)</li>
+            <li>Service d'aide et d'accompagnement à domicile aux familles (SAADF)</li>
+          </ul>
+        </details>
+
+        <!-- ── 4 ── -->
+        <h2 id="matching">⚙️ Algorithme de matching</h2>
+        <p>
+          Pour chaque FINESS retenu, on cherche le <strong>meilleur candidat Soliguide</strong> dans la même ville.
+          Un score composite est calculé entre 0 et 1, à partir de 5 signaux :
+        </p>
+        <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 my-3">
+          <table class="table table-sm">
+            <thead>
+              <tr><th>Signal</th><th>Poids (avec GPS)</th><th>Poids (sans GPS)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Similarité du nom</td><td>30 %</td><td>35 %</td></tr>
+              <tr><td>Similarité d'adresse</td><td>25 %</td><td>35 %</td></tr>
+              <tr><td>Distance GPS (≤200 m)</td><td>25 %</td><td>—</td></tr>
+              <tr><td>Code postal identique</td><td>10 %</td><td>15 %</td></tr>
+              <tr><td>Bonus téléphone identique</td><td>+10 %</td><td>+15 %</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Confiance attribuée</h3>
+        <ul>
+          <li><strong>Certain</strong> — score ≥ 75 %</li>
+          <li><strong>Possible</strong> — score 60 à 75 %</li>
+          <li><strong>Non matché</strong> — score &lt; 60 %, ou si nomLev &lt; 70 % ET adresseLev &lt; 70 % sans téléphone</li>
+        </ul>
+        <p>
+          La similarité du nom et de l'adresse utilise <strong>le max entre Levenshtein</strong> (par caractères)
+          <strong>et un containment par tokens</strong> (fraction de tokens partagés). Le containment tolère
+          les info supplémentaires d'un côté.
+        </p>
+
+        <!-- ── 5 ── -->
+        <h2 id="noms">🏷️ Normalisation des noms</h2>
+        <p>Avant comparaison, chaque nom passe par une pipeline :</p>
+        <ol>
+          <li><strong>Minuscules</strong>, suppression des accents, des ponctuations et guillemets</li>
+          <li><strong>Dédoublonnage acronyme/expansion</strong> : si "LHSS Lits Halte Soins Santé" est là, on garde une seule des deux</li>
+          <li><strong>Expansion d'acronymes</strong> (~40 connus, voir ci-dessous)</li>
+          <li><strong>Synonymes multi-mots</strong> (ex: "centre hospitalier" → "hopital")</li>
+          <li><strong>Retrait des mots vides</strong> : <code>d</code>, <code>l</code>, <code>de</code>, <code>du</code>, <code>des</code>, <code>le</code>, <code>la</code>, <code>les</code>, <code>a</code>, <code>au</code>, <code>aux</code>, <code>et</code></li>
+        </ol>
+
+        <h3>Acronymes reconnus</h3>
+        <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 my-2">
+          <table class="table table-sm">
+            <thead>
+              <tr><th>Sigle</th><th>Forme longue</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>PMI / CPMI</td><td>Protection Maternelle et Infantile</td></tr>
+              <tr><td>CCAS / CIAS</td><td>Centre Communal / Intercommunal d'Action Sociale</td></tr>
+              <tr><td>CADA</td><td>Centre d'Accueil de Demandeurs d'Asile</td></tr>
+              <tr><td>CHRS</td><td>Centre d'Hébergement et de Réinsertion Sociale</td></tr>
+              <tr><td>PASS</td><td>Permanence d'Accès aux Soins de Santé</td></tr>
+              <tr><td>CPEF</td><td>Centre de Planification et d'Éducation Familiale</td></tr>
+              <tr><td>CH / CHR / CHU</td><td>Centre Hospitalier (régional / universitaire)</td></tr>
+              <tr><td>HJ / HDJ</td><td>Hôpital de Jour</td></tr>
+              <tr><td>HAD</td><td>Hospitalisation à Domicile</td></tr>
+              <tr><td>SSR</td><td>Soins de Suite et de Réadaptation</td></tr>
+              <tr><td>USLD</td><td>Unité de Soins de Longue Durée</td></tr>
+              <tr><td>LHSS</td><td>Lits Halte Soins Santé</td></tr>
+              <tr><td>MDS / MSP</td><td>Maison de Santé</td></tr>
+              <tr><td>SSIAD</td><td>Service de Soins Infirmiers à Domicile</td></tr>
+              <tr><td>CMP / CMPP</td><td>Centre Médico-Psychologique (Pédagogique)</td></tr>
+              <tr><td>CSAPA</td><td>Centre de Soins Accompagnement Prévention Addictologie</td></tr>
+              <tr><td>CAARUD</td><td>Centre d'Accueil et d'Accompagnement à la Réduction des Risques pour Usagers de Drogues</td></tr>
+              <tr><td>EHPAD</td><td>Établissement d'Hébergement pour Personnes Âgées Dépendantes</td></tr>
+              <tr><td>IME / ITEP</td><td>Institut Médico-Éducatif / Thérapeutique Éducatif et Pédagogique</td></tr>
+              <tr><td>MAS / FAM</td><td>Maison d'Accueil Spécialisée / Foyer d'Accueil Médicalisé</td></tr>
+              <tr><td>ESAT</td><td>Établissement et Service d'Aide par le Travail</td></tr>
+              <tr><td>SESSAD / SAMSAH / SAVS</td><td>Services d'Accompagnement Médico-Social ou à la Vie Sociale</td></tr>
+              <tr><td>CAMSP / CMS</td><td>Centre d'Action Médico-Sociale Précoce / Centre Médico-Social</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Variantes FINESS spécifiques</h3>
+        <p>Certains libellés FINESS très abrégés sont mappés explicitement vers leur forme normalisée :</p>
+        <ul>
+          <li><code>C. ACC. ACCOMP. A LA REDUCT. DS RISQ. / USAGERS DE DROGUES</code> → CAARUD</li>
+          <li><code>CTRE D'ACC ET D'ACCOMP A LA REDUCT DES RISQ P USAG DE DROGUE</code> → CAARUD</li>
+          <li><code>CENTRE DE SOINS SPECIALISES AUX TOXICOMANES</code> (ancien CSST) → CSAPA</li>
+          <li><code>CENTRE DE SANTE MEDICAL</code> → Centre Médical</li>
+        </ul>
+
+        <!-- ── 6 ── -->
+        <h2 id="adresses">📍 Normalisation des adresses</h2>
+        <p>Les adresses passent par :</p>
+        <ol>
+          <li><strong>Géocodage Géoplateforme</strong> (BAN) : transforme une adresse brute en label normalisé + INSEE + GPS précis</li>
+          <li><strong>Expansion des types de voie</strong> abrégés (~30 mappings, conventions BAN)</li>
+          <li><strong>Retrait des mots vides</strong></li>
+        </ol>
+        <h3>Types de voie reconnus</h3>
+        <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 my-2">
+          <table class="table table-sm">
+            <thead><tr><th>Abréviation</th><th>Forme longue</th></tr></thead>
+            <tbody>
+              <tr><td>BD / BLD / BVD</td><td>boulevard</td></tr>
+              <tr><td>AV / AVE</td><td>avenue</td></tr>
+              <tr><td>R</td><td>rue</td></tr>
+              <tr><td>PL</td><td>place</td></tr>
+              <tr><td>IMP</td><td>impasse</td></tr>
+              <tr><td>RTE</td><td>route</td></tr>
+              <tr><td>SQ</td><td>square</td></tr>
+              <tr><td>CH / CHS</td><td>chemin / chaussée</td></tr>
+              <tr><td>ALL</td><td>allée</td></tr>
+              <tr><td>PTE</td><td>porte</td></tr>
+              <tr><td>QU</td><td>quai</td></tr>
+              <tr><td>RPT</td><td>rond-point</td></tr>
+              <tr><td>CRS</td><td>cours</td></tr>
+              <tr><td>FBG / FG</td><td>faubourg</td></tr>
+              <tr><td>LD</td><td>lieu-dit</td></tr>
+              <tr><td>PASS</td><td>passage</td></tr>
+              <tr><td>PROM / PRO</td><td>promenade</td></tr>
+              <tr><td>RES</td><td>résidence</td></tr>
+              <tr><td>ESP / ESPL</td><td>esplanade</td></tr>
+              <tr><td>VLA</td><td>villa</td></tr>
+              <tr><td>ZAC / ZI / ZA</td><td>zone aménagement / industrielle / artisanale</td></tr>
+              <tr><td>LOT / DOM / HAM</td><td>lotissement / domaine / hameau</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          La comparaison utilise <code>banAddress.housenumber + banAddress.street</code> quand le géocodage est
+          dispo (sinon l'adresse brute normalisée). Le code postal et la ville sont gérés séparément pour ne pas
+          fausser le Levenshtein.
+        </p>
+
+        <!-- ── 7 ── -->
+        <h2 id="dila">🇫🇷 Enrichissement DILA</h2>
+        <p>
+          Pour chaque FINESS avec un SIRET, on tente une <strong>jointure exacte sur le SIRET</strong> avec
+          l'Annuaire Service-Public (DILA). Quand ça matche, on récupère :
+        </p>
+        <ul>
+          <li>🌐 <strong>Site(s) web</strong></li>
+          <li>✉️ <strong>Email</strong></li>
+          <li>📞 <strong>Téléphone(s)</strong> au format E.164 (<code>+33...</code>)</li>
+          <li>🕒 <strong>Horaires structurés</strong> (objet jour-par-jour) — uniquement pour les fiches saisies en direct par l'administration, pas pour les fiches reprises de data·inclusion</li>
+          <li>🔗 <strong>URL canonique</strong> sur lannuaire.service-public.gouv.fr</li>
+          <li>🏷️ <strong>Provenance</strong> (<code>partenaire</code>) : data·inclusion, Ma Boussole Aidants, ministère de la Justice…</li>
+        </ul>
+        <p>L'onglet 📋 DILA du dashboard montre toutes les fiches enrichies. Un badge 📋 apparaît à côté du nom dans les autres onglets.</p>
+
+        <!-- ── 8 ── -->
+        <h2 id="onglets">🎛️ Les onglets du dashboard</h2>
+        <ul>
+          <li><strong>🔗 Matchs</strong> — toutes les correspondances trouvées (certains + possibles), triées par score</li>
+          <li><strong>🔄 À mettre à jour</strong> — sous-ensemble des matchs <em>certains</em> où la fiche FINESS a une date de mise à jour plus récente que celle de Soliguide : potentiels candidats à la propagation</li>
+          <li><strong>📋 DILA</strong> — les matchs enrichis via SIRET avec données DILA. Filtre par fournisseur disponible</li>
+          <li><strong>🏥 FINESS non matchées</strong> — fiches FINESS sans correspondance Soliguide. Cliquer "+" affiche un appel API live pour les 5 Soliguide les plus proches géographiquement</li>
+          <li><strong>📍 Soliguide non matchées</strong> — fiches Soliguide sans correspondance FINESS (peut-être un FINESS qui n'a pas été retenu par la whitelist, ou une fiche associative pure)</li>
+        </ul>
+        <p>
+          Le filtre par département en haut applique à tous les onglets. Le filtre confiance n'agit que sur l'onglet Matchs.
+        </p>
+
+        <p class="text-xs text-base-content/50 mt-12">
+          📌 Source du code : <code>projects/integration-sante/src/</code> dans le repo. La règle exacte est
+          toujours dans <code>matching.ts</code>.
+        </p>
+      </article>
+    </main>
+
+    <footer class="bg-primary text-white mt-auto">
+      <div class="max-w-[1600px] mx-auto flex items-center justify-between px-6 py-5">
+        <div class="flex items-center gap-4">
+          <img src="assets/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
+          <div>
+            <p class="font-semibold text-sm">Matching FINESS ↔ Soliguide</p>
+            <p class="text-xs opacity-60">Données : FINESS (data.gouv.fr) × Soliguide API × BAN × DILA</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const menuBtn = document.getElementById('menu-btn');
+      const dropdown = document.getElementById('menu-dropdown');
+      menuBtn.addEventListener('click', (e) => { e.stopPropagation(); dropdown.classList.toggle('hidden'); });
+      document.addEventListener('click', () => dropdown.classList.add('hidden'));
+    </script>
+  </body>
+</html>

@@ -1,184 +1,194 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr" data-theme="soliguide">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Skills — Documentation — Soliguide Tools</title>
-  <link rel="icon" href="assets/images/icons/favicon.ico" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skills — Documentation — Soliguide Tools</title>
+    <link rel="icon" href="assets/images/icons/favicon.ico" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
 
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-  <link rel="stylesheet" href="assets/variables.css" />
-  <link rel="stylesheet" href="assets/soliguide-theme.css" />
+    <link rel="stylesheet" href="assets/variables.css" />
+    <link rel="stylesheet" href="assets/soliguide-theme.css" />
 
-  <style>
-    code.inline {
-      background: var(--color-base-200, #f5f5f5);
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-family: monospace;
-    }
-    pre.code-block {
-      background: #1e1e2e;
-      color: #cdd6f4;
-      padding: 1rem 1.25rem;
-      border-radius: 0.75rem;
-      font-size: 0.8rem;
-      line-height: 1.6;
-      overflow-x: auto;
-      font-family: monospace;
-    }
-    pre.code-block .comment { color: #6c7086; }
-    pre.code-block .cmd { color: #a6e3a1; }
-  </style>
-</head>
-<body class="bg-base-100 min-h-screen flex flex-col">
-
-  <!-- NAVBAR -->
-  <header class="bg-white shadow-md border-b border-base-300">
-    <div class="max-w-5xl mx-auto flex items-center justify-between px-4 h-16">
-      <a href="docs.html" class="text-sm text-accent-content hover:text-primary font-semibold">← Documentation</a>
-      <div class="flex items-center gap-3">
-        <img src="assets/images/themes/soliguide-inline.svg" alt="Soliguide" class="h-6" />
-        <span class="font-bold opacity-20 text-lg hidden sm:inline text-primary">|</span>
-        <span class="text-sm font-semibold tracking-tight hidden sm:inline text-primary">Skills</span>
+    <style>
+      code.inline {
+        background: var(--color-base-200, #f5f5f5);
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-family: monospace;
+      }
+      pre.code-block {
+        background: #1e1e2e;
+        color: #cdd6f4;
+        padding: 1rem 1.25rem;
+        border-radius: 0.75rem;
+        font-size: 0.8rem;
+        line-height: 1.6;
+        overflow-x: auto;
+        font-family: monospace;
+      }
+      pre.code-block .comment {
+        color: #6c7086;
+      }
+      pre.code-block .cmd {
+        color: #a6e3a1;
+      }
+    </style>
+  </head>
+  <body class="bg-base-100 min-h-screen flex flex-col">
+    <!-- NAVBAR -->
+    <header class="bg-white shadow-md border-b border-base-300">
+      <div class="max-w-5xl mx-auto flex items-center justify-between px-4 h-16">
+        <a href="docs.html" class="text-sm text-accent-content hover:text-primary font-semibold">← Documentation</a>
+        <div class="flex items-center gap-3">
+          <img src="assets/images/themes/soliguide-inline.svg" alt="Soliguide" class="h-6" />
+          <span class="font-bold opacity-20 text-lg hidden sm:inline text-primary">|</span>
+          <span class="text-sm font-semibold tracking-tight hidden sm:inline text-primary">Skills</span>
+        </div>
+        <div class="w-24"></div>
       </div>
-      <div class="w-24"></div>
-    </div>
-  </header>
+    </header>
 
-  <!-- HERO -->
-  <section class="text-white py-10" style="background: linear-gradient(rgba(39,19,50,0.95), rgba(39,19,50,0.95)), url('assets/images/background.png') center/cover no-repeat;">
-    <div class="max-w-5xl mx-auto px-6">
-      <div class="flex items-center gap-4">
-        <span class="text-4xl">🤖</span>
+    <!-- HERO -->
+    <section
+      class="text-white py-10"
+      style="
+        background:
+          linear-gradient(rgba(39, 19, 50, 0.95), rgba(39, 19, 50, 0.95)),
+          url(&quot;assets/images/background.png&quot;) center/cover no-repeat;
+      "
+    >
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="flex items-center gap-4">
+          <span class="text-4xl">🤖</span>
+          <div>
+            <h1 class="text-2xl font-black" style="font-family: Nunito, sans-serif">Comprendre les skills</h1>
+            <p class="text-sm opacity-70 mt-1">Les commandes slash disponibles dans Claude Code pour accélérer le travail.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="max-w-5xl mx-auto px-6 py-10 flex-1 space-y-10">
+      <!-- Intro -->
+      <div class="bg-white rounded-xl border border-base-300 p-6 text-sm leading-relaxed text-base-content/80 space-y-3">
+        <p>
+          Les skills sont des <strong>commandes slash</strong> utilisables dans Claude Code. Chaque skill est un fichier <code class="inline">.claude/skills/&lt;nom&gt;/SKILL.md</code> qui guide
+          l'assistant dans une tâche précise.
+        </p>
+        <p>Tu tapes la commande, Claude pose les bonnes questions, puis construit tout automatiquement en respectant les conventions du projet.</p>
+      </div>
+
+      <!-- Tableau des skills -->
+      <div>
+        <h2 class="text-lg font-bold text-primary-content mb-4" style="font-family: Nunito, sans-serif">Toutes les skills</h2>
         <div>
-          <h1 class="text-2xl font-black" style="font-family: Nunito, sans-serif;">Comprendre les skills</h1>
-          <p class="text-sm opacity-70 mt-1">Les commandes slash disponibles dans Claude Code pour accélérer le travail.</p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Commande</th>
+                <th>Quand l'utiliser</th>
+                <th>Ce que ça fait</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/pitch</td>
+                <td>Tu arrives et tu as une idée</td>
+                <td>Pose 3 questions, puis construit tout le projet automatiquement</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/new-project</td>
+                <td>Tu veux créer un nouveau projet</td>
+                <td>Questions guidées → structure complète → pipeline → dashboard</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/new-dashboard</td>
+                <td>Tu as déjà des données JSON</td>
+                <td>Crée ou refait le dashboard d'un projet existant</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/process-data</td>
+                <td>Tu veux traiter des données</td>
+                <td>Crée un pipeline : téléchargement → transformation → export JSON</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/csv-data-summarizer</td>
+                <td>Tu as un CSV à explorer</td>
+                <td>Analyse automatique : stats, types, distribution, aperçu</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/frontend-design</td>
+                <td>Tu veux un beau rendu</td>
+                <td>Conseils de design frontend pour éviter l'esthétique "IA générique"</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/writing-plans</td>
+                <td>Tu veux planifier avant de coder</td>
+                <td>Plan d'implémentation structuré, étape par étape</td>
+              </tr>
+              <tr>
+                <td class="font-mono text-accent-content font-semibold">/skill-creator</td>
+                <td>Tu veux créer une nouvelle skill</td>
+                <td>Crée ou modifie un fichier SKILL.md</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-    </div>
-  </section>
 
-  <main class="max-w-5xl mx-auto px-6 py-10 flex-1 space-y-10">
-
-    <!-- Intro -->
-    <div class="bg-white rounded-xl border border-base-300 p-6 text-sm leading-relaxed text-base-content/80 space-y-3">
-      <p>Les skills sont des <strong>commandes slash</strong> utilisables dans Claude Code. Chaque skill est un fichier <code class="inline">.claude/skills/&lt;nom&gt;/SKILL.md</code> qui guide l'assistant dans une tâche précise.</p>
-      <p>Tu tapes la commande, Claude pose les bonnes questions, puis construit tout automatiquement en respectant les conventions du projet.</p>
-    </div>
-
-    <!-- Tableau des skills -->
-    <div>
-      <h2 class="text-lg font-bold text-primary-content mb-4" style="font-family: Nunito, sans-serif;">Toutes les skills</h2>
-      <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Commande</th>
-              <th>Quand l'utiliser</th>
-              <th>Ce que ça fait</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="font-mono text-accent-content font-semibold">/pitch</td>
-              <td>Tu arrives et tu as une idée</td>
-              <td>Pose 3 questions, puis construit tout le projet automatiquement</td>
-            </tr>
-            <tr>
-              <td class="font-mono text-accent-content font-semibold">/new-project</td>
-              <td>Tu veux créer un nouveau projet</td>
-              <td>Questions guidées → structure complète → pipeline → dashboard</td>
-            </tr>
-            <tr>
-              <td class="font-mono text-accent-content font-semibold">/new-dashboard</td>
-              <td>Tu as déjà des données JSON</td>
-              <td>Crée ou refait le dashboard d'un projet existant</td>
-            </tr>
-            <tr>
-              <td class="font-mono text-accent-content font-semibold">/process-data</td>
-              <td>Tu veux traiter des données</td>
-              <td>Crée un pipeline : téléchargement → transformation → export JSON</td>
-            </tr>
-            <tr>
-              <td class="font-mono text-accent-content font-semibold">/csv-data-summarizer</td>
-              <td>Tu as un CSV à explorer</td>
-              <td>Analyse automatique : stats, types, distribution, aperçu</td>
-            </tr>
-            <tr>
-              <td class="font-mono text-accent-content font-semibold">/frontend-design</td>
-              <td>Tu veux un beau rendu</td>
-              <td>Conseils de design frontend pour éviter l'esthétique "IA générique"</td>
-            </tr>
-            <tr>
-              <td class="font-mono text-accent-content font-semibold">/writing-plans</td>
-              <td>Tu veux planifier avant de coder</td>
-              <td>Plan d'implémentation structuré, étape par étape</td>
-            </tr>
-            <tr>
-              <td class="font-mono text-accent-content font-semibold">/skill-creator</td>
-              <td>Tu veux créer une nouvelle skill</td>
-              <td>Crée ou modifie un fichier SKILL.md</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Comment ça marche -->
-    <div>
-      <h2 class="text-lg font-bold text-primary-content mb-4" style="font-family: Nunito, sans-serif;">Comment ça marche</h2>
-      <div class="bg-white rounded-xl border border-base-300 p-6">
-        <div class="space-y-3 text-sm text-base-content/70">
-          <p>Les skills sont stockées dans <code class="inline">.claude/skills/</code>. Chaque dossier contient un <code class="inline">SKILL.md</code> qui décrit :</p>
-          <ul class="list-disc list-inside space-y-1 ml-2">
-            <li>Les <strong>questions</strong> à poser à l'utilisateur</li>
-            <li>Les <strong>templates</strong> de code à générer</li>
-            <li>Les <strong>conventions</strong> à respecter (thème, structure, etc.)</li>
-            <li>Les <strong>vérifications</strong> à faire avant de livrer</li>
-          </ul>
-          <p>Pour utiliser une skill, tape simplement la commande slash dans Claude Code :</p>
-          <pre class="code-block"><span class="comment"># Dans Claude Code</span>
+      <!-- Comment ça marche -->
+      <div>
+        <h2 class="text-lg font-bold text-primary-content mb-4" style="font-family: Nunito, sans-serif">Comment ça marche</h2>
+        <div class="bg-white rounded-xl border border-base-300 p-6">
+          <div class="space-y-3 text-sm text-base-content/70">
+            <p>Les skills sont stockées dans <code class="inline">.claude/skills/</code>. Chaque dossier contient un <code class="inline">SKILL.md</code> qui décrit :</p>
+            <ul class="list-disc list-inside space-y-1 ml-2">
+              <li>Les <strong>questions</strong> à poser à l'utilisateur</li>
+              <li>Les <strong>templates</strong> de code à générer</li>
+              <li>Les <strong>conventions</strong> à respecter (thème, structure, etc.)</li>
+              <li>Les <strong>vérifications</strong> à faire avant de livrer</li>
+            </ul>
+            <p>Pour utiliser une skill, tape simplement la commande slash dans Claude Code :</p>
+            <pre class="code-block"><span class="comment"># Dans Claude Code</span>
 <span class="cmd">/pitch</span> Je veux analyser les bibliothèques de France et leur couverture Soliguide</pre>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Créer sa propre skill -->
-    <div>
-      <h2 class="text-lg font-bold text-primary-content mb-4" style="font-family: Nunito, sans-serif;">Créer sa propre skill</h2>
-      <div class="bg-white rounded-xl border border-base-300 p-6 text-sm text-base-content/70 space-y-3">
-        <p>Tu peux créer de nouvelles skills pour automatiser des tâches récurrentes. Utilise la commande <code class="inline">/skill-creator</code> ou crée manuellement un fichier :</p>
-        <pre class="code-block"><span class="comment"># Structure d'une skill</span>
+      <!-- Créer sa propre skill -->
+      <div>
+        <h2 class="text-lg font-bold text-primary-content mb-4" style="font-family: Nunito, sans-serif">Créer sa propre skill</h2>
+        <div class="bg-white rounded-xl border border-base-300 p-6 text-sm text-base-content/70 space-y-3">
+          <p>Tu peux créer de nouvelles skills pour automatiser des tâches récurrentes. Utilise la commande <code class="inline">/skill-creator</code> ou crée manuellement un fichier :</p>
+          <pre class="code-block"><span class="comment"># Structure d'une skill</span>
 .claude/skills/
 └── ma-skill/
     └── SKILL.md       <span class="comment"># Instructions pour Claude</span></pre>
-        <p>Le fichier <code class="inline">SKILL.md</code> contient les instructions en langage naturel que Claude suivra quand la commande sera invoquée.</p>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="bg-primary text-white mt-auto">
-    <div class="max-w-5xl mx-auto flex items-center justify-between px-6 py-5">
-      <div class="flex items-center gap-4">
-        <img src="assets/images/themes/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
-        <div>
-          <p class="font-semibold text-sm">Soliguide Tools</p>
-          <p class="text-xs opacity-60">Documentation interne</p>
+          <p>Le fichier <code class="inline">SKILL.md</code> contient les instructions en langage naturel que Claude suivra quand la commande sera invoquée.</p>
         </div>
       </div>
-      <a href="docs.html" class="text-xs opacity-60 hover:opacity-100 underline">← Documentation</a>
-    </div>
-  </footer>
+    </main>
 
-</body>
+    <!-- FOOTER -->
+    <footer class="bg-primary text-white mt-auto">
+      <div class="max-w-5xl mx-auto flex items-center justify-between px-6 py-5">
+        <div class="flex items-center gap-4">
+          <img src="assets/images/themes/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
+          <div>
+            <p class="font-semibold text-sm">Soliguide Tools</p>
+            <p class="text-xs opacity-60">Documentation interne</p>
+          </div>
+        </div>
+        <a href="docs.html" class="text-xs opacity-60 hover:opacity-100 underline">← Documentation</a>
+      </div>
+    </footer>
+  </body>
 </html>

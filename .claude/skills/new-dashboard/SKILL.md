@@ -44,6 +44,7 @@ Proposer les options en fonction des données disponibles :
 ### 3. Filtres et interactions
 
 > "Faut-il des filtres ? Par exemple :"
+>
 > - Par zone géographique (département, ville)
 > - Par catégorie ou type
 > - Par date ou période
@@ -71,6 +72,7 @@ projects/<nom>/dashboard/
 ### index.html — Template obligatoire
 
 Partir du template défini dans CLAUDE.md. Points clés :
+
 - `data-theme="soliguide"` sur `<html>`
 - `body` avec `class="min-h-screen bg-base-100 flex flex-col"` (flex column pour coller le footer en bas)
 - CDN officiel DaisyUI 5 : `<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />` + `<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>`
@@ -131,6 +133,7 @@ Navbar fond blanc avec logo Soliguide en couleurs naturelles, texte primary. Le 
 ```
 
 Le chemin vers l'index dépend de la profondeur du dashboard :
+
 - Dashboard dans `projects/<nom>/dashboard/` → `../../../`
 - Dashboard dans `projects/<nom>/` (sans sous-dossier) → `../../`
 
@@ -147,9 +150,7 @@ Footer fond primary avec symbole Soliguide, crédits données, et **lien retour 
       <img src="assets/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
       <div>
         <p class="font-semibold text-sm">Soliguide Tools</p>
-        <p class="text-xs opacity-60">
-          Données : <a href="URL_SOURCE" class="underline hover:opacity-100" target="_blank">Source — data.gouv.fr</a>
-        </p>
+        <p class="text-xs opacity-60">Données : <a href="URL_SOURCE" class="underline hover:opacity-100" target="_blank">Source — data.gouv.fr</a></p>
       </div>
     </div>
     <a href="CHEMIN_VERS_INDEX" class="text-xs opacity-60 hover:opacity-100 underline">← Retour à l'accueil</a>
@@ -174,6 +175,7 @@ Les onglets sont stylés en CSS custom (pas de composant DaisyUI) et gérés en 
 ### Tableaux — Triables et recherchables (OBLIGATOIRE)
 
 Chaque tableau DOIT être :
+
 1. **Triable** par clic sur les en-têtes de colonnes (tri ascendant/descendant)
 2. **Recherchable** via un champ de recherche au-dessus du tableau
 
@@ -194,9 +196,7 @@ Champ de recherche (style DaisyUI search input) :
 En-têtes de colonnes triables :
 
 ```html
-<th class="cursor-pointer select-none hover:bg-base-300/50" data-sort="nomColonne">
-  Nom de colonne <span class="sort-indicator">↕</span>
-</th>
+<th class="cursor-pointer select-none hover:bg-base-300/50" data-sort="nomColonne">Nom de colonne <span class="sort-indicator">↕</span></th>
 ```
 
 Logique JS de tri :
@@ -241,7 +241,7 @@ async function loadData() {
       const resp = await fetch(url);
       if (!resp.ok) throw new Error(`Fetch ${url} → ${resp.status}`);
       return resp.json();
-    })
+    }),
   );
   console.log("[data] Données chargées:", results.map((r, i) => `${urls[i]} OK`).join(", "));
   return results;
@@ -270,6 +270,7 @@ init();
 **Vérifier la dispo des libs avant usage** — toujours tester `typeof L !== "undefined"` avant d'utiliser Leaflet, `typeof Chart !== "undefined"` avant Chart.js, etc.
 
 Règles :
+
 - **Vanilla JS uniquement** — pas de React, Vue, Svelte, jQuery
 - Charger les données avec `fetch()` depuis `../data/output/`
 - **Toujours** vérifier `resp.ok` sur les fetch
@@ -282,6 +283,7 @@ Règles :
 ### Cartes Leaflet
 
 Si le dashboard inclut une carte :
+
 - Tuiles CartoDB Positron (fond clair et épuré) : `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png`
 - Design minimal : pas de zoom control sauf si nécessaire
 - Marqueurs aux couleurs Soliguide (primary `#f84b32` ou secondary `#503b5c`)
@@ -308,8 +310,12 @@ Si le dashboard inclut une carte :
   max-width: none !important;
   max-height: none !important;
 }
-.leaflet-container { z-index: 0; }
-.leaflet-popup-close-button { border: none !important; }
+.leaflet-container {
+  z-index: 0;
+}
+.leaflet-popup-close-button {
+  border: none !important;
+}
 ```
 
 **Vérification dans app.js** — toujours tester avant d'initialiser la carte :
@@ -336,7 +342,7 @@ Toujours utiliser les classes DaisyUI ou `var(--color-xxx)` plutôt que des hex 
 Toujours utiliser la structure DaisyUI `.table` avec le wrapper standard :
 
 ```html
-<div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+<div>
   <table class="table">
     <thead>
       <tr>
