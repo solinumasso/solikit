@@ -1,0 +1,23 @@
+---
+// Language-detection redirect. The real pages live under /[lang]/.
+---
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Regularízate.es</title>
+  <noscript><meta http-equiv="refresh" content="0;url=/es/" /></noscript>
+</head>
+<body>
+  <script is:inline>
+    (function () {
+      var supported = ['es', 'ca', 'fr', 'en', 'ar', 'pt', 'wo', 'bm'];
+      var saved = localStorage.getItem('regularizate_lang');
+      var browserLang = (navigator.language || 'es').slice(0, 2).toLowerCase();
+      var lang = (saved && supported.includes(saved)) ? saved
+               : (supported.includes(browserLang) ? browserLang : 'es');
+      window.location.replace('/' + lang + '/');
+    })();
+  </script>
+</body>
+</html>

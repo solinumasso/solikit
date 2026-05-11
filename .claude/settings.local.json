@@ -62,7 +62,16 @@
       "Bash(clever link *)",
       "Bash(clever restart *)",
       "Bash(clever deploy *)",
-      "Bash(clever --version)"
+      "Bash(clever --version)",
+      "WebFetch(domain:www.boe.es)",
+      "WebFetch(domain:www.inclusion.gob.es)",
+      "WebFetch(domain:revista.seg-social.es)",
+      "WebFetch(domain:noticias.juridicas.com)",
+      "WebFetch(domain:gestamat.es)",
+      "WebFetch(domain:www.civislex.com)",
+      "WebFetch(domain:www.clever-cloud.com)",
+      "WebFetch(domain:www.clever.cloud)",
+      "WebFetch(domain:developers.clever-cloud.com)"
     ]
   }
 }

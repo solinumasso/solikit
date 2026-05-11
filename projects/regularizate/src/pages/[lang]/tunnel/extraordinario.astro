@@ -1,0 +1,426 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ProgressBar from '../../../components/UI/ProgressBar.astro';
+import Tooltip from '../../../components/UI/Tooltip.astro';
+import { SUPPORTED_LANGS, getLang, useTranslations } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGS.map(lang => ({ params: { lang } }));
+}
+
+const { lang: langParam } = Astro.params;
+const lang = getLang(langParam);
+const t = useTranslations(lang);
+
+const steps = [
+  t('tunnel.step_quiz'),
+  t('tunnel.step_conditions'),
+  t('tunnel.step_documents'),
+  t('tunnel.step_tasa'),
+  t('tunnel.step_submit'),
+  t('tunnel.step_tie'),
+];
+---
+
+<Base lang={lang} title={t('extraordinary.title')}>
+  <div class="max-w-2xl mx-auto px-5 pt-10 pb-20">
+
+    <!-- Breadcrumb -->
+    <a href={`/${lang}/`} class="inline-flex items-center gap-[0.4rem] text-[0.82rem] font-semibold text-(--text-muted) no-underline mb-8">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform: scaleX(var(--rtl-flip, 1));">
+        <path d="m15 18-6-6 6-6"/>
+      </svg>
+      {t('nav.back_home')}
+    </a>
+
+    <!-- Page header -->
+    <div class="mb-8 pb-6 border-b-line">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="badge badge-coral">DA 21ª</span>
+        <span class="badge badge-espresso">EX-32</span>
+      </div>
+      <h1 class="text-[1.75rem] font-black text-(--text) mb-[0.4rem]">{t('extraordinary.title')}</h1>
+      <p class="text-[0.85rem] text-(--text-muted)">{t('extraordinary.legal_basis')}</p>
+
+      <div class="grid grid-cols-2 gap-3 mt-4">
+        <div class="py-3 px-4 bg-[#FDE8E7] border-[1.5px] border-solid border-[#F5C4C2] rounded-sm">
+          <div class="text-xs font-extrabold uppercase tracking-[0.06em] text-(--accent-coral) mb-[0.2rem]">{t('extraordinary.label_deadline')}</div>
+          <div class="text-[0.85rem] font-bold text-(--text)">{t('extraordinary.deadline_note')}</div>
+        </div>
+        <div class="py-3 px-4 bg-[#EDFAE5] border-[1.5px] border-solid border-[#C8EDBC] rounded-sm">
+          <div class="text-xs font-extrabold uppercase tracking-[0.06em] text-(--accent-lime) mb-[0.2rem]">{t('extraordinary.label_novedad')}</div>
+          <div class="text-[0.85rem] font-semibold text-(--text)">{t('extraordinary.work_auth_note')}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="mb-8">
+      <ProgressBar current={1} total={6} steps={steps} />
+    </div>
+
+    <!-- Tunnel -->
+    <div id="tunnel-container">
+
+      <!-- Step 1: Quiz -->
+      <div class="tunnel-step" data-step="1">
+        <div class="mb-2">
+          <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-1">{t('tunnel.step_quiz')}</h2>
+          <p class="text-[0.85rem] text-(--text-muted)">{t('extraordinary.quiz_intro')}</p>
+        </div>
+
+        <div class="flex flex-col gap-5 mt-6">
+          {[
+            { key: '1', q: t('extraordinary.quiz_q1'), note: null, correct: 'yes' },
+            { key: '2', q: t('extraordinary.quiz_q2'), note: null, correct: 'yes' },
+            { key: '3', q: t('extraordinary.quiz_q3'), note: t('extraordinary.quiz_q3_note'), correct: 'no' },
+            { key: '4', q: t('extraordinary.quiz_q4'), note: null, correct: 'no' },
+          ].map(({ key, q, note, correct }) => (
+            <div class="quiz-question py-[1.1rem] px-5 bg-(--bg-muted) border-line rounded-md" data-question={key} data-correct={correct}>
+              <p class="text-[0.92rem] font-semibold text-(--text) mb-[0.8rem]">{q}</p>
+              {note && <p class="text-[0.78rem] text-(--text-muted) mb-[0.8rem]">{note}</p>}
+              <div class="flex gap-2">
+                <button class="quiz-btn btn-secondary flex-1 justify-center text-[0.88rem]" data-answer="yes">{t('tunnel.yes')}</button>
+                <button class="quiz-btn btn-secondary flex-1 justify-center text-[0.88rem]" data-answer="no">{t('tunnel.no')}</button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="quiz-result" class="hidden mt-5">
+          <div id="quiz-eligible" class="hidden py-4 px-5 bg-[#EDFAE5] border-[1.5px] border-solid border-[#C8EDBC] rounded-md">
+            <div class="font-extrabold text-[0.95rem] text-(--accent-lime) mb-3">✅ {t('tunnel.eligible')}</div>
+            <button id="quiz-next" class="btn-primary">{t('tunnel.next')}</button>
+          </div>
+          <div id="quiz-not-eligible" class="hidden py-4 px-5 bg-[#FDE8E7] border-[1.5px] border-solid border-[#F5C4C2] rounded-md">
+            <div class="font-extrabold text-[0.95rem] text-(--accent-coral) mb-[0.4rem]">❌ {t('tunnel.not_eligible')}</div>
+            <p class="text-[0.85rem] text-(--text-muted) mb-3">{t('tunnel.not_eligible_desc')}</p>
+            <a href={`/${lang}/`} class="btn-secondary text-[0.88rem]">{t('tunnel.try_other')}</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Conditions -->
+      <div class="tunnel-step hidden" data-step="2">
+        <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-1">{t('tunnel.step_conditions')}</h2>
+        <p class="text-[0.85rem] text-(--text-muted) mb-6">{t('extraordinary.cond_intro')}</p>
+
+        <div class="flex flex-col border-line rounded-md overflow-hidden bg-(--bg-card)">
+          {[
+            { key: 'cond_presence' },
+            { key: 'cond_continuity' },
+            { key: 'cond_age' },
+            { key: 'cond_no_permit' },
+            { key: 'cond_no_criminal' },
+            { key: 'cond_no_ukraine' },
+            { key: 'cond_link' },
+          ].map(({ key }, i, arr) => (
+            <label class={`check-item cursor-pointer rounded-none ${i < arr.length - 1 ? 'border-b-line' : ''}`}>
+              <input type="checkbox" class="cond-checkbox w-[17px] h-[17px] shrink-0 accent-(--accent-lime) mt-[1px]" />
+              <span class="text-[0.88rem] text-(--text)">{t(`extraordinary.${key}`)}</span>
+            </label>
+          ))}
+        </div>
+
+        <div class="mt-4 py-3 px-4 bg-(--bg-muted) border-line rounded-sm text-[0.82rem] text-(--text-muted)">
+          💡 {t('extraordinary.validity')}
+        </div>
+
+        <div class="flex gap-3 mt-6">
+          <button class="tunnel-back btn-secondary" data-target="1">{t('tunnel.back')}</button>
+          <button id="conditions-next" class="btn-primary opacity-45 cursor-not-allowed" disabled>{t('tunnel.next')}</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Documents -->
+      <div class="tunnel-step hidden" data-step="3">
+        <div class="flex items-start justify-between flex-wrap gap-3 mb-6">
+          <div>
+            <h2 class="text-[1.15rem] font-extrabold text-(--text)">{t('tunnel.step_documents')}</h2>
+            <p class="text-[0.85rem] text-(--text-muted)">{t('extraordinary.docs_intro')}</p>
+          </div>
+          <div class="flex gap-2">
+            <button id="copy-docs-btn" class="btn-secondary text-[0.8rem] py-[0.45rem] px-[0.9rem]">{t('tunnel.copy_list')}</button>
+            <button class="btn-secondary text-[0.8rem] py-[0.45rem] px-[0.9rem]" onclick="window.print()">{t('tunnel.print_pdf')}</button>
+          </div>
+        </div>
+
+        <div id="docs-list" class="flex flex-col border-line rounded-md overflow-hidden bg-(--bg-card)">
+          {[
+            { icon: '📄', label: t('extraordinary.doc_form'), where: 'Ministerio de Inclusión — sede electrónica' },
+            { icon: '🛂', label: t('extraordinary.doc_passport'), where: t('extraordinary.doc_passport_where') },
+            { icon: '🏠', label: t('extraordinary.doc_empadronamiento'), where: t('extraordinary.doc_empadronamiento_where') },
+            { icon: '🏛️', label: t('extraordinary.doc_antecedentes_es'), where: t('extraordinary.doc_antecedentes_es_where') },
+            { icon: '🌍', label: t('extraordinary.doc_antecedentes_origen'), where: t('extraordinary.doc_antecedentes_origen_where') },
+            { icon: '💶', label: t('extraordinary.doc_tasa'), where: t('extraordinary.doc_tasa_where') },
+            { icon: '📎', label: t('extraordinary.doc_ties'), where: t('extraordinary.doc_ties_where') },
+          ].map(({ icon, label, where }, i, arr) => (
+            <div class={`flex items-start gap-3 py-[0.9rem] px-4 ${i < arr.length - 1 ? 'border-b-line' : ''}`}>
+              <span class="text-[1.2rem] shrink-0 mt-[1px]">{icon}</span>
+              <div class="flex-1">
+                <div class="doc-label text-[0.88rem] font-semibold text-(--text)">{label}</div>
+                <div class="text-[0.77rem] text-(--text-muted) mt-[0.15rem]">📍 {where}</div>
+              </div>
+              <input type="checkbox" class="doc-checkbox w-4 h-4 shrink-0 mt-[3px] accent-(--accent-lime)" />
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-3 py-[0.7rem] px-[0.9rem] bg-[#FEF3CD] border-[1.5px] border-solid border-[#FAE09C] rounded-sm text-[0.8rem] text-[#92400E]">
+          ⚠️ {t('extraordinary.apostilla_warning')}
+        </div>
+
+        <div class="flex gap-3 mt-6">
+          <button class="tunnel-back btn-secondary" data-target="2">{t('tunnel.back')}</button>
+          <button class="tunnel-next btn-primary" data-target="4">{t('tunnel.next')}</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Tasa -->
+      <div class="tunnel-step hidden" data-step="4">
+        <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-6">{t('extraordinary.step4_tasa_title')}</h2>
+
+        <div class="grid grid-cols-[auto_1fr] gap-[1px] border-line rounded-md overflow-hidden bg-(--border) mb-5">
+          <div class="bg-(--bg-card) p-6 flex items-center justify-center">
+            <div class="text-[2.4rem] font-black text-(--text) tracking-[-0.03em]">{t('extraordinary.step4_tasa_amount')}</div>
+          </div>
+          <div class="bg-(--bg-muted) p-5">
+            <div class="text-[0.85rem] font-bold text-(--text) mb-[0.3rem]">{t('extraordinary.step4_tasa_desc')}</div>
+            <a href="https://sede.administracionespublicas.gob.es/pagina/index/directorio/tasa052"
+               target="_blank" rel="noopener noreferrer" class="btn-accent mt-3 text-[0.85rem] py-2 px-4">
+              {t('extraordinary.tasa_cta')}
+            </a>
+          </div>
+        </div>
+
+        <h3 class="text-[0.9rem] font-extrabold text-(--text) mb-3 uppercase tracking-[0.04em]">{t('extraordinary.step4_tasa_steps')}</h3>
+        <ol class="flex flex-col border-line rounded-md overflow-hidden bg-(--bg-card)">
+          {[
+            t('extraordinary.step4_tasa_1'),
+            t('extraordinary.step4_tasa_2'),
+            t('extraordinary.step4_tasa_3'),
+            t('extraordinary.step4_tasa_4'),
+            t('extraordinary.step4_tasa_5'),
+          ].map((step, i, arr) => (
+            <li class={`flex items-start gap-3 py-[0.85rem] px-4 ${i < arr.length - 1 ? 'border-b-line' : ''}`}>
+              <span class="shrink-0 w-[22px] h-[22px] rounded-full flex items-center justify-center text-[0.72rem] font-black bg-(--text) text-(--text-invert)">{i + 1}</span>
+              <span class="text-[0.86rem] text-(--text-muted) pt-[2px]">{step}</span>
+            </li>
+          ))}
+        </ol>
+
+        <div class="mt-3 py-[0.7rem] px-[0.9rem] bg-[#FDE8E7] border-[1.5px] border-solid border-[#F5C4C2] rounded-sm text-[0.8rem] text-[#9B1C1C]">
+          ⚠️ {t('extraordinary.step4_tasa_warning')}
+        </div>
+
+        <div class="flex gap-3 mt-6">
+          <button class="tunnel-back btn-secondary" data-target="3">{t('tunnel.back')}</button>
+          <button class="tunnel-next btn-primary" data-target="5">{t('tunnel.next')}</button>
+        </div>
+      </div>
+
+      <!-- Step 5: Submit -->
+      <div class="tunnel-step hidden" data-step="5">
+        <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-6">{t('tunnel.step_submit')} — {t('extraordinary.online_or_presential')}</h2>
+
+        <div class="flex flex-col gap-4">
+          <div class="p-5 border-line rounded-md bg-(--bg-card)">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-2xl">💻</span>
+              <h3 class="font-extrabold text-base text-(--text)">{t('extraordinary.step5_online')}</h3>
+            </div>
+            <p class="text-[0.86rem] text-(--text-muted) mb-[0.9rem] leading-[1.6]">{t('extraordinary.step5_online_desc')}</p>
+            <a href="https://sede.administracionespublicas.gob.es/mercurio/inicioMercurio.html"
+               target="_blank" rel="noopener noreferrer" class="btn-primary text-[0.85rem]">
+              {t('extraordinary.mercurio_cta')}
+            </a>
+          </div>
+
+          <div class="p-5 border-line rounded-md bg-(--bg-card)">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-2xl">🏢</span>
+              <h3 class="font-extrabold text-base text-(--text)">{t('extraordinary.step5_presencial')}</h3>
+            </div>
+            <p class="text-[0.86rem] text-(--text-muted) mb-3 leading-[1.6]">{t('extraordinary.step5_presencial_desc')}</p>
+            <div class="flex flex-col gap-[0.3rem] mb-[0.9rem] text-[0.82rem] text-(--text-muted)">
+              <div>🕗 {t('extraordinary.step5_hours_correos')}</div>
+              <div>🕗 {t('extraordinary.step5_hours_ss')}</div>
+              <div>🕗 {t('extraordinary.step5_hours_ext')}</div>
+            </div>
+            <a href={`/${lang}/mapa`} class="btn-secondary text-[0.85rem]">
+              🗺️ {t('extraordinary.step5_map_cta')}
+            </a>
+          </div>
+        </div>
+
+        <div class="flex gap-3 mt-6">
+          <button class="tunnel-back btn-secondary" data-target="4">{t('tunnel.back')}</button>
+          <button class="tunnel-next btn-primary" data-target="6">{t('tunnel.next')}</button>
+        </div>
+      </div>
+
+      <!-- Step 6: TIE -->
+      <div class="tunnel-step hidden" data-step="6">
+        <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-1">{t('extraordinary.step6_resolution')}</h2>
+
+        <div class="mb-5 py-3 px-4 bg-[#EDFAE5] border-[1.5px] border-solid border-[#C8EDBC] rounded-sm text-[0.86rem] font-semibold text-(--accent-lime)">
+          💼 {t('extraordinary.step6_work_auth')}
+        </div>
+
+        <h3 class="text-[0.85rem] font-extrabold uppercase tracking-[0.06em] text-(--text-muted) mb-3">{t('extraordinary.step6_track')}</h3>
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-3 mb-8">
+          {[
+            { icon: '💻', label: t('extraordinary.step6_track_mercurio'), href: 'https://sede.administracionespublicas.gob.es/mercurio/inicioMercurio.html' },
+            { icon: '📱', label: t('extraordinary.step6_track_sms'), href: null },
+            { icon: '📞', label: t('extraordinary.step6_track_phone'), href: null },
+          ].map(({ icon, label, href }) => (
+            <div
+              class={`py-[0.9rem] px-4 border-line rounded-md bg-(--bg-card) flex items-center gap-[0.65rem] ${href ? 'cursor-pointer' : ''}`}
+              {...(href ? { onClick: `window.open('${href}', '_blank')` } : {})}
+            >
+              <span class="text-[1.2rem]">{icon}</span>
+              <span class="text-[0.82rem] font-semibold text-(--text) leading-[1.4]">{label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="p-5 border-line rounded-md bg-(--bg-card) mb-6">
+          <h3 class="font-extrabold text-base text-(--text) mb-1">🪪 {t('extraordinary.step6_tie_title')}</h3>
+          <p class="text-[0.85rem] text-(--text-muted) mb-4">{t('extraordinary.step6_tie_desc')}</p>
+          <ol class="flex flex-col border-line rounded-sm overflow-hidden">
+            {[
+              t('extraordinary.step6_tie_1'),
+              t('extraordinary.step6_tie_2'),
+              t('extraordinary.step6_tie_3'),
+              t('extraordinary.step6_tie_4'),
+              t('extraordinary.step6_tie_5'),
+            ].map((step, i, arr) => (
+              <li class={`flex items-start gap-3 py-3 px-[0.9rem] bg-(--bg-muted) ${i < arr.length - 1 ? 'border-b-line' : ''}`}>
+                <span class="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[0.7rem] font-black bg-(--text) text-(--text-invert)">{i + 1}</span>
+                <span class="text-[0.84rem] text-(--text-muted) pt-[1px]">{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="p-8 border-line rounded-lg bg-(--bg-muted) text-center">
+          <div class="text-[2.5rem] mb-3">🎉</div>
+          <div class="font-black text-[1.1rem] text-(--text) mb-2">{t('extraordinary.complete_title')}</div>
+          <p class="text-[0.86rem] text-(--text-muted) mb-5 leading-[1.6]">
+            {t('extraordinary.complete_desc')}
+          </p>
+          <a href={`/${lang}/`} class="btn-secondary text-[0.88rem]">{t('tunnel.try_other')}</a>
+        </div>
+
+        <div class="mt-4">
+          <button class="tunnel-back btn-secondary" data-target="5">{t('tunnel.back')}</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</Base>
+
+<script is:inline>
+(function() {
+  var STORAGE_KEY = 'regularizate_tunnel_extraordinario';
+  var currentStep = 1;
+
+  function saveProgress() {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ step: currentStep }));
+  }
+
+  function showStep(step) {
+    document.querySelectorAll('.tunnel-step').forEach(function(el) { el.classList.add('hidden'); });
+    var target = document.querySelector('[data-step="' + step + '"]');
+    if (target) { target.classList.remove('hidden'); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    currentStep = step;
+    var bar = document.querySelector('.progress-fill');
+    if (bar) bar.style.width = Math.round((step / 6) * 100) + '%';
+    document.querySelectorAll('.step-pill').forEach(function(pill, i) {
+      var num = i + 1;
+      pill.classList.remove('active', 'completed', 'pending');
+      if (num < step) pill.classList.add('completed');
+      else if (num === step) pill.classList.add('active');
+      else pill.classList.add('pending');
+    });
+    saveProgress();
+  }
+
+  var answers = {};
+  document.querySelectorAll('.quiz-question').forEach(function(qEl) {
+    var qNum = qEl.getAttribute('data-question');
+    var correct = qEl.getAttribute('data-correct');
+    qEl.querySelectorAll('.quiz-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        qEl.querySelectorAll('.quiz-btn').forEach(function(b) {
+          b.style.borderColor = ''; b.style.color = ''; b.style.background = '';
+        });
+        var ans = btn.getAttribute('data-answer');
+        answers[qNum] = ans;
+        var ok = ans === correct;
+        btn.style.borderColor = ok ? '#C8EDBC' : '#F5C4C2';
+        btn.style.background = ok ? '#EDFAE5' : '#FDE8E7';
+        btn.style.color = ok ? 'var(--accent-lime)' : 'var(--accent-coral)';
+        if (Object.keys(answers).length === 4) {
+          var allOk = Object.keys(answers).every(function(k) {
+            var q = document.querySelector('[data-question="' + k + '"]');
+            return q && answers[k] === q.getAttribute('data-correct');
+          });
+          var resultEl = document.getElementById('quiz-result');
+          if (resultEl) resultEl.classList.remove('hidden');
+          var eEl = document.getElementById('quiz-eligible');
+          var nEl = document.getElementById('quiz-not-eligible');
+          if (allOk) { if(eEl) eEl.classList.remove('hidden'); if(nEl) nEl.classList.add('hidden'); }
+          else { if(eEl) eEl.classList.add('hidden'); if(nEl) nEl.classList.remove('hidden'); }
+        }
+      });
+    });
+  });
+
+  var quizNext = document.getElementById('quiz-next');
+  if (quizNext) quizNext.addEventListener('click', function() { showStep(2); });
+
+  var condCheckboxes = document.querySelectorAll('.cond-checkbox');
+  var condNext = document.getElementById('conditions-next');
+  function updateCond() {
+    var all = Array.from(condCheckboxes).every(function(cb) { return cb.checked; });
+    if (condNext) {
+      condNext.disabled = !all;
+      condNext.style.opacity = all ? '1' : '0.45';
+      condNext.style.cursor = all ? 'pointer' : 'not-allowed';
+    }
+  }
+  condCheckboxes.forEach(function(cb) { cb.addEventListener('change', updateCond); });
+  if (condNext) condNext.addEventListener('click', function() { showStep(3); });
+
+  document.querySelectorAll('.tunnel-next').forEach(function(btn) {
+    btn.addEventListener('click', function() { showStep(parseInt(btn.getAttribute('data-target'))); });
+  });
+  document.querySelectorAll('.tunnel-back').forEach(function(btn) {
+    btn.addEventListener('click', function() { showStep(parseInt(btn.getAttribute('data-target'))); });
+  });
+
+  var copyBtn = document.getElementById('copy-docs-btn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function() {
+      var items = document.querySelectorAll('.doc-label');
+      var text = Array.from(items).map(function(el) { return '• ' + el.textContent.trim(); }).join('\n');
+      navigator.clipboard.writeText('Documentos EX-32 (Regularización Extraordinaria):\n\n' + text).then(function() {
+        copyBtn.textContent = '¡Copiado!';
+        setTimeout(function() { copyBtn.textContent = 'Copiar lista'; }, 2000);
+      });
+    });
+  }
+
+  try {
+    var saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || 'null');
+    if (saved && saved.step > 1 && confirm('¿Retomar donde lo dejaste? (Paso ' + saved.step + ')')) {
+      showStep(saved.step);
+    } else {
+      var bar = document.querySelector('.progress-fill');
+      if (bar) bar.style.width = Math.round((1/6)*100) + '%';
+    }
+  } catch(e) {}
+})();
+</script>

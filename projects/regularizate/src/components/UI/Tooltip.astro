@@ -1,0 +1,18 @@
+---
+interface Props {
+  text: string;
+  label?: string;
+}
+
+const { text, label } = Astro.props;
+---
+
+<span class="tooltip-trigger" tabindex="0">
+  <slot />
+  {label && <span class="underline decoration-dotted decoration-violet-400 text-[#A78BFA]">{label}</span>}
+  <span
+    class="inline-flex items-center justify-center ms-1 rounded-full text-xs font-bold size-4 bg-[rgba(124,58,237,0.25)] text-[#A78BFA] align-middle leading-none"
+    aria-label="Información"
+  >i</span>
+  <span class="tooltip-content" role="tooltip">{text}</span>
+</span>
