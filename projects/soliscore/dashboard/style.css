@@ -1,0 +1,15 @@
+#table-wrapper {
+  overflow-x: auto;
+}
+
+#table-wrapper th {
+  white-space: nowrap;
+}
+
+#table-wrapper td {
+  white-space: nowrap;
+}
+
+#stats-bar {
+  display: grid;
+}

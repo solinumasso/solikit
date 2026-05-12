@@ -1,0 +1,59 @@
+[
+  {
+    "lieu_id": 12345,
+    "name": "CCAS de Paris 10e",
+    "score_total": 12,
+    "score_bonus": 17,
+    "score_malus": -5,
+    "composantes": [
+      { "id": "titre", "label": "Titre", "section": "Informations générales", "type": "bonus", "points": 5, "max": 5, "detail": "23 caractères (optimal 7–55)" },
+      { "id": "description", "label": "Description", "section": "Informations générales", "type": "bonus", "points": 5, "max": 5, "detail": "412 caractères (optimal 300–900)" },
+      { "id": "telephone_presence", "label": "Téléphone — Présence", "section": "Informations générales", "type": "bonus", "points": 5, "max": 5, "detail": "2 numéro(s), au moins un avec libellé" },
+      { "id": "email_presence", "label": "Email — Présence", "section": "Informations générales", "type": "bonus", "points": 2, "max": 5, "detail": "Email renseigné : contact@ccas-paris10.fr" },
+      { "id": "horaires_presence", "label": "Horaires — Présence", "section": "Horaires", "type": "bonus", "points": 0, "max": 5, "detail": "Aucun horaire renseigné" },
+      { "id": "telephone_coherence", "label": "Téléphone — Cohérence", "section": "Informations générales", "type": "malus", "points": -5, "max": 0, "detail": "Numéro(s) dans les champs libres non cohérents : 0142345678" },
+      { "id": "email_coherence", "label": "Email — Cohérence", "section": "Informations générales", "type": "malus", "points": 0, "max": 0, "detail": "Aucun email dans les champs libres" },
+      { "id": "acronymes", "label": "Acronymes non explicités", "section": "Générique", "type": "malus", "points": 0, "max": 0, "detail": "Aucun acronyme non explicité" },
+      { "id": "orthographe", "label": "Orthographe", "section": "Générique", "type": "malus", "points": 0, "max": 0, "detail": "Aucune faute détectée" },
+      { "id": "horaires_coherence", "label": "Horaires — Cohérence", "section": "Horaires", "type": "malus", "points": 0, "max": 0, "detail": "Aucune mention d'horaires dans les champs libres" }
+    ]
+  },
+  {
+    "lieu_id": 67890,
+    "name": "Épicerie solidaire Les Paniers du Coeur",
+    "score_total": 7,
+    "score_bonus": 15,
+    "score_malus": -8,
+    "composantes": [
+      { "id": "titre", "label": "Titre", "section": "Informations générales", "type": "bonus", "points": 5, "max": 5, "detail": "38 caractères (optimal 7–55)" },
+      { "id": "description", "label": "Description", "section": "Informations générales", "type": "bonus", "points": 2, "max": 5, "detail": "124 caractères (hors plage 300–900)" },
+      { "id": "telephone_presence", "label": "Téléphone — Présence", "section": "Informations générales", "type": "bonus", "points": 3, "max": 5, "detail": "1 numéro(s), aucun avec libellé" },
+      { "id": "email_presence", "label": "Email — Présence", "section": "Informations générales", "type": "bonus", "points": 0, "max": 5, "detail": "Aucun email renseigné" },
+      { "id": "horaires_presence", "label": "Horaires — Présence", "section": "Horaires", "type": "bonus", "points": 5, "max": 5, "detail": "Horaires renseignés + info jours fériés (fermé)" },
+      { "id": "telephone_coherence", "label": "Téléphone — Cohérence", "section": "Informations générales", "type": "malus", "points": 0, "max": 0, "detail": "Aucun numéro dans les champs libres" },
+      { "id": "email_coherence", "label": "Email — Cohérence", "section": "Informations générales", "type": "malus", "points": 0, "max": 0, "detail": "Aucun email dans les champs libres" },
+      { "id": "acronymes", "label": "Acronymes non explicités", "section": "Générique", "type": "malus", "points": -5, "max": 0, "detail": "4 acronyme(s) non explicité(s) : CAF, RSA, CPAM, APL" },
+      { "id": "orthographe", "label": "Orthographe", "section": "Générique", "type": "malus", "points": -3, "max": 0, "detail": "2 faute(s) : benevole → bénévole, acueil → accueil" },
+      { "id": "horaires_coherence", "label": "Horaires — Cohérence", "section": "Horaires", "type": "malus", "points": 0, "max": 0, "detail": "Aucune mention d'horaires dans les champs libres" }
+    ]
+  },
+  {
+    "lieu_id": 11111,
+    "name": "A",
+    "score_total": 0,
+    "score_bonus": 0,
+    "score_malus": 0,
+    "composantes": [
+      { "id": "titre", "label": "Titre", "section": "Informations générales", "type": "bonus", "points": 2, "max": 5, "detail": "1 caractères (hors plage 7–55)" },
+      { "id": "description", "label": "Description", "section": "Informations générales", "type": "bonus", "points": 0, "max": 5, "detail": "Pas de description" },
+      { "id": "telephone_presence", "label": "Téléphone — Présence", "section": "Informations générales", "type": "bonus", "points": 0, "max": 5, "detail": "Aucun numéro renseigné" },
+      { "id": "email_presence", "label": "Email — Présence", "section": "Informations générales", "type": "bonus", "points": 0, "max": 5, "detail": "Aucun email renseigné" },
+      { "id": "horaires_presence", "label": "Horaires — Présence", "section": "Horaires", "type": "bonus", "points": 0, "max": 5, "detail": "Aucun horaire renseigné" },
+      { "id": "telephone_coherence", "label": "Téléphone — Cohérence", "section": "Informations générales", "type": "malus", "points": 0, "max": 0, "detail": "Aucun numéro dans les champs libres" },
+      { "id": "email_coherence", "label": "Email — Cohérence", "section": "Informations générales", "type": "malus", "points": 0, "max": 0, "detail": "Aucun email dans les champs libres" },
+      { "id": "acronymes", "label": "Acronymes non explicités", "section": "Générique", "type": "malus", "points": 0, "max": 0, "detail": "Aucun champ libre" },
+      { "id": "orthographe", "label": "Orthographe", "section": "Générique", "type": "malus", "points": 0, "max": 0, "detail": "Aucune faute détectée" },
+      { "id": "horaires_coherence", "label": "Horaires — Cohérence", "section": "Horaires", "type": "malus", "points": 0, "max": 0, "detail": "Aucune mention d'horaires dans les champs libres" }
+    ]
+  }
+]
