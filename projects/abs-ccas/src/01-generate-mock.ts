@@ -46,27 +46,41 @@ const COMMUNES: TerritoireRef[] = [
   { code: "35238", nom: "Rennes",       epci: { code: "243500139", nom: "Rennes Métropole" },                departement: { code: "35", nom: "Ille-et-Vilaine" },  region: { code: "53", nom: "Bretagne" } },
 ];
 
-const CATEGORIES = ["Alimentation", "Hébergement", "Santé", "Emploi", "Administratif", "Petite enfance", "Hygiène", "Transport"];
+const THEMATIQUES = ["Accueil", "Activités", "Alimentation", "Conseil", "Formation et emploi", "Hébergement et logement", "Hygiène et bien-être", "Matériel", "Santé", "Technologie", "Transport / Mobilité"];
 
 // ─── Génération des indicateurs ───────────────────────────────────────────────
 
 type HistoriquePoint = { mois: string; valeur: number };
+type HistoriqueDistributionPoint = { mois: string; valeur: Record<string, number> };
+type DistributionEntry = { label: string; pct: number };
 
 interface IndicateurNumerique {
   valeur: number;
-  historique: HistoriquePoint[];
+  historique: HistoriquePoint[] | null;
 }
 
-interface IndicateurCategories {
-  valeur: string[];
-  historique: null;
+interface IndicateurDistribution {
+  valeur: DistributionEntry[];
+  historique: HistoriqueDistributionPoint[];
 }
 
 interface IndicateursTerritoire {
   nb_services_alimentaires: IndicateurNumerique;
-  taux_ouverture: IndicateurNumerique;
-  taux_saturation: IndicateurNumerique;
-  top_categories: IndicateurCategories;
+  taux_ouverture_moyen: IndicateurNumerique;
+  taux_ouverture_ete: IndicateurNumerique;
+  taux_satures: IndicateurNumerique;
+  taux_acces_libre: IndicateurNumerique;
+  taux_inscription: IndicateurNumerique;
+  taux_rendez_vous: IndicateurNumerique;
+  taux_orientation: IndicateurNumerique;
+  taux_sans_participation: IndicateurNumerique;
+  risque_precarite_alimentaire: IndicateurNumerique;
+  nb_recherches_alimentation: IndicateurNumerique;
+  part_recherches_alimentation: IndicateurNumerique;
+  nb_consultations_alimentation: IndicateurNumerique;
+  part_consultations_alimentation: IndicateurNumerique;
+  repartition_recherches_thematiques: IndicateurDistribution;
+  repartition_consultations_thematiques: IndicateurDistribution;
 }
 
 type TypeTerritoire = "commune" | "epci" | "departement" | "region";
@@ -78,12 +92,18 @@ interface TerritoireData {
   indicateurs: IndicateursTerritoire;
 }
 
-// Plages de valeurs selon le type de territoire
 const PLAGES: Record<TypeTerritoire, { nbMin: number; nbMax: number }> = {
   commune:     { nbMin: 1,   nbMax: 80 },
   epci:        { nbMin: 10,  nbMax: 200 },
   departement: { nbMin: 20,  nbMax: 400 },
   region:      { nbMin: 50,  nbMax: 1000 },
+};
+
+const PLAGES_USAGE: Record<TypeTerritoire, { rechMin: number; rechMax: number }> = {
+  commune:     { rechMin: 200,   rechMax: 3000 },
+  epci:        { rechMin: 1000,  rechMax: 15000 },
+  departement: { rechMin: 5000,  rechMax: 80000 },
+  region:      { rechMin: 30000, rechMax: 400000 },
 };
 
 // Génère 48 mois de janvier 2022 à décembre 2025
@@ -127,35 +147,116 @@ function genererHistoriquePourcentage(
   });
 }
 
-function genererTopCategories(rand: () => number): string[] {
-  const shuffled = [...CATEGORIES].sort(() => rand() - 0.5);
-  return shuffled.slice(0, 3);
+function genererDistribution(rand: () => number, dominantPct: number): DistributionEntry[] {
+  const others = THEMATIQUES.filter(t => t !== "Alimentation").map((label) => ({
+    label,
+    pct: Math.round((100 - dominantPct) / (THEMATIQUES.length - 1) * (0.5 + rand() * 1.0)),
+  }));
+  const totalOthers = others.reduce((s, o) => s + o.pct, 0);
+  const remaining = 100 - dominantPct;
+  const normalized = others.map((o) => ({ label: o.label, pct: Math.round(o.pct * remaining / totalOthers) }));
+  return [{ label: "Alimentation", pct: dominantPct }, ...normalized];
+}
+
+function genererHistoriqueDistribution(rand: () => number, distribution: DistributionEntry[]): HistoriqueDistributionPoint[] {
+  return MOIS.map(mois => {
+    const raw = distribution.map(e => ({
+      label: e.label,
+      v: Math.max(0.5, e.pct + (rand() - 0.5) * e.pct * 0.4),
+    }));
+    const total = raw.reduce((s, e) => s + e.v, 0);
+    const valeur: Record<string, number> = {};
+    raw.forEach(e => { valeur[e.label] = Math.round(e.v * 100 / total); });
+    return { mois, valeur };
+  });
 }
 
 function genererIndicateurs(code: string, type: TypeTerritoire): IndicateursTerritoire {
   const rand = seededRandom(hashCode(code + type));
   const { nbMin, nbMax } = PLAGES[type];
+  const { rechMin, rechMax } = PLAGES_USAGE[type];
 
   const nbServices = Math.round(nbMin + rand() * (nbMax - nbMin));
   const tauxOuverture = 40 + rand() * 55;
-  const tauxSaturation = 30 + rand() * 60;
+  const tauxOuvertureEte = Math.max(0, tauxOuverture - 10 - rand() * 20);
+  const tauxSatures = 5 + rand() * 40;
+  const tauxAccesLibre = 20 + rand() * 55;
+  const tauxInscription = 5 + rand() * 35;
+  const tauxRendezVous = 5 + rand() * 30;
+  const tauxOrientation = 3 + rand() * 20;
+  const tauxSansParticipation = 40 + rand() * 50;
+  const risquePrecarite = Math.round(rand() * 100);
+  const nbRecherches = Math.round(rechMin + rand() * (rechMax - rechMin));
+  const partRecherches = 20 + rand() * 40;
+  const nbConsultations = Math.round(nbRecherches * (0.25 + rand() * 0.4));
+  const partConsultations = 15 + rand() * 35;
+  const dominantRech = Math.round(partRecherches);
+  const dominantCons = Math.round(partConsultations);
 
   return {
     nb_services_alimentaires: {
       valeur: nbServices,
       historique: genererHistoriqueNb(rand, nbServices),
     },
-    taux_ouverture: {
+    taux_ouverture_moyen: {
       valeur: Math.round(tauxOuverture * 10) / 10,
       historique: genererHistoriquePourcentage(rand, tauxOuverture, -4, 2),
     },
-    taux_saturation: {
-      valeur: Math.round(tauxSaturation * 10) / 10,
-      historique: genererHistoriquePourcentage(rand, tauxSaturation, -3, 6),
-    },
-    top_categories: {
-      valeur: genererTopCategories(rand),
+    taux_ouverture_ete: {
+      valeur: Math.round(tauxOuvertureEte * 10) / 10,
       historique: null,
+    },
+    taux_satures: {
+      valeur: Math.round(tauxSatures * 10) / 10,
+      historique: genererHistoriquePourcentage(rand, tauxSatures, 3, -2),
+    },
+    taux_acces_libre: {
+      valeur: Math.round(tauxAccesLibre * 10) / 10,
+      historique: genererHistoriquePourcentage(rand, tauxAccesLibre, 0, 0),
+    },
+    taux_inscription: {
+      valeur: Math.round(tauxInscription * 10) / 10,
+      historique: genererHistoriquePourcentage(rand, tauxInscription, 0, 0),
+    },
+    taux_rendez_vous: {
+      valeur: Math.round(tauxRendezVous * 10) / 10,
+      historique: genererHistoriquePourcentage(rand, tauxRendezVous, 0, 0),
+    },
+    taux_orientation: {
+      valeur: Math.round(tauxOrientation * 10) / 10,
+      historique: genererHistoriquePourcentage(rand, tauxOrientation, 0, 0),
+    },
+    taux_sans_participation: {
+      valeur: Math.round(tauxSansParticipation * 10) / 10,
+      historique: genererHistoriquePourcentage(rand, tauxSansParticipation, 0, 0),
+    },
+    risque_precarite_alimentaire: {
+      valeur: risquePrecarite,
+      historique: null,
+    },
+    nb_recherches_alimentation: {
+      valeur: nbRecherches,
+      historique: genererHistoriqueNb(rand, nbRecherches),
+    },
+    part_recherches_alimentation: {
+      valeur: Math.round(partRecherches * 10) / 10,
+      historique: genererHistoriquePourcentage(rand, partRecherches, 0, 0),
+    },
+    nb_consultations_alimentation: {
+      valeur: nbConsultations,
+      historique: genererHistoriqueNb(rand, nbConsultations),
+    },
+    part_consultations_alimentation: {
+      valeur: Math.round(partConsultations * 10) / 10,
+      historique: genererHistoriquePourcentage(rand, partConsultations, 0, 0),
+    },
+    repartition_recherches_thematiques: {
+      valeur: genererDistribution(rand, dominantRech),
+      historique: genererHistoriqueDistribution(rand, genererDistribution(rand, dominantRech)),
+    },
+    repartition_consultations_thematiques: {
+      valeur: genererDistribution(rand, dominantCons),
+      historique: genererHistoriqueDistribution(rand, genererDistribution(rand, dominantCons)),
     },
   };
 }
