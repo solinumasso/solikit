@@ -7,6 +7,11 @@ const INDICATEURS = [
     hasHistory: true,
     chartLabel: "Nombre de services alimentaires",
     unit: "",
+    methodology: {
+      description: "Nombre de services référencés dans la catégorie <strong>Alimentation</strong> sur Soliguide, dont la fiche est <strong>en ligne</strong> au moment du calcul.",
+      subcategories: ["Distribution de repas", "Panier alimentaire", "Colis bébé", "Fontaine à eau", "Cuisine partagée"],
+      notes: ["Inclut les services des structures réservées aux professionnels, même s'ils ne sont visibles que par les comptes professionnels sur Soliguide."],
+    },
   },
   {
     key: "taux_ouverture",
@@ -16,6 +21,11 @@ const INDICATEURS = [
     hasHistory: true,
     chartLabel: "Taux d'ouverture (%)",
     unit: "%",
+    methodology: {
+      description: "Taux d'ouverture <strong>moyen</strong> des services alimentaires sur le territoire.",
+      formula: "Nombre de jours d'ouverture en semaine &divide; 7",
+      notes: ["Calculé uniquement sur les services de la catégorie Alimentation.", "Un service ouvert 5 jours sur 7 a un taux d'ouverture de 71,4 %."],
+    },
   },
   {
     key: "taux_saturation",
@@ -151,6 +161,51 @@ function generateIndicateurs(code, type) {
   };
 }
 
+// ─── Modales méthodologie ──────────────────────────────────────────────────
+
+function buildMethodologyModals() {
+  INDICATEURS.forEach((ind) => {
+    if (!ind.methodology) return;
+    const m = ind.methodology;
+
+    const subcatsHtml = m.subcategories?.length
+      ? `<div class="mt-3">
+           <p class="text-xs font-semibold text-base-content/50 uppercase tracking-wide mb-1">Sous-catégories incluses</p>
+           <ul class="flex flex-wrap gap-1">
+             ${m.subcategories.map(s => `<li class="badge badge-sm bg-primary/10 text-primary border-0">${s}</li>`).join("")}
+           </ul>
+         </div>`
+      : "";
+
+    const formulaHtml = m.formula
+      ? `<div class="mt-3 bg-base-200 rounded-lg px-4 py-2 text-sm font-mono text-primary-content">${m.formula}</div>`
+      : "";
+
+    const notesHtml = m.notes?.length
+      ? `<div class="mt-3 space-y-1">
+           ${m.notes.map(n => `<p class="text-xs text-base-content/50 flex gap-1.5"><span>ℹ️</span><span>${n}</span></p>`).join("")}
+         </div>`
+      : "";
+
+    const dialog = document.createElement("dialog");
+    dialog.id = `modal-${ind.key}`;
+    dialog.className = "modal";
+    dialog.innerHTML = `
+      <div class="modal-box max-w-md">
+        <h3 class="font-bold text-base text-primary-content mb-1" style="font-family:'Nunito',sans-serif">${ind.label}</h3>
+        <p class="text-sm text-base-content/70">${m.description}</p>
+        ${formulaHtml}
+        ${subcatsHtml}
+        ${notesHtml}
+        <div class="modal-action mt-4">
+          <form method="dialog"><button class="btn btn-sm btn-ghost">Fermer</button></form>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop"><button>Fermer</button></form>`;
+    document.body.appendChild(dialog);
+  });
+}
+
 // ─── Init ──────────────────────────────────────────────────────────────────
 
 async function init() {
@@ -185,6 +240,7 @@ async function init() {
     };
   });
 
+  buildMethodologyModals();
   renderBadges(territoiresAvecData);
   buildTable(territoiresAvecData);
 }
@@ -251,9 +307,13 @@ function buildTbody(territoires) {
 
     const tdLabel = document.createElement("td");
     tdLabel.className = "sticky-col";
+    const infoBtn = indicateur.methodology
+      ? `<button class="btn-info-toggle inline-flex items-center justify-center w-4 h-4 rounded-full text-xs bg-base-300 text-base-content/50 hover:bg-primary/20 hover:text-primary transition-colors ml-1 leading-none" data-modal="modal-${indicateur.key}" title="Méthodologie">ⓘ</button>`
+      : "";
+
     tdLabel.innerHTML = `
       <div class="flex flex-col gap-0.5">
-        <span class="font-semibold text-primary-content text-sm">${indicateur.label}</span>
+        <span class="font-semibold text-primary-content text-sm">${indicateur.label}${infoBtn}</span>
         <span class="text-xs text-base-content/40 leading-tight">${indicateur.description}</span>
         ${indicateur.hasHistory
           ? `<button class="btn-chart-toggle btn btn-xs btn-ghost text-accent-content mt-1 w-fit px-0 gap-1 hover:bg-transparent" data-key="${indicateur.key}">
@@ -275,6 +335,12 @@ function buildTbody(territoires) {
     });
 
     tbody.appendChild(tr);
+
+    if (indicateur.methodology) {
+      tdLabel.querySelector(".btn-info-toggle")?.addEventListener("click", () => {
+        document.getElementById(`modal-${indicateur.key}`)?.showModal();
+      });
+    }
 
     if (indicateur.hasHistory) {
       const trChart = document.createElement("tr");
