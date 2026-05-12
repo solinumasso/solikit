@@ -1,0 +1,23 @@
+/* Première colonne sticky dans le tableau */
+.sticky-col {
+  position: sticky;
+  left: 0;
+  background: white;
+  z-index: 1;
+  min-width: 220px;
+  max-width: 280px;
+}
+
+thead .sticky-col {
+  background: oklch(var(--b2));
+}
+
+/* Scroll horizontal sur mobile */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* Zone graphique */
+.chart-container {
+  border-top: 1px solid oklch(var(--b2));
+}

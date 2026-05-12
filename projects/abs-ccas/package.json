@@ -1,0 +1,13 @@
+{
+  "name": "abs-ccas",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "generate-mock": "pnpm dlx tsx src/01-generate-mock.ts",
+    "dashboard": "pnpm dlx serve ../.. -p 5555"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "tsx": "^4.7.0"
+  }
+}

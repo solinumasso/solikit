@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="soliguide">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ABS — Analyse des Besoins Sociaux · Soliguide Tools</title>
+    <link rel="icon" href="assets/favicon.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <link rel="stylesheet" href="assets/variables.css" />
+    <link rel="stylesheet" href="assets/soliguide-theme.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="min-h-screen bg-base-200 flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white shadow-md border-b border-base-300">
+      <div class="max-w-5xl mx-auto flex items-center justify-between px-4 h-16">
+        <!-- Hamburger -->
+        <div class="relative">
+          <button id="menu-btn" class="p-2 rounded-full hover:bg-base-200 transition-colors text-primary" aria-label="Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+            </svg>
+          </button>
+          <div id="menu-dropdown" class="hidden absolute left-0 top-full mt-2 w-56 bg-white text-gray-800 rounded-lg shadow-xl py-2 z-[9999]">
+            <a href="../../../../index.html" class="block px-4 py-2 hover:bg-gray-100 text-sm font-semibold border-b border-gray-100">🏠 Accueil Soliguide Tools</a>
+            <a href="../../../integration-sante/" class="block px-4 py-2 hover:bg-gray-100 text-sm">🏥 Matching FINESS</a>
+            <a href="../../../subventions-associations/dashboard/" class="block px-4 py-2 hover:bg-gray-100 text-sm">💰 Subventions</a>
+            <a href="../../../ccas-domiciliation/dashboard/" class="block px-4 py-2 hover:bg-gray-100 text-sm">🏛️ CCAS &amp; Domiciliation</a>
+          </div>
+        </div>
+
+        <!-- Logo + titre -->
+        <div class="flex items-center gap-3">
+          <img src="assets/soliguide-inline.svg" alt="Soliguide" class="h-6" />
+          <span class="font-bold opacity-20 text-lg hidden sm:inline text-primary">|</span>
+          <span class="text-sm font-semibold tracking-tight hidden sm:inline text-primary">Analyse des Besoins Sociaux</span>
+        </div>
+
+        <div class="w-9"></div><!-- espaceur symétrique -->
+      </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-3xl mx-auto px-4 py-10">
+
+      <!-- Intro -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl font-black text-primary-content mb-3" style="font-family: 'Nunito', sans-serif;">
+          Analyse des Besoins Sociaux
+        </h1>
+        <p class="text-base-content/70 max-w-xl mx-auto leading-relaxed">
+          Comparez les indicateurs Soliguide de votre commune avec ceux de votre EPCI, département, région ou d'autres communes.
+        </p>
+        <div class="mt-3">
+          <span class="badge badge-warning badge-sm gap-1">⚠ Données simulées — prototype</span>
+        </div>
+      </div>
+
+      <!-- Card de sélection -->
+      <div class="bg-white rounded-2xl shadow border border-base-300 p-6 space-y-8">
+
+        <!-- Étape 1 : commune principale -->
+        <div>
+          <label class="label mb-1">
+            <span class="text-sm font-bold text-primary-content">1. Votre commune</span>
+          </label>
+          <div class="relative">
+            <input
+              id="commune-input"
+              type="text"
+              placeholder="Chercher une commune… (ex: Lyon)"
+              class="input input-bordered w-full pr-10"
+              autocomplete="off"
+            />
+            <button id="commune-clear" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-base-content/40 hover:text-base-content transition-colors text-lg leading-none">✕</button>
+          </div>
+          <!-- Suggestions -->
+          <ul id="suggestions" class="hidden mt-1 bg-white border border-base-300 rounded-xl shadow-lg overflow-hidden z-50 relative"></ul>
+        </div>
+
+        <!-- Étape 2 : territoires parent (affiché après sélection commune) -->
+        <div id="parents-section" class="hidden">
+          <p class="text-sm font-bold text-primary-content mb-3">2. Territoires de référence</p>
+          <p class="text-xs text-base-content/50 mb-3">Sélectionnés automatiquement — cliquez pour désélectionner.</p>
+          <div id="parents-badges" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- Étape 3 : ajouter d'autres communes -->
+        <div id="extras-section" class="hidden">
+          <p class="text-sm font-bold text-primary-content mb-3">3. Ajouter d'autres communes <span class="font-normal text-base-content/40">(optionnel)</span></p>
+          <div class="relative">
+            <input
+              id="extra-input"
+              type="text"
+              placeholder="Chercher une commune…"
+              class="input input-bordered w-full"
+              autocomplete="off"
+            />
+            <ul id="extra-suggestions" class="hidden absolute mt-1 w-full bg-white border border-base-300 rounded-xl shadow-lg overflow-hidden z-50"></ul>
+          </div>
+          <div id="extras-list" class="flex flex-wrap gap-2 mt-3"></div>
+        </div>
+
+        <!-- Résumé + bouton -->
+        <div id="launch-section" class="hidden border-t border-base-200 pt-6">
+          <p id="resume-text" class="text-sm text-base-content/60 mb-4"></p>
+          <button id="launch-btn" class="btn btn-primary w-full text-white text-base font-bold">
+            Lancer l'analyse →
+          </button>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-primary text-white mt-auto">
+      <div class="max-w-5xl mx-auto flex items-center justify-between px-6 py-5">
+        <div class="flex items-center gap-4">
+          <img src="assets/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
+          <div>
+            <p class="font-semibold text-sm">Soliguide Tools</p>
+            <p class="text-xs opacity-60">Analyse des Besoins Sociaux · données simulées</p>
+          </div>
+        </div>
+        <a href="../../../../index.html" class="text-xs opacity-60 hover:opacity-100 underline">← Retour à l'accueil</a>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

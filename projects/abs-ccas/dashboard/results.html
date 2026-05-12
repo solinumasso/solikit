@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="soliguide">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Résultats ABS — Soliguide Tools</title>
+    <link rel="icon" href="assets/favicon.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
+    <link rel="stylesheet" href="assets/variables.css" />
+    <link rel="stylesheet" href="assets/soliguide-theme.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="min-h-screen bg-base-200 flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white shadow-md border-b border-base-300">
+      <div class="max-w-6xl mx-auto flex items-center justify-between px-4 h-16">
+        <a href="./" class="flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/70 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Retour
+        </a>
+        <div class="flex items-center gap-3">
+          <img src="assets/soliguide-inline.svg" alt="Soliguide" class="h-6" />
+          <span class="font-bold opacity-20 text-lg hidden sm:inline text-primary">|</span>
+          <span class="text-sm font-semibold tracking-tight hidden sm:inline text-primary">Résultats ABS</span>
+        </div>
+        <div class="w-16"></div>
+      </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-6xl mx-auto px-4 py-8">
+
+      <!-- Territoires sélectionnés -->
+      <div class="mb-6">
+        <p class="text-xs font-semibold text-base-content/40 uppercase tracking-widest mb-2">Territoires comparés</p>
+        <div id="territory-badges" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <!-- Badge données mockées -->
+      <div class="mb-4">
+        <span class="badge badge-warning badge-sm gap-1">⚠ Données simulées — prototype</span>
+      </div>
+
+      <!-- Tableau -->
+      <div class="bg-white rounded-2xl shadow border border-base-300 overflow-hidden">
+        <div class="table-wrapper">
+          <table class="table" id="results-table">
+            <thead id="results-thead"></thead>
+            <tbody id="results-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Note bas de page -->
+      <p class="text-xs text-base-content/40 mt-4 text-center">
+        Les données affichées sont simulées à titre de prototype. Les vraies valeurs seront issues de l'API Soliguide.
+      </p>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-primary text-white mt-auto">
+      <div class="max-w-6xl mx-auto flex items-center justify-between px-6 py-5">
+        <div class="flex items-center gap-4">
+          <img src="assets/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
+          <div>
+            <p class="font-semibold text-sm">Soliguide Tools</p>
+            <p class="text-xs opacity-60">Analyse des Besoins Sociaux · données simulées</p>
+          </div>
+        </div>
+        <a href="../../../../index.html" class="text-xs opacity-60 hover:opacity-100 underline">← Retour à l'accueil</a>
+      </div>
+    </footer>
+
+    <script src="results.js"></script>
+  </body>
+</html>
