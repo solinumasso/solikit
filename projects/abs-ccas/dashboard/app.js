@@ -66,6 +66,13 @@ function setupCommuneSearch() {
       try {
         const communes = await searchCommunes(q);
         renderSuggestions(suggestions, communes, (commune) => {
+          if (window.posthog) {
+            posthog.capture("homepage-commune-selected", {
+              commune_nom: commune.nom,
+              commune_code: commune.code,
+              departement: commune.departement?.nom ?? null,
+            });
+          }
           selectCommune(commune);
           input.value = commune.nom;
           clearBtn.classList.remove("hidden");
@@ -259,6 +266,12 @@ function renderLaunch() {
   const newBtn = btn.cloneNode(true); // reset les listeners précédents
   btn.parentNode.replaceChild(newBtn, btn);
   newBtn.addEventListener("click", () => {
+    if (window.posthog) {
+      posthog.capture("homepage-launch-analysis", {
+        territories: territoires.map(t => ({ code: t.code, nom: t.nom, type: t.type })),
+        nb_territories: territoires.length,
+      });
+    }
     const codes = territoires.map(t => t.code).join(",");
     window.location.href = `results.html?territories=${codes}`;
   });

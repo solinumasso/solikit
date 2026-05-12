@@ -338,6 +338,7 @@ function buildTbody(territoires) {
 
     if (indicateur.methodology) {
       tdLabel.querySelector(".btn-info-toggle")?.addEventListener("click", () => {
+        if (window.posthog) posthog.capture("analysis-page-more-info", { indicator: indicateur.key });
         document.getElementById(`modal-${indicateur.key}`)?.showModal();
       });
     }
@@ -380,6 +381,7 @@ function toggleChart(indicateur, territoires, trChart) {
   }
 
   trChart.classList.remove("hidden");
+  if (window.posthog) posthog.capture("analysis-page-see-evolution", { indicator: indicateur.key });
   if (btn) {
     btn.querySelector(".chart-toggle-icon").textContent = "📉";
     btn.querySelector(".chart-toggle-label").textContent = "Masquer";
