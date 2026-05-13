@@ -65,6 +65,13 @@
           <div class="bg-white rounded-xl border border-base-200 shadow-sm p-6">
             <h2 class="text-base font-bold text-primary-content mb-1" style="font-family:'Nunito',sans-serif">Importer des fiches</h2>
             <p class="text-sm text-base-content/60 mb-4">Export CSV depuis Metabase ou JSON Soliguide · Maximum 100 fiches</p>
+            <div id="resume-box" class="hidden mb-4 p-3 bg-base-200 rounded-lg flex items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-semibold text-primary-content">Reprendre ma dernière analyse</p>
+                <p id="resume-meta" class="text-xs text-base-content/50"></p>
+              </div>
+              <button class="btn btn-sm btn-outline" onclick="loadSavedResults()">Reprendre</button>
+            </div>
             <input id="file-input" type="file" accept=".csv,.json" class="file-input file-input-bordered w-full mb-4" />
             <button id="score-btn" class="btn btn-primary w-full" onclick="runImport()" disabled>
               Lancer le scoring

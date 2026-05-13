@@ -37,7 +37,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   const body = req.body;
-  const fiches: FicheAPI[] = Array.isArray(body) ? body : (body?.places ?? []);
+  const fiches: FicheAPI[] = Array.isArray(body) ? body : (body?.fiches ?? body?.places ?? []);
+  const userEmail: string | undefined = Array.isArray(body) ? undefined : body?.userEmail;
 
   if (!fiches.length) {
     return res.status(400).json({ error: "Aucune fiche trouvée dans le fichier." });
@@ -56,7 +57,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const today = new Date().toISOString().split("T")[0];
-  await kv.hincrby("daily_stats", today, fiches.length);
+  await Promise.all([
+    kv.hincrby("daily_stats", today, fiches.length),
+    userEmail ? kv.set(`results:${userEmail}`, { scores, savedAt: new Date().toISOString(), count: scores.length }) : Promise.resolve(),
+  ]);
 
   return res.status(200).json(scores);
 }

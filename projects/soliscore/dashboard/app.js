@@ -5,6 +5,7 @@ const AUTH_KEY = "soliscore_user";
 const DATA_URL = "../data/output/scores.json";
 const API_URL = "/api/score";
 const STATS_URL = "/api/stats";
+const RESULTS_URL = "/api/results";
 let currentTab = "preload";
 
 const COMPOSANTES = [
@@ -50,6 +51,7 @@ function switchTab(tab) {
       buildHead();
       renderAll();
     } else {
+      checkSavedResults();
       show("empty-state-import");
     }
   } else if (tab === "usage") {
@@ -100,6 +102,44 @@ async function loadUsage() {
   } catch {
     loading.classList.add("hidden");
     show("usage-empty");
+  }
+}
+
+async function checkSavedResults() {
+  const email = sessionStorage.getItem(AUTH_KEY);
+  if (!email) return;
+  try {
+    const res = await fetch(`${RESULTS_URL}?email=${encodeURIComponent(email)}`);
+    if (!res.ok) return;
+    const { savedAt, count } = await res.json();
+    const date = new Date(savedAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+    document.getElementById("resume-meta").textContent = `${date} · ${count} fiche${count > 1 ? "s" : ""}`;
+    document.getElementById("resume-box").classList.remove("hidden");
+  } catch {}
+}
+
+async function loadSavedResults() {
+  const email = sessionStorage.getItem(AUTH_KEY);
+  if (!email) return;
+  const btn = document.querySelector("#resume-box button");
+  btn.disabled = true;
+  btn.textContent = "Chargement…";
+  try {
+    const res = await fetch(`${RESULTS_URL}?email=${encodeURIComponent(email)}`);
+    if (!res.ok) throw new Error();
+    const { scores } = await res.json();
+    allScores = scores;
+    importScores = scores;
+    hide("empty-state-import");
+    show("stats-bar");
+    show("table-wrapper");
+    buildHead();
+    renderAll();
+  } catch {
+    btn.textContent = "Erreur";
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Reprendre";
   }
 }
 
@@ -231,10 +271,11 @@ async function runImport() {
   hide("empty-state-import");
 
   try {
+    const userEmail = sessionStorage.getItem(AUTH_KEY);
     const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(fiches),
+      body: JSON.stringify({ fiches, userEmail }),
     });
     if (!res.ok) {
       const err = await res.json();
