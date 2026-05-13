@@ -1,0 +1,13 @@
+---
+import GuidePage from '../../components/GuidePage.astro';
+import { LOCALES, DEFAULT_LOCALE, type Locale } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return Object.keys(LOCALES)
+    .filter(lang => lang !== DEFAULT_LOCALE)
+    .map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Locale };
+---
+<GuidePage lang={lang} />

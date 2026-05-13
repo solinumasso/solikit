@@ -71,7 +71,12 @@
       "WebFetch(domain:www.civislex.com)",
       "WebFetch(domain:www.clever-cloud.com)",
       "WebFetch(domain:www.clever.cloud)",
-      "WebFetch(domain:developers.clever-cloud.com)"
+      "WebFetch(domain:developers.clever-cloud.com)",
+      "mcp__Astro_docs__search_astro_docs"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "context7"
+  ]
 }
