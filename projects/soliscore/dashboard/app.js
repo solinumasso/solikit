@@ -115,6 +115,69 @@ async function loadPreload() {
   renderAll();
 }
 
+function csvRowToFiche(row) {
+  const g = (col) => row[col]?.trim() || undefined;
+  const bool = (col) => row[col]?.trim() === "true";
+
+  const phoneStr = g("Informations de contact: Numéro de téléphone") || "";
+  const phones = [];
+  for (const m of phoneStr.matchAll(/\[:phoneNumber "([^"]+)"\]/g)) phones.push({ phoneNumber: m[1] });
+
+  let newhours;
+  try { const nh = g("Newhours"); if (nh) newhours = JSON.parse(nh); } catch {}
+
+  let publics;
+  try {
+    const raw = row["Publics accueillis "] || row["Publics accueillis"] || "";
+    const pub = JSON.parse(raw);
+    if (pub?.description) publics = { description: pub.description };
+  } catch {}
+
+  const servStr = g("Services du lieu") || "";
+  const services = [];
+  for (const m of servStr.matchAll(/\[:description "([^"]+)"\]/g)) {
+    if (m[1].trim()) services.push({ description: m[1] });
+  }
+
+  return {
+    lieu_id: parseInt(row["Lieu ID"]) || 0,
+    name: g("Nom de la structure") || "",
+    seo_url: g("URL"),
+    description: g("Description du lieu"),
+    entity: {
+      mail: g("Informations de contact: Mail"),
+      phones: phones.length ? phones : undefined,
+    },
+    newhours,
+    modalities: {
+      appointment: {
+        checked: bool("Modalités d'accès de la structure: Besoin de rendez vous pour accéder à la structure"),
+        precisions: g("Modalités d'accès de la structure: Besoin de rendez vous pour accéder à la structure: Précisions sur l'accès via rendez vous"),
+      },
+      inscription: {
+        checked: bool("Modalités d'accès de la structure: Besoin d'inscription pour accéder à la structure"),
+        precisions: g("Modalités d'accès de la structure: Besoin d'inscription pour accéder à la structure: Précisions pour l'accès via inscription"),
+      },
+      orientation: {
+        checked: bool("Modalités d'accès de la structure: Besoin d'accès via orientation pour accéder à la structure "),
+        precisions: g("Modalités d'accès de la structure: Besoin d'accès via orientation pour accéder à la structure : Précisions pour accès via orientation"),
+      },
+      price: {
+        checked: bool("Modalités d'accès de la structure: Faut il payer pour y accéder?"),
+        precisions: g("Modalités d'accès de la structure: Faut il payer pour y accéder?: Précisions sur le paiement pour y accéder"),
+      },
+      other: g("Modalités d'accès de la structure: Autres modalités d'accès"),
+    },
+    publics,
+    services_all: services.length ? services : undefined,
+  };
+}
+
+function parseCsvFile(text) {
+  const result = Papa.parse(text, { header: true, skipEmptyLines: true });
+  return result.data.map(csvRowToFiche).filter(f => f.lieu_id || f.name);
+}
+
 async function runImport() {
   const fileInput = document.getElementById("file-input");
   const btn = document.getElementById("score-btn");
@@ -128,10 +191,14 @@ async function runImport() {
   let fiches;
   try {
     const text = await file.text();
-    const parsed = JSON.parse(text);
-    fiches = Array.isArray(parsed) ? parsed : (parsed.places ?? []);
+    if (file.name.endsWith(".csv")) {
+      fiches = parseCsvFile(text);
+    } else {
+      const parsed = JSON.parse(text);
+      fiches = Array.isArray(parsed) ? parsed : (parsed.places ?? []);
+    }
   } catch {
-    errorEl.textContent = "Fichier JSON invalide.";
+    errorEl.textContent = "Fichier invalide (CSV ou JSON attendu).";
     errorEl.classList.remove("hidden");
     return;
   }

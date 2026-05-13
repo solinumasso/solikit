@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="assets/soliguide-theme.css" />
     <link rel="stylesheet" href="style.css" />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   </head>
   <body class="min-h-screen bg-base-100 flex flex-col">
 
@@ -63,8 +64,8 @@
         <div class="max-w-lg">
           <div class="bg-white rounded-xl border border-base-200 shadow-sm p-6">
             <h2 class="text-base font-bold text-primary-content mb-1" style="font-family:'Nunito',sans-serif">Importer des fiches</h2>
-            <p class="text-sm text-base-content/60 mb-4">Fichier JSON exporté depuis Soliguide · Maximum 100 fiches</p>
-            <input id="file-input" type="file" accept=".json" class="file-input file-input-bordered w-full mb-4" />
+            <p class="text-sm text-base-content/60 mb-4">Export CSV depuis Metabase ou JSON Soliguide · Maximum 100 fiches</p>
+            <input id="file-input" type="file" accept=".csv,.json" class="file-input file-input-bordered w-full mb-4" />
             <button id="score-btn" class="btn btn-primary w-full" onclick="runImport()" disabled>
               Lancer le scoring
             </button>
