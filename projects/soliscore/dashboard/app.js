@@ -222,9 +222,189 @@ function csvRowToFiche(row) {
   };
 }
 
+// ── EDN parser (format Metabase nouveau) ────────────────────────────────────
+
+function parseEdn(input) {
+  if (!input || typeof input !== 'string') return null;
+  const s = input.trim();
+  if (!s) return null;
+  const toks = ednTokenize(s);
+  const [val] = ednVal(toks, 0);
+  return val;
+}
+
+function ednTokenize(s) {
+  const toks = [];
+  let i = 0;
+  while (i < s.length) {
+    const ch = s[i];
+    if (' \t\n\r,'.includes(ch)) { i++; continue; }
+    if ('{}[]()'.includes(ch)) { toks.push(ch); i++; continue; }
+    if (ch === '"') {
+      let j = i + 1, str = '';
+      while (j < s.length && s[j] !== '"') {
+        if (s[j] === '\\') { j++; str += s[j] || ''; } else str += s[j];
+        j++;
+      }
+      toks.push({ t: 's', v: str });
+      i = j + 1;
+      continue;
+    }
+    if (ch === ':') {
+      let j = i + 1;
+      while (j < s.length && !' \t\n\r,{}[]()#:'.includes(s[j])) j++;
+      toks.push({ t: 'k', v: s.slice(i + 1, j) });
+      i = j;
+      continue;
+    }
+    if (ch === '#') {
+      let j = i + 1;
+      while (j < s.length && !' \t\n\r,{}[]()'.includes(s[j])) j++;
+      toks.push({ t: 'tag', v: s.slice(i + 1, j) });
+      i = j;
+      continue;
+    }
+    let j = i;
+    while (j < s.length && !' \t\n\r,{}[]()#"'.includes(s[j])) j++;
+    const word = s.slice(i, j);
+    if (!word) { i++; continue; }
+    if (word === 'true') toks.push({ t: 'b', v: true });
+    else if (word === 'false') toks.push({ t: 'b', v: false });
+    else if (word === 'nil') toks.push({ t: 'nil' });
+    else if (!isNaN(Number(word))) toks.push({ t: 'n', v: Number(word) });
+    else toks.push({ t: 'sym', v: word });
+    i = j;
+  }
+  return toks;
+}
+
+function ednVal(t, i) {
+  if (i >= t.length) return [null, i];
+  const tok = t[i];
+  if (tok?.t === 'tag') {
+    if (tok.v === 'ordered/map') {
+      const [pairs, ni] = ednVal(t, i + 1);
+      const map = {};
+      if (Array.isArray(pairs)) {
+        for (const p of pairs) {
+          if (Array.isArray(p) && p.length >= 1) map[String(p[0])] = p.length >= 2 ? p[1] : null;
+        }
+      }
+      return [map, ni];
+    }
+    return ednVal(t, i + 1);
+  }
+  if (tok === '{') return ednMap(t, i + 1, '}');
+  if (tok === '[') return ednVec(t, i + 1, ']');
+  if (tok === '(') return ednVec(t, i + 1, ')');
+  if (tok?.t === 's') return [tok.v, i + 1];
+  if (tok?.t === 'k') return [tok.v, i + 1];
+  if (tok?.t === 'b') return [tok.v, i + 1];
+  if (tok?.t === 'nil') return [null, i + 1];
+  if (tok?.t === 'n') return [tok.v, i + 1];
+  if (tok?.t === 'sym') return [tok.v, i + 1];
+  return [null, i + 1];
+}
+
+function ednMap(t, i, close) {
+  const map = {};
+  while (i < t.length && t[i] !== close) {
+    const [key, ni] = ednVal(t, i);
+    i = ni;
+    // Valeur manquante : prochain token est une clé ou la fermeture
+    if (i >= t.length || t[i] === close || t[i]?.t === 'k') {
+      map[String(key)] = null;
+      continue;
+    }
+    const [val, ni2] = ednVal(t, i);
+    map[String(key)] = val;
+    i = ni2;
+  }
+  return [map, i + 1];
+}
+
+function ednVec(t, i, close) {
+  const arr = [];
+  while (i < t.length && t[i] !== close) {
+    const [val, ni] = ednVal(t, i);
+    arr.push(val);
+    i = ni;
+  }
+  return [arr, i + 1];
+}
+
+// ── Nouveau format CSV (colonnes anglaises + EDN) ─────────────────────────────
+
+function csvRowToFicheNew(row) {
+  const g = (col) => row[col]?.trim() || undefined;
+
+  const phonesEdn = parseEdn(g('entity.phones') || '[]');
+  const phones = [];
+  if (Array.isArray(phonesEdn)) {
+    for (const p of phonesEdn) {
+      if (p && typeof p === 'object' && p.phoneNumber) phones.push({ phoneNumber: String(p.phoneNumber) });
+    }
+  }
+
+  const parseModality = (col) => {
+    const raw = g(col);
+    if (!raw) return { checked: false };
+    const parsed = parseEdn(raw);
+    return parsed && typeof parsed === 'object' ? parsed : { checked: false };
+  };
+
+  let newhours;
+  const nhRaw = g('newhours');
+  if (nhRaw) {
+    const nh = parseEdn(nhRaw);
+    if (nh && typeof nh === 'object') newhours = nh;
+  }
+
+  let publics;
+  const pubRaw = g('publics');
+  if (pubRaw) {
+    const pub = parseEdn(pubRaw);
+    if (pub && typeof pub === 'object') publics = pub;
+  }
+
+  let services_all;
+  const servRaw = g('services_all');
+  if (servRaw && servRaw !== '[]') {
+    const parsed = parseEdn(servRaw);
+    if (Array.isArray(parsed) && parsed.length) {
+      services_all = parsed
+        .filter(s => s?.description)
+        .map(s => ({ description: s.description }));
+    }
+  }
+
+  return {
+    lieu_id: parseInt(row['lieu_id']) || 0,
+    name: g('name') || '',
+    seo_url: g('seo_url'),
+    description: g('description'),
+    entity: {
+      mail: g('entity.mail'),
+      phones: phones.length ? phones : undefined,
+    },
+    newhours,
+    modalities: {
+      appointment: parseModality('modalities.appointment'),
+      inscription: parseModality('modalities.inscription'),
+      orientation: parseModality('modalities.orientation'),
+      price: parseModality('modalities.price'),
+      other: g('modalities.other'),
+    },
+    publics,
+    services_all,
+  };
+}
+
 function parseCsvFile(text) {
   const result = Papa.parse(text, { header: true, skipEmptyLines: true });
-  return result.data.map(csvRowToFiche).filter(f => f.lieu_id || f.name);
+  const isNew = result.meta.fields && result.meta.fields.includes('lieu_id');
+  const mapper = isNew ? csvRowToFicheNew : csvRowToFiche;
+  return result.data.map(mapper).filter(f => f.lieu_id || f.name);
 }
 
 async function runImport() {
