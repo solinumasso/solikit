@@ -3,6 +3,8 @@ const ALLOWED_DOMAIN = "solinum.org";
 const AUTH_KEY = "soliscore_user";
 
 const DATA_URL = "../data/output/scores.json";
+const API_URL = "/api/score";
+let currentTab = "preload";
 
 const COMPOSANTES = [
   { id: "titre", label: "Titre" },
@@ -21,18 +23,38 @@ let allScores = [];
 let sortKey = "score_total";
 let sortDir = -1; // -1 = desc, 1 = asc
 
-async function init() {
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById("tab-preload").classList.toggle("tab-active", tab === "preload");
+  document.getElementById("tab-import").classList.toggle("tab-active", tab === "import");
+  document.getElementById("import-panel").classList.toggle("hidden", tab !== "import");
+  document.getElementById("search-input").parentElement.classList.toggle("hidden", tab === "import");
+
+  hide("stats-bar");
+  hide("table-wrapper");
+  hide("empty-state-preload");
+  hide("empty-state-import");
+  allScores = [];
+
+  if (tab === "preload") {
+    loadPreload();
+  } else {
+    show("empty-state-import");
+  }
+}
+
+async function loadPreload() {
   try {
     const res = await fetch(DATA_URL);
     if (!res.ok) throw new Error("not found");
     allScores = await res.json();
   } catch {
-    show("empty-state");
+    show("empty-state-preload");
     return;
   }
 
   if (!allScores.length) {
-    show("empty-state");
+    show("empty-state-preload");
     return;
   }
 
@@ -40,7 +62,74 @@ async function init() {
   show("table-wrapper");
   buildHead();
   renderAll();
+}
 
+async function runImport() {
+  const fileInput = document.getElementById("file-input");
+  const btn = document.getElementById("score-btn");
+  const progress = document.getElementById("import-progress");
+  const errorEl = document.getElementById("import-error");
+
+  errorEl.classList.add("hidden");
+  const file = fileInput.files[0];
+  if (!file) return;
+
+  let fiches;
+  try {
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    fiches = Array.isArray(parsed) ? parsed : (parsed.places ?? []);
+  } catch {
+    errorEl.textContent = "Fichier JSON invalide.";
+    errorEl.classList.remove("hidden");
+    return;
+  }
+
+  if (fiches.length === 0) {
+    errorEl.textContent = "Aucune fiche trouvée dans le fichier.";
+    errorEl.classList.remove("hidden");
+    return;
+  }
+
+  if (fiches.length > 100) {
+    errorEl.textContent = `Trop de fiches : ${fiches.length} dans le fichier, maximum 100. Réduis l'export.`;
+    errorEl.classList.remove("hidden");
+    return;
+  }
+
+  btn.disabled = true;
+  progress.classList.remove("hidden");
+  hide("stats-bar");
+  hide("table-wrapper");
+  hide("empty-state-import");
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(fiches),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error ?? `Erreur serveur (${res.status})`);
+    }
+    allScores = await res.json();
+    show("stats-bar");
+    show("table-wrapper");
+    buildHead();
+    renderAll();
+  } catch (err) {
+    errorEl.textContent = err.message;
+    errorEl.classList.remove("hidden");
+    show("empty-state-import");
+  } finally {
+    btn.disabled = false;
+    progress.classList.add("hidden");
+  }
+}
+
+async function init() {
+  loadPreload();
   document.getElementById("search-input").addEventListener("input", (e) => {
     renderAll(e.target.value.trim().toLowerCase());
   });
@@ -50,6 +139,12 @@ function show(id) {
   const el = document.getElementById(id);
   el.classList.remove("hidden");
   el.classList.add("flex");
+}
+
+function hide(id) {
+  const el = document.getElementById(id);
+  el.classList.add("hidden");
+  el.classList.remove("flex");
 }
 
 function buildHead() {
@@ -274,4 +369,9 @@ document.getElementById("menu-btn").addEventListener("click", (e) => {
 });
 document.addEventListener("click", () => {
   document.getElementById("menu-dropdown").classList.add("hidden");
+});
+
+// Activer le bouton scoring dès qu'un fichier est sélectionné
+document.getElementById("file-input").addEventListener("change", (e) => {
+  document.getElementById("score-btn").disabled = !e.target.files.length;
 });
