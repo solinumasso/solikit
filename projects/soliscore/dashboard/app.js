@@ -21,6 +21,7 @@ const COMPOSANTES = [
 ];
 
 let allScores = [];
+let importScores = [];
 let sortKey = "score_total";
 let sortDir = -1; // -1 = desc, 1 = asc
 
@@ -37,12 +38,20 @@ function switchTab(tab) {
   hide("table-wrapper");
   hide("empty-state-preload");
   hide("empty-state-import");
-  allScores = [];
 
   if (tab === "preload") {
+    allScores = [];
     loadPreload();
   } else if (tab === "import") {
-    show("empty-state-import");
+    if (importScores.length) {
+      allScores = importScores;
+      show("stats-bar");
+      show("table-wrapper");
+      buildHead();
+      renderAll();
+    } else {
+      show("empty-state-import");
+    }
   } else if (tab === "usage") {
     loadUsage();
   }
@@ -232,6 +241,7 @@ async function runImport() {
       throw new Error(err.error ?? `Erreur serveur (${res.status})`);
     }
     allScores = await res.json();
+    importScores = allScores;
     show("stats-bar");
     show("table-wrapper");
     buildHead();
