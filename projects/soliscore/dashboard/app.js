@@ -4,6 +4,7 @@ const AUTH_KEY = "soliscore_user";
 
 const DATA_URL = "../data/output/scores.json";
 const API_URL = "/api/score";
+const STATS_URL = "/api/stats";
 let currentTab = "preload";
 
 const COMPOSANTES = [
@@ -27,8 +28,10 @@ function switchTab(tab) {
   currentTab = tab;
   document.getElementById("tab-preload").classList.toggle("tab-active", tab === "preload");
   document.getElementById("tab-import").classList.toggle("tab-active", tab === "import");
+  document.getElementById("tab-usage").classList.toggle("tab-active", tab === "usage");
   document.getElementById("import-panel").classList.toggle("hidden", tab !== "import");
-  document.getElementById("search-input").parentElement.classList.toggle("hidden", tab === "import");
+  document.getElementById("usage-panel").classList.toggle("hidden", tab !== "usage");
+  document.getElementById("search-input").parentElement.classList.toggle("hidden", tab !== "preload");
 
   hide("stats-bar");
   hide("table-wrapper");
@@ -38,8 +41,56 @@ function switchTab(tab) {
 
   if (tab === "preload") {
     loadPreload();
-  } else {
+  } else if (tab === "import") {
     show("empty-state-import");
+  } else if (tab === "usage") {
+    loadUsage();
+  }
+}
+
+async function loadUsage() {
+  const loading = document.getElementById("usage-loading");
+  const content = document.getElementById("usage-content");
+  const empty = document.getElementById("usage-empty");
+
+  loading.classList.remove("hidden");
+  hide("usage-content");
+  hide("usage-empty");
+
+  try {
+    const res = await fetch(STATS_URL);
+    if (!res.ok) throw new Error("Erreur serveur");
+    const stats = await res.json();
+
+    loading.classList.add("hidden");
+
+    if (!stats.length) {
+      show("usage-empty");
+      return;
+    }
+
+    const total = stats.reduce((s, d) => s + d.count, 0);
+    const avg = Math.round(total / stats.length);
+    document.getElementById("usage-total").textContent = total.toLocaleString("fr-FR");
+    document.getElementById("usage-days").textContent = stats.length;
+    document.getElementById("usage-avg").textContent = avg.toLocaleString("fr-FR");
+
+    const tbody = document.getElementById("usage-table-body");
+    tbody.innerHTML = "";
+    for (const { date, count } of [...stats].reverse()) {
+      const tr = document.createElement("tr");
+      tr.className = "border-b border-base-200";
+      tr.innerHTML = `
+        <td class="font-mono text-sm text-base-content/70">${date}</td>
+        <td class="text-right font-semibold text-primary-content">${count.toLocaleString("fr-FR")}</td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    show("usage-content");
+  } catch {
+    loading.classList.add("hidden");
+    show("usage-empty");
   }
 }
 

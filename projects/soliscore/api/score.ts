@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { kv } from "@vercel/kv";
 import type { FicheAPI, FicheScore } from "../src/types.js";
 import {
   scoreTitre, scoreDescription, scoreTelephonePresence, scoreEmailPresence,
@@ -53,6 +54,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const results = await Promise.all(batch.map(scoreFiche));
     scores.push(...results);
   }
+
+  const today = new Date().toISOString().split("T")[0];
+  await kv.hincrby("daily_stats", today, fiches.length);
 
   return res.status(200).json(scores);
 }

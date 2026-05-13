@@ -55,6 +55,7 @@
       <div class="tabs tabs-border mb-6">
         <button id="tab-preload" class="tab tab-active font-semibold" onclick="switchTab('preload')">📊 Scores préchargés</button>
         <button id="tab-import" class="tab font-semibold" onclick="switchTab('import')">📥 Import & Scoring</button>
+        <button id="tab-usage" class="tab font-semibold" onclick="switchTab('usage')">📈 Utilisation</button>
       </div>
 
       <!-- Panneau import (caché par défaut) -->
@@ -73,6 +74,45 @@
             </div>
             <p id="import-error" class="hidden mt-4 text-sm text-error-content bg-error/10 rounded-lg px-3 py-2"></p>
           </div>
+        </div>
+      </div>
+
+      <!-- Panneau usage (caché par défaut) -->
+      <div id="usage-panel" class="hidden">
+        <div id="usage-loading" class="flex items-center gap-3 text-sm text-base-content/60 py-8">
+          <span class="loading loading-spinner loading-sm text-primary"></span>
+          Chargement des statistiques…
+        </div>
+        <div id="usage-content" class="hidden">
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+            <div class="stat bg-white rounded-xl border border-base-200 shadow-sm p-4">
+              <div class="stat-title text-xs text-base-content/50">Total fiches analysées</div>
+              <div id="usage-total" class="stat-value text-2xl text-primary-content font-bold">—</div>
+            </div>
+            <div class="stat bg-white rounded-xl border border-base-200 shadow-sm p-4">
+              <div class="stat-title text-xs text-base-content/50">Jours d'utilisation</div>
+              <div id="usage-days" class="stat-value text-2xl text-primary-content font-bold">—</div>
+            </div>
+            <div class="stat bg-white rounded-xl border border-base-200 shadow-sm p-4">
+              <div class="stat-title text-xs text-base-content/50">Moyenne / jour actif</div>
+              <div id="usage-avg" class="stat-value text-2xl text-primary-content font-bold">—</div>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl border border-base-200 shadow-sm overflow-x-auto">
+            <table class="table table-sm w-full">
+              <thead class="bg-base-100 text-xs uppercase tracking-wide text-base-content/50">
+                <tr>
+                  <th>Date</th>
+                  <th class="text-right">Fiches analysées</th>
+                </tr>
+              </thead>
+              <tbody id="usage-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="usage-empty" class="hidden flex-col items-center justify-center py-16 text-center">
+          <div class="text-5xl mb-4">📭</div>
+          <p class="text-base-content/50 text-sm">Aucune utilisation enregistrée pour le moment.</p>
         </div>
       </div>
 
