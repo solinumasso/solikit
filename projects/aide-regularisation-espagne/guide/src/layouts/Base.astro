@@ -1,0 +1,252 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { useTranslations, getDir, getNotice } from '../i18n/utils';
+import { LOCALES, LINKS, DEFAULT_LOCALE, type Locale } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+  page: 'guide' | 'map';
+}
+
+const { lang, page } = Astro.props;
+const t = useTranslations(lang);
+const dir = getDir(lang);
+const notice = getNotice(lang);
+const isDefault = lang === DEFAULT_LOCALE;
+
+// Cross-page navigation (localized)
+const mapUrl   = page === 'guide' ? (isDefault ? 'map/'    : `../map/${lang}/`)    : null;
+const guideUrl = page === 'map'   ? (isDefault ? '../'     : `../../${lang}/`)     : null;
+---
+<!DOCTYPE html>
+<html lang={lang} dir={dir} data-theme="soliguide">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{t('page_title')}</title>
+  <meta name="description" content={t('meta_desc')} />
+  <link rel="icon" href={`${import.meta.env.BASE_URL}assets/favicon.ico`} />
+
+  <!-- hreflang alternate links for every locale -->
+  {Object.keys(LOCALES).map(locale => (
+    <link
+      rel="alternate"
+      hreflang={locale}
+      href={getRelativeLocaleUrl(locale as Locale, '/')}
+    />
+  ))}
+  <link rel="alternate" hreflang="x-default" href={getRelativeLocaleUrl(DEFAULT_LOCALE, '/')} />
+
+  <!-- DaisyUI 5 + Tailwind 4 (CDN, no build step) -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" is:inline></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+
+  <!-- Soliguide theme (from guide/public/assets/) -->
+  <link rel="stylesheet" href={`${import.meta.env.BASE_URL}assets/variables.css`} />
+  <link rel="stylesheet" href={`${import.meta.env.BASE_URL}assets/soliguide-theme.css`} />
+
+  <!-- Leaflet (map page only) -->
+  {page === 'map' && (<>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1/dist/MarkerCluster.Default.css" />
+  </>)}
+
+  <style>
+    /* Hero decorative circles */
+    .guide-hero { position: relative; overflow: hidden; }
+    .guide-hero::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 320px; height: 320px; border-radius: 50%;
+      background: rgba(248,75,50,.15); pointer-events: none;
+    }
+    .guide-hero::after {
+      content: '';
+      position: absolute; bottom: -60px; left: -60px;
+      width: 220px; height: 220px; border-radius: 50%;
+      background: rgba(248,75,50,.08); pointer-events: none;
+    }
+    /* Scroll margin for anchored sections */
+    .guide-section { scroll-margin-top: 1.5rem; }
+    /* TOC active state (set by JS) */
+    .toc-link.active {
+      background: rgba(248,75,50,.08);
+      color: var(--color-primary);
+      font-weight: 600;
+      border-left: 3px solid var(--color-primary);
+      padding-left: 7px;
+    }
+    [dir="rtl"] .toc-link.active { border-left: none; border-right: 3px solid var(--color-primary); padding-left: 10px; padding-right: 7px; }
+    .toc-link.active .toc-num { background: var(--color-primary); color: white; }
+    /* Partner logos — fond blanc, couleurs naturelles, taille confortable */
+    .partner-logo { height: 52px; object-fit: contain; }
+    @media (max-width: 768px) { .desktop-toc { display: none; } }
+  </style>
+</head>
+<body class="min-h-screen bg-base-100 flex flex-col font-['Roboto',sans-serif]">
+
+  <!-- NAVBAR -->
+  <header class="bg-white shadow-md border-b border-base-300 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 h-16">
+
+      <!-- Logo + tool name -->
+      <div class="flex items-center gap-3">
+        <img src={`${import.meta.env.BASE_URL}assets/soliguia-inline.svg`} alt="Soliguia" class="h-6" />
+        <span class="font-bold opacity-20 text-lg hidden sm:inline text-primary">|</span>
+        <span class="text-sm font-semibold tracking-tight hidden sm:inline text-primary">{t('nav_tool')}</span>
+      </div>
+
+      <!-- Page navigation tabs -->
+      <nav class="flex items-center gap-1 bg-base-200 rounded-xl p-1">
+        {page === 'guide'
+          ? <span class="px-5 py-2 rounded-lg text-sm font-semibold text-primary bg-white shadow-sm">{t('map_nav_guide')}</span>
+          : <a href={guideUrl!} class="px-5 py-2 rounded-lg text-sm font-medium text-base-content/55 hover:text-base-content transition-colors no-underline">{t('map_nav_guide')}</a>
+        }
+        {page === 'map'
+          ? <span class="px-5 py-2 rounded-lg text-sm font-semibold text-primary bg-white shadow-sm">{t('nav_map')}</span>
+          : <a href={mapUrl!} class="px-5 py-2 rounded-lg text-sm font-medium text-base-content/55 hover:text-base-content transition-colors no-underline">{t('nav_map')}</a>
+        }
+      </nav>
+
+      <!-- Language switcher -->
+      <div class="relative">
+        <button id="lang-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-base-300 bg-white text-xs font-semibold text-primary-content hover:border-primary hover:bg-base-200 transition-all cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+          </svg>
+          <span>{LOCALES[lang].name}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div id="lang-dropdown" class="hidden absolute right-0 top-full mt-1.5 bg-white border border-base-300 rounded-xl shadow-xl min-w-[180px] z-[9999] overflow-hidden">
+          {Object.entries(LOCALES).map(([code, meta]) => (
+            <a
+              href={getRelativeLocaleUrl(code as Locale, '/')}
+              class:list={['flex items-center gap-2.5 w-full px-3.5 py-2 text-sm hover:bg-base-200 transition-colors no-underline', code === lang ? 'bg-primary/5 text-primary font-semibold' : 'text-base-content']}
+            >
+              {meta.flag} {meta.name}
+            </a>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- DEADLINE BANNER -->
+  <div class="bg-red-700 text-white text-center py-2.5 px-4 text-sm font-semibold tracking-wide">
+    {t('deadline_banner')}
+  </div>
+
+  <!-- TRANSLATION NOTICE (stub languages only) -->
+  {notice && (
+    <div class="flex items-center gap-3 bg-blue-50 border border-blue-200 px-5 py-3 text-sm text-blue-800">
+      <svg class="h-5 w-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+      </svg>
+      {notice}
+    </div>
+  )}
+
+  <!-- PAGE CONTENT -->
+  <slot />
+
+  <!-- FOOTER -->
+  <footer>
+    <!-- Logos partenaires : fond blanc car les SVG ont des fonds blancs intégrés -->
+    <div class="bg-white border-t border-base-300 px-6 pt-8 pb-8">
+      <div class="max-w-[960px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+
+        <!-- Colonne gauche : Una iniciativa de -->
+        <div>
+          <p class="text-sm font-semibold text-base-content/50 mb-5">{t('footer_initiative')}</p>
+          <div class="flex flex-wrap items-center gap-6">
+            <img src={`${import.meta.env.BASE_URL}assets/poctefa-logos/isologo.svg`}                      alt="Cofinancé par l'UE"         class="partner-logo" />
+            <img src={`${import.meta.env.BASE_URL}assets/poctefa-logos/solinum.svg`}                      alt="Solinum"                    class="partner-logo" />
+            <img src={`${import.meta.env.BASE_URL}assets/poctefa-logos/andorra-recerca-innovacio-ca.svg`} alt="Andorra Recerca i Innovació" class="partner-logo" />
+            <img src={`${import.meta.env.BASE_URL}assets/poctefa-logos/alba-verd.svg`}                    alt="Alba Verd"                  class="partner-logo" />
+            <img src={`${import.meta.env.BASE_URL}assets/poctefa-logos/pere-claver.png`}                  alt="Fundació Pere Claver"       class="partner-logo" style="height:36px;" />
+            <img src={`${import.meta.env.BASE_URL}assets/poctefa-logos/fundacio-resilis.svg`}             alt="Fundació Resilis"           class="partner-logo" />
+          </div>
+        </div>
+
+        <!-- Colonne droite : Amb el suport de -->
+        <div>
+          <p class="text-sm font-semibold text-base-content/50 mb-5">{t('footer_support')}</p>
+          <!-- POCTEFA pleine largeur -->
+          <img src={`${import.meta.env.BASE_URL}assets/poctefa-logos/poctefa.svg`} alt="Interreg POCTEFA" class="w-full object-contain mb-6" style="max-height:110px;" />
+          <!-- Autres logos support -->
+          <div class="flex flex-wrap items-center gap-6">
+            <img src={`${import.meta.env.BASE_URL}assets/poctefa-logos/diputacio-de-tarragona.svg`} alt="Diputació de Tarragona"   class="partner-logo" />
+            <img src={`${import.meta.env.BASE_URL}assets/poctefa-logos/generalitat-catalunya.jpg`}  alt="Generalitat de Catalunya" class="partner-logo" style="height:32px;" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- Barre de bas de page -->
+    <div class="bg-[#271332]">
+      <div class="max-w-[1100px] mx-auto px-6 py-4 flex items-center gap-3">
+        <img src={`${import.meta.env.BASE_URL}assets/soliguide-symbol.svg`} alt="Soliguide" class="h-7 brightness-0 invert opacity-40" />
+        <div>
+          <p class="font-semibold text-white/55 text-sm">{t('nav_tool')}</p>
+          <p class="text-xs text-white/30">{t('footer_sources')}</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Language switcher
+    document.getElementById('lang-btn')?.addEventListener('click', e => {
+      e.stopPropagation();
+      document.getElementById('lang-dropdown')?.classList.toggle('hidden');
+    });
+    document.addEventListener('click', () => {
+      document.getElementById('lang-dropdown')?.classList.add('hidden');
+    });
+    // FAQ accordion
+    document.querySelectorAll<HTMLButtonElement>('.faq-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling as HTMLElement;
+        const isOpen = !answer.classList.contains('hidden');
+        document.querySelectorAll('.faq-btn').forEach(b => {
+          (b.nextElementSibling as HTMLElement)?.classList.add('hidden');
+          (b.querySelector('.faq-chevron') as HTMLElement)?.style.setProperty('transform', '');
+          b.classList.remove('bg-primary/5', 'text-primary');
+        });
+        if (!isOpen) {
+          answer.classList.remove('hidden');
+          (btn.querySelector('.faq-chevron') as HTMLElement)?.style.setProperty('transform', 'rotate(180deg)');
+          btn.classList.add('bg-primary/5', 'text-primary');
+        }
+      });
+    });
+    // Sticky TOC scroll-spy
+    const tocLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.toc-link[href^="#"]'));
+    const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href')!)).filter(Boolean) as HTMLElement[];
+    function updateTOC() {
+      let current = sections[0];
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s; });
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${current?.id}`));
+    }
+    window.addEventListener('scroll', updateTOC, { passive: true });
+    updateTOC();
+    // Smooth scroll
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href')!);
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+    // Updated date
+    const dateEl = document.getElementById('updated-date');
+    if (dateEl) dateEl.textContent = new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
+  </script>
+</body>
+</html>
