@@ -1,59 +1,3202 @@
 [
   {
-    "lieu_id": 12345,
-    "name": "CCAS de Paris 10e",
+    "lieu_id": 14038,
+    "name": "Boutique Solidarité - ARPADE",
+    "seo_url": "boutique-solidarite-toulouse-14038",
+    "score_total": 20,
+    "score_bonus": 23,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "28 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "527 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : cpva.equpeboutique@arpade.org"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "2 faute(s) : ordianteur → ordinateur, casiers → casiers (correct, mais erreur dans contexte: utilisation du mot approprié)"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Horaires spéciaux mentionnés dans le champ \"[Description]\" — extrait : \"samedi et dimanche de 9h à 12h et de 13h30 à 15h30\" (ex: 1er jeudi du mois) — non pénalisé"
+      }
+    ]
+  },
+  {
+    "lieu_id": 29213,
+    "name": "Maison des Solidarités (MDS) Bagatelle - Toulouse",
+    "seo_url": "maison-des-solidarites-amouroux-bonnefoy-toulouse-copie-29213",
+    "score_total": 20,
+    "score_bonus": 23,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "49 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "507 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mds.bagatelle@cd31.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "2 faute(s) : diﬀérents → différents, Reçu(e) → Reçu·e (ou réécriture plus claire)"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 29369,
+    "name": "Maison des Solidarités (MDS) Centre - Toulouse",
+    "seo_url": "maison-des-solidarites-bagatelle-toulouse-copie-29369",
+    "score_total": 20,
+    "score_bonus": 23,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "46 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "507 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mds.centre@cd31.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "1 faute(s) : diﬀérents → différents"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 29366,
+    "name": "Maison des Solidarités (MDS) Amouroux Bonnefoy - Toulouse",
+    "seo_url": "maison-des-solidarites-bagatelle-toulouse-copie-29366",
+    "score_total": 17,
+    "score_bonus": 20,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 2,
+        "max": 5,
+        "detail": "57 caractères (hors plage 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "507 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mds.amouroux@cd31.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "1 faute(s) : diﬀérents → différents"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 29368,
+    "name": "Maison des Solidarités (MDS) Borderouge - Toulouse",
+    "seo_url": "maison-des-solidarites-bagatelle-toulouse-copie-29368",
+    "score_total": 18,
+    "score_bonus": 21,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "50 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "507 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mds.borderouge@cd31.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "Horaires renseignés, pas d'info jours fériés"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "2 faute(s) : diﬀérents → différents, Reçu(e) → Vous serez reçu(e) (formulation maladroite mais non fautive, à compter comme 0)"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 29388,
+    "name": "Maison des Solidarités (MDS)  Minimes - Toulouse",
+    "seo_url": "maison-des-solidarites-bagatelle-toulouse-copie-29388",
+    "score_total": 20,
+    "score_bonus": 23,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "48 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "507 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mds.minimes@cd31.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "1 faute(s) : diﬀérents → différents"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 29392,
+    "name": "Maison des Solidarités (MDS) Soupetard - Toulouse",
+    "seo_url": "maison-des-solidarites-bagatelle-toulouse-copie-29392",
+    "score_total": 20,
+    "score_bonus": 23,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "49 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "507 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mds.soupetard@cd31.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "1 faute(s) : diﬀérents → différents"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 29394,
+    "name": "Maison des Solidarités (MDS) Rangueil - Toulouse",
+    "seo_url": "maison-des-solidarites-bagatelle-toulouse-copie-copie-29394",
+    "score_total": 18,
+    "score_bonus": 21,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "48 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "507 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mds.rangueil@cd31.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "Horaires renseignés, pas d'info jours fériés"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "2 faute(s) : diﬀérents → différents, Vous serez reçu(e) dans des bureaux d'entretiens → devrait être 'd'entretien' (singulier)"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 29367,
+    "name": "Maison des Solidarités (MDS)  Basso Cambo - Toulouse",
+    "seo_url": "maison-des-solidarites-bagatelle-toulouse-copie-29367",
+    "score_total": 20,
+    "score_bonus": 23,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "52 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "507 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mds.bassocambo@cd31.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "2 faute(s) : diﬀérents → différents, Reçu(e) → Vous serez reçu(e) (notation parenthèses acceptée mais 'diﬀérents' contient un caractère mal encodé)"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 29391,
+    "name": "Maison des Solidarités (MDS) La Faourette - Toulouse",
+    "seo_url": "maison-des-solidarites-bagatelle-toulouse-copie-copie-29391",
+    "score_total": 20,
+    "score_bonus": 23,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "52 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "507 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mds.faourette@cd31.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "2 faute(s) : diﬀérents → différents (caractère spécial mal encodé), Reçu(e) → bien formé mais 'Vous serez reçu(e)' est correct"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 29390,
+    "name": "Maison des Solidarités (MDS) Empalot - Toulouse",
+    "seo_url": "maison-des-solidarites-bagatelle-toulouse-copie-29390",
+    "score_total": 18,
+    "score_bonus": 21,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "47 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "507 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mds.empalot@cd31.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "Horaires renseignés, pas d'info jours fériés"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "1 faute(s) : diﬀérents → différents"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 29393,
+    "name": "Maison des Solidarités (MDS) Pont-vieux - Toulouse",
+    "seo_url": "maison-des-solidarites-bagatelle-toulouse-copie-copie-29393",
+    "score_total": 18,
+    "score_bonus": 21,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "50 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "507 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mds.pontvieux@cd31.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "Horaires renseignés, pas d'info jours fériés"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "2 faute(s) : diﬀérents → différents, Vous serez reçu(e) dans des bureaux d'entretiens → bureaux d'entretien (singulier attendu)"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 30245,
+    "name": "Association Avenir - Maison des Chomeurs",
+    "seo_url": "association-avenir-maison-des-chomeurs-30245",
+    "score_total": 8,
+    "score_bonus": 20,
+    "score_malus": -12,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "40 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 2,
+        "max": 5,
+        "detail": "139 caractères (hors plage 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : avenir.toulouse@wanadoo.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": -5,
+        "max": 0,
+        "detail": "citeslab.avenir@gmail.com (dans : Service 1) — différent de l'email de la fiche (avenir.toulouse@wanadoo.fr)"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": -5,
+        "max": 0,
+        "detail": "4 acronyme(s) utilisé(s) sans explication dans le texte : CAF, CPAM, ANTS, WIFI. Un acronyme est considéré expliqué s'il est suivi ou précédé de sa signification entre parenthèses, ex: \"CCAS (Centre Communal d'Action Sociale)\"."
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune faute détectée"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": -2,
+        "max": 0,
+        "detail": "Des horaires sont décrits dans le champ \"[Autre modalité]\" — extrait : \"Ouvert à tous uniquement le matin Prendre rdv pour horaire en après-midi\" et sont cohérents avec ceux de la fiche — information redondante"
+      }
+    ]
+  },
+  {
+    "lieu_id": 32178,
+    "name": "France Services - Quartier Le Mirail - Toulouse",
+    "seo_url": "maison-france-services-mfs-aurignac-copie-32178",
+    "score_total": 20,
+    "score_bonus": 20,
+    "score_malus": 0,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "47 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 2,
+        "max": 5,
+        "detail": "295 caractères (hors plage 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : le-mirail@france-services.gouv.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "1 acronyme(s) non explicité(s) — sous le seuil de 3"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune faute détectée"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 32179,
+    "name": "France Services - Quartier Pradettes - Toulouse",
+    "seo_url": "maison-france-services-mfs-boulogne-sur-gesse-copie-32179",
+    "score_total": 18,
+    "score_bonus": 23,
+    "score_malus": -5,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "47 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "494 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : servicespradettes@alliancesetcultures.org"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": -5,
+        "max": 0,
+        "detail": "5 acronyme(s) utilisé(s) sans explication dans le texte : CAF, CARSAT, MSA, URSSAF, CIDFF. Un acronyme est considéré expliqué s'il est suivi ou précédé de sa signification entre parenthèses, ex: \"CCAS (Centre Communal d'Action Sociale)\"."
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune faute détectée"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Horaires spéciaux mentionnés dans le champ \"[Service 3]\" — extrait : \"une fois par mois le mercredi\" (ex: 1er jeudi du mois) — non pénalisé"
+      }
+    ]
+  },
+  {
+    "lieu_id": 32280,
+    "name": "La Fabrique Solidaire des Minimes - Maison des Chômeurs et Citoyens Solidaire",
+    "seo_url": "la-fabrique-solidaire-des-minimes-maison-des-chomeurs-et-citoyens-solidaire-32280",
+    "score_total": 2,
+    "score_bonus": 22,
+    "score_malus": -20,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 2,
+        "max": 5,
+        "detail": "77 caractères (hors plage 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "328 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "1 numéro(s), au moins un avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : accueil@lafabriquesolidaire.org"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": -5,
+        "max": 0,
+        "detail": "0567041480 (dans : Service 5) — différent du numéro de la fiche (0561253828)"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": -5,
+        "max": 0,
+        "detail": "6 acronyme(s) utilisé(s) sans explication dans le texte : PLIE, FSE, RDV, IZARDS, BORDEROUGE, CV. Un acronyme est considéré expliqué s'il est suivi ou précédé de sa signification entre parenthèses, ex: \"CCAS (Centre Communal d'Action Sociale)\"."
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -5,
+        "max": 0,
+        "detail": "3 fautes : gartuitement → gratuitement, accopagnement → accompagnement, Sozinho pour vous aider à relire → manque un point ou une structure de phrase claire"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": -5,
+        "max": 0,
+        "detail": "Des horaires sont décrits dans le champ \"[Service 5]\" — extrait : \"Les horaires ci-dessous correspondent aux permanences de Sozinho\" mais sont incohérents avec les horaires structurés de la fiche"
+      }
+    ]
+  },
+  {
+    "lieu_id": 33260,
+    "name": "CPAM - Agence de Toulouse Bagatelle",
+    "seo_url": "cpam-agence-du-cannet-copie-le-cannet-33260",
+    "score_total": 10,
+    "score_bonus": 13,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "35 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 2,
+        "max": 5,
+        "detail": "942 caractères (hors plage 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 0,
+        "max": 5,
+        "detail": "Aucun email renseigné"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "Horaires renseignés, pas d'info jours fériés"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "2 acronyme(s) non explicité(s) — sous le seuil de 3"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "2 faute(s) : e forte influence → en forte influence, rdv → rendez-vous"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 33374,
+    "name": "Maison Toulouse Services Roseraie",
+    "seo_url": "maison-de-la-citoyennete-est-33374",
+    "score_total": 18,
+    "score_bonus": 23,
+    "score_malus": -5,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "33 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "757 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mts.roseraie.territoireest@mairie-toulouse.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": -5,
+        "max": 0,
+        "detail": "3 acronyme(s) utilisé(s) sans explication dans le texte : CLAE, RDV, JUST. Un acronyme est considéré expliqué s'il est suivi ou précédé de sa signification entre parenthèses, ex: \"CCAS (Centre Communal d'Action Sociale)\"."
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune faute détectée"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Horaires spéciaux mentionnés dans le champ \"[Service 7]\" — extrait : \"Permanences Crédit Municipal (2ème jeudi du mois de 13h30 à 17h00)\" (ex: 1er jeudi du mois) — non pénalisé"
+      }
+    ]
+  },
+  {
+    "lieu_id": 33274,
+    "name": "CPAM - Agence de Toulouse Centre",
+    "seo_url": "centre-examens-de-sante-cpam-toulouse-copie-33274",
+    "score_total": 10,
+    "score_bonus": 13,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "32 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 2,
+        "max": 5,
+        "detail": "1128 caractères (hors plage 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 0,
+        "max": 5,
+        "detail": "Aucun email renseigné"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "Horaires renseignés, pas d'info jours fériés"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "2 acronyme(s) non explicité(s) — sous le seuil de 3"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "1 faute(s) : exterieur → extérieur"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 33270,
+    "name": "CPAM - Accueil de l'Oncopôle Toulouse",
+    "seo_url": "cpam-agence-de-plaisance-du-touch-copie-33270",
+    "score_total": 15,
+    "score_bonus": 18,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "37 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 2,
+        "max": 5,
+        "detail": "1047 caractères (hors plage 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : accueil_oncopole.cpam-toulouse@assurance-maladie.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "Horaires renseignés, pas d'info jours fériés"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "2 acronyme(s) non explicité(s) — sous le seuil de 3"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "2 faute(s) : atteinte → atteints (accord au pluriel: 'personnes atteintes'), aidant → aidants (accord au pluriel: 'et leurs aidants')"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 36435,
+    "name": "Régie de Quartier - Reynerie Services",
+    "seo_url": "regie-de-quartier-bellefontaine-services-copie-toulouse-36435",
+    "score_total": 22,
+    "score_bonus": 25,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "37 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "360 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "1 numéro(s), au moins un avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : contact@reynerie-services.com"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "2 faute(s) : administratvies → administratives, habitant.es → habitants/habitantes (format incorrect)"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Horaires spéciaux mentionnés dans le champ \"[Service 8]\" — extrait : \"1 fois par mois, voir avec la régie quartier pour les dates\" (ex: 1er jeudi du mois) — non pénalisé"
+      }
+    ]
+  },
+  {
+    "lieu_id": 36438,
+    "name": "BAB - Régie de Quartier Desbals Services",
+    "seo_url": "le-bab-bienvenue-a-bagatelle-36438",
+    "score_total": 23,
+    "score_bonus": 23,
+    "score_malus": 0,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "40 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "353 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : conciergerie@desbals-services.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "1 acronyme(s) non explicité(s) — sous le seuil de 3"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune faute détectée"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 36637,
+    "name": "Association TO7 (toulouse ouverture)",
+    "seo_url": "association-avenir-maison-des-chomeurs-copie-toulouse-36637",
+    "score_total": 17,
+    "score_bonus": 22,
+    "score_malus": -5,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "36 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 2,
+        "max": 5,
+        "detail": "247 caractères (hors plage 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "1 numéro(s), au moins un avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : to7@to7.org"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "1 acronyme(s) non explicité(s) — sous le seuil de 3"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "2 faute(s) : nieaux → niveaux, Il y'a → Il y a"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": -2,
+        "max": 0,
+        "detail": "Des horaires sont décrits dans le champ \"[Service 5]\" — extrait : \"Les ateliers se déroulent en journée et en soirée, à raison de 2 ou 3 séances par semaines\" et sont cohérents avec ceux de la fiche — information redondante"
+      }
+    ]
+  },
+  {
+    "lieu_id": 40211,
+    "name": "Caisse d'Allocation Familiale (CAF) - Toulouse Empalot",
+    "seo_url": "caisse-dallocation-familiale-caf-saint-gaudens-copie-40211",
+    "score_total": 15,
+    "score_bonus": 18,
+    "score_malus": -3,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "54 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "373 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 0,
+        "max": 5,
+        "detail": "Aucun email renseigné"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "1 acronyme(s) non explicité(s) — sous le seuil de 3"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -3,
+        "max": 0,
+        "detail": "1 faute(s) : rdv → rendez-vous (abréviation non appropriée dans un texte formel)"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 40210,
+    "name": "Caisse d'Allocation Familiale (CAF) - Toulouse Riquet",
+    "seo_url": "caisse-dallocation-familiale-caf-saint-gaudens-copie-40210",
+    "score_total": 18,
+    "score_bonus": 18,
+    "score_malus": 0,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "53 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "372 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 0,
+        "max": 5,
+        "detail": "Aucun email renseigné"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "1 acronyme(s) non explicité(s) — sous le seuil de 3"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune faute détectée"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 40208,
+    "name": "Caisse d'Allocation Familiale (CAF) - Toulouse Les Izards",
+    "seo_url": "caisse-dallocation-familiale-caf-saint-gaudens-copie-40208",
+    "score_total": 15,
+    "score_bonus": 15,
+    "score_malus": 0,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 2,
+        "max": 5,
+        "detail": "57 caractères (hors plage 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "376 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 0,
+        "max": 5,
+        "detail": "Aucun email renseigné"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "1 acronyme(s) non explicité(s) — sous le seuil de 3"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune faute détectée"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 40207,
+    "name": "Caisse d'Allocation Familiale (CAF) - Toulouse Reynerie",
+    "seo_url": "caisse-dallocation-familiale-caf-saint-gaudens-copie-40207",
+    "score_total": 13,
+    "score_bonus": 18,
+    "score_malus": -5,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "55 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "374 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 0,
+        "max": 5,
+        "detail": "Aucun email renseigné"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "1 acronyme(s) non explicité(s) — sous le seuil de 3"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": -5,
+        "max": 0,
+        "detail": "3 fautes : toulouse → Toulouse (majuscule), rdv → RDV (cohérence avec le reste du texte), vous faire accompagner dans vos démarches en ligne. (répétition inutile - aussi dans Service 1)"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 43859,
+    "name": "Maison Toulouse Services Cartoucherie",
+    "seo_url": "maison-toulouse-services-minimes-copie-43859",
+    "score_total": 23,
+    "score_bonus": 23,
+    "score_malus": 0,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "37 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "746 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mts.cartoucherie.territoireouest@mairie-toulouse.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (ouvert)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "1 acronyme(s) non explicité(s) — sous le seuil de 3"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune faute détectée"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Horaires spéciaux mentionnés dans le champ \"[Service 4]\" — extrait : \"Permanences Crédit Municipal (3ème jeudi du mois de 14h à 17h)\" (ex: 1er jeudi du mois) — non pénalisé"
+      }
+    ]
+  },
+  {
+    "lieu_id": 43860,
+    "name": "Maison Toulouse Services Sauzelong",
+    "seo_url": "maison-toulouse-services-minimes-copie-43860",
+    "score_total": 23,
+    "score_bonus": 23,
+    "score_malus": 0,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "34 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "746 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "1 numéro(s), aucun avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : mts.sauzelong.territoireest@mairie-toulouse.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "1 acronyme(s) non explicité(s) — sous le seuil de 3"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune faute détectée"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Horaires spéciaux mentionnés dans le champ \"[Service 3]\" — extrait : \"Crédit municipal (4ème vendredi du mois de 13h30 à 17h00)\" (ex: 1er jeudi du mois) — non pénalisé"
+      }
+    ]
+  },
+  {
+    "lieu_id": 49833,
+    "name": "Médiathèque Grand M",
+    "seo_url": "mediatheque-grand-m-49833",
+    "score_total": 17,
+    "score_bonus": 22,
+    "score_malus": -5,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "19 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 2,
+        "max": 5,
+        "detail": "1823 caractères (hors plage 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "1 numéro(s), au moins un avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : bibliotheque.grandm@mairie-toulouse.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": -5,
+        "max": 0,
+        "detail": "8 acronyme(s) utilisé(s) sans explication dans le texte : CD, DVD, CCAS, RSA, AME, ASS, CSS, AAH. Un acronyme est considéré expliqué s'il est suivi ou précédé de sa signification entre parenthèses, ex: \"CCAS (Centre Communal d'Action Sociale)\"."
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune faute détectée"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Horaires spéciaux mentionnés dans le champ \"[Service 2]\" — extrait : \"tous les mardis de 17h à 18h30 (en dehors des vacances scolaires)\" (ex: 1er jeudi du mois) — non pénalisé"
+      }
+    ]
+  },
+  {
+    "lieu_id": 53351,
+    "name": "Les Imaginations Fertiles",
+    "seo_url": "les-imaginations-fertiles-53351",
+    "score_total": 18,
+    "score_bonus": 18,
+    "score_malus": 0,
+    "composantes": [
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "25 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "602 caractères (optimal 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "1 numéro(s), au moins un avec libellé"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 0,
+        "max": 5,
+        "detail": "Aucun email renseigné"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 3,
+        "max": 5,
+        "detail": "Horaires renseignés, pas d'info jours fériés"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun acronyme non explicité détecté"
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune faute détectée"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune mention d'horaires dans les champs libres"
+      }
+    ]
+  },
+  {
+    "lieu_id": 59270,
+    "name": "Welcome Desk - COMUE de Toulouse",
+    "seo_url": "welcomedesk-universite-de-toulouse-59270",
     "score_total": 12,
     "score_bonus": 17,
     "score_malus": -5,
     "composantes": [
-      { "id": "titre", "label": "Titre", "section": "Informations générales", "type": "bonus", "points": 5, "max": 5, "detail": "23 caractères (optimal 7–55)" },
-      { "id": "description", "label": "Description", "section": "Informations générales", "type": "bonus", "points": 5, "max": 5, "detail": "412 caractères (optimal 300–900)" },
-      { "id": "telephone_presence", "label": "Téléphone — Présence", "section": "Informations générales", "type": "bonus", "points": 5, "max": 5, "detail": "2 numéro(s), au moins un avec libellé" },
-      { "id": "email_presence", "label": "Email — Présence", "section": "Informations générales", "type": "bonus", "points": 2, "max": 5, "detail": "Email renseigné : contact@ccas-paris10.fr" },
-      { "id": "horaires_presence", "label": "Horaires — Présence", "section": "Horaires", "type": "bonus", "points": 0, "max": 5, "detail": "Aucun horaire renseigné" },
-      { "id": "telephone_coherence", "label": "Téléphone — Cohérence", "section": "Informations générales", "type": "malus", "points": -5, "max": 0, "detail": "Numéro(s) dans les champs libres non cohérents : 0142345678" },
-      { "id": "email_coherence", "label": "Email — Cohérence", "section": "Informations générales", "type": "malus", "points": 0, "max": 0, "detail": "Aucun email dans les champs libres" },
-      { "id": "acronymes", "label": "Acronymes non explicités", "section": "Générique", "type": "malus", "points": 0, "max": 0, "detail": "Aucun acronyme non explicité" },
-      { "id": "orthographe", "label": "Orthographe", "section": "Générique", "type": "malus", "points": 0, "max": 0, "detail": "Aucune faute détectée" },
-      { "id": "horaires_coherence", "label": "Horaires — Cohérence", "section": "Horaires", "type": "malus", "points": 0, "max": 0, "detail": "Aucune mention d'horaires dans les champs libres" }
-    ]
-  },
-  {
-    "lieu_id": 67890,
-    "name": "Épicerie solidaire Les Paniers du Coeur",
-    "score_total": 7,
-    "score_bonus": 15,
-    "score_malus": -8,
-    "composantes": [
-      { "id": "titre", "label": "Titre", "section": "Informations générales", "type": "bonus", "points": 5, "max": 5, "detail": "38 caractères (optimal 7–55)" },
-      { "id": "description", "label": "Description", "section": "Informations générales", "type": "bonus", "points": 2, "max": 5, "detail": "124 caractères (hors plage 300–900)" },
-      { "id": "telephone_presence", "label": "Téléphone — Présence", "section": "Informations générales", "type": "bonus", "points": 3, "max": 5, "detail": "1 numéro(s), aucun avec libellé" },
-      { "id": "email_presence", "label": "Email — Présence", "section": "Informations générales", "type": "bonus", "points": 0, "max": 5, "detail": "Aucun email renseigné" },
-      { "id": "horaires_presence", "label": "Horaires — Présence", "section": "Horaires", "type": "bonus", "points": 5, "max": 5, "detail": "Horaires renseignés + info jours fériés (fermé)" },
-      { "id": "telephone_coherence", "label": "Téléphone — Cohérence", "section": "Informations générales", "type": "malus", "points": 0, "max": 0, "detail": "Aucun numéro dans les champs libres" },
-      { "id": "email_coherence", "label": "Email — Cohérence", "section": "Informations générales", "type": "malus", "points": 0, "max": 0, "detail": "Aucun email dans les champs libres" },
-      { "id": "acronymes", "label": "Acronymes non explicités", "section": "Générique", "type": "malus", "points": -5, "max": 0, "detail": "4 acronyme(s) non explicité(s) : CAF, RSA, CPAM, APL" },
-      { "id": "orthographe", "label": "Orthographe", "section": "Générique", "type": "malus", "points": -3, "max": 0, "detail": "2 faute(s) : benevole → bénévole, acueil → accueil" },
-      { "id": "horaires_coherence", "label": "Horaires — Cohérence", "section": "Horaires", "type": "malus", "points": 0, "max": 0, "detail": "Aucune mention d'horaires dans les champs libres" }
-    ]
-  },
-  {
-    "lieu_id": 11111,
-    "name": "A",
-    "score_total": 0,
-    "score_bonus": 0,
-    "score_malus": 0,
-    "composantes": [
-      { "id": "titre", "label": "Titre", "section": "Informations générales", "type": "bonus", "points": 2, "max": 5, "detail": "1 caractères (hors plage 7–55)" },
-      { "id": "description", "label": "Description", "section": "Informations générales", "type": "bonus", "points": 0, "max": 5, "detail": "Pas de description" },
-      { "id": "telephone_presence", "label": "Téléphone — Présence", "section": "Informations générales", "type": "bonus", "points": 0, "max": 5, "detail": "Aucun numéro renseigné" },
-      { "id": "email_presence", "label": "Email — Présence", "section": "Informations générales", "type": "bonus", "points": 0, "max": 5, "detail": "Aucun email renseigné" },
-      { "id": "horaires_presence", "label": "Horaires — Présence", "section": "Horaires", "type": "bonus", "points": 0, "max": 5, "detail": "Aucun horaire renseigné" },
-      { "id": "telephone_coherence", "label": "Téléphone — Cohérence", "section": "Informations générales", "type": "malus", "points": 0, "max": 0, "detail": "Aucun numéro dans les champs libres" },
-      { "id": "email_coherence", "label": "Email — Cohérence", "section": "Informations générales", "type": "malus", "points": 0, "max": 0, "detail": "Aucun email dans les champs libres" },
-      { "id": "acronymes", "label": "Acronymes non explicités", "section": "Générique", "type": "malus", "points": 0, "max": 0, "detail": "Aucun champ libre" },
-      { "id": "orthographe", "label": "Orthographe", "section": "Générique", "type": "malus", "points": 0, "max": 0, "detail": "Aucune faute détectée" },
-      { "id": "horaires_coherence", "label": "Horaires — Cohérence", "section": "Horaires", "type": "malus", "points": 0, "max": 0, "detail": "Aucune mention d'horaires dans les champs libres" }
+      {
+        "id": "titre",
+        "label": "Titre",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "32 caractères (optimal 7–55)"
+      },
+      {
+        "id": "description",
+        "label": "Description",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 2,
+        "max": 5,
+        "detail": "172 caractères (hors plage 300–900)"
+      },
+      {
+        "id": "telephone_presence",
+        "label": "Téléphone — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 0,
+        "max": 5,
+        "detail": "Aucun numéro renseigné"
+      },
+      {
+        "id": "email_presence",
+        "label": "Email — Présence",
+        "section": "Informations générales",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Email renseigné : welcomedesk@univ-toulouse.fr"
+      },
+      {
+        "id": "horaires_presence",
+        "label": "Horaires — Présence",
+        "section": "Horaires",
+        "type": "bonus",
+        "points": 5,
+        "max": 5,
+        "detail": "Horaires renseignés + info jours fériés (fermé)"
+      },
+      {
+        "id": "telephone_coherence",
+        "label": "Téléphone — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun numéro dans les champs libres"
+      },
+      {
+        "id": "email_coherence",
+        "label": "Email — Cohérence",
+        "section": "Informations générales",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucun email dans les champs libres"
+      },
+      {
+        "id": "acronymes",
+        "label": "Acronymes non explicités",
+        "section": "Générique",
+        "type": "malus",
+        "points": -5,
+        "max": 0,
+        "detail": "4 acronyme(s) utilisé(s) sans explication dans le texte : CAF, CROUS, CPAM, CIO. Un acronyme est considéré expliqué s'il est suivi ou précédé de sa signification entre parenthèses, ex: \"CCAS (Centre Communal d'Action Sociale)\"."
+      },
+      {
+        "id": "orthographe",
+        "label": "Orthographe",
+        "section": "Générique",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Aucune faute détectée"
+      },
+      {
+        "id": "horaires_coherence",
+        "label": "Horaires — Cohérence",
+        "section": "Horaires",
+        "type": "malus",
+        "points": 0,
+        "max": 0,
+        "detail": "Horaires spéciaux mentionnés dans le champ \"[Service 5]\" — extrait : \"uniquement sur rendez-vous les jeudis de septembre à décembre\" (ex: 1er jeudi du mois) — non pénalisé"
+      }
     ]
   }
 ]

@@ -6,6 +6,7 @@ export interface DaySchedule {
 export interface FicheAPI {
   lieu_id: number;
   name: string;
+  seo_url?: string;
   description?: string;
   entity?: {
     mail?: string;
@@ -51,6 +52,7 @@ export interface RuleResult {
 export interface FicheScore {
   lieu_id: number;
   name: string;
+  seo_url?: string;
   score_total: number;
   score_bonus: number;
   score_malus: number;

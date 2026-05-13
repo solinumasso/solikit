@@ -2,22 +2,49 @@ import type { FicheAPI, RuleResult } from "./types.js";
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
+function decodeEntities(text: string): string {
+  return text
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(parseInt(n, 10)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"').replace(/&apos;/g, "'")
+    .replace(/&nbsp;/g, " ").replace(/&rsquo;/g, "'").replace(/&lsquo;/g, "'")
+    .replace(/&ldquo;/g, '"').replace(/&rdquo;/g, '"')
+    .replace(/&laquo;/g, "«").replace(/&raquo;/g, "»")
+    .replace(/&mdash;/g, "—").replace(/&ndash;/g, "–").replace(/&hellip;/g, "…")
+    .replace(/&[a-z]+;/gi, "");
+}
+
+function cleanHtml(text: string): string {
+  return decodeEntities(text.replace(/<[^>]*>/g, " "))
+    .replace(/\s+/g, " ").trim();
+}
+
+export interface LabeledField { label: string; text: string; }
+
+export function getLabeledFreeTextFields(fiche: FicheAPI): LabeledField[] {
+  const fields: LabeledField[] = [];
+  const add = (label: string, raw: string | undefined) => {
+    if (raw) { const text = cleanHtml(raw); if (text) fields.push({ label, text }); }
+  };
+  add("Description", fiche.description);
+  add("Description des horaires", fiche.newhours?.description);
+  add("Précisions rendez-vous", fiche.modalities?.appointment?.precisions);
+  add("Précisions inscription", fiche.modalities?.inscription?.precisions);
+  add("Précisions orientation", fiche.modalities?.orientation?.precisions);
+  add("Précisions tarif", fiche.modalities?.price?.precisions);
+  add("Autre modalité", fiche.modalities?.other);
+  add("Description des publics", fiche.publics?.description);
+  fiche.services_all?.forEach((s, i) => add(`Service ${i + 1}`, s.description));
+  add("Info fermeture", fiche.tempInfos?.closure?.description);
+  add("Info horaires temporaires", fiche.tempInfos?.hours?.description);
+  add("Message temporaire", fiche.tempInfos?.message?.description);
+  add("Nom message temporaire", fiche.tempInfos?.message?.name);
+  return fields;
+}
+
 export function getFreeTextFields(fiche: FicheAPI): string {
-  const parts: string[] = [];
-  if (fiche.description) parts.push(fiche.description);
-  if (fiche.newhours?.description) parts.push(fiche.newhours.description);
-  if (fiche.modalities?.appointment?.precisions) parts.push(fiche.modalities.appointment.precisions);
-  if (fiche.modalities?.inscription?.precisions) parts.push(fiche.modalities.inscription.precisions);
-  if (fiche.modalities?.orientation?.precisions) parts.push(fiche.modalities.orientation.precisions);
-  if (fiche.modalities?.price?.precisions) parts.push(fiche.modalities.price.precisions);
-  if (fiche.modalities?.other) parts.push(fiche.modalities.other);
-  if (fiche.publics?.description) parts.push(fiche.publics.description);
-  fiche.services_all?.forEach((s) => { if (s.description) parts.push(s.description); });
-  if (fiche.tempInfos?.closure?.description) parts.push(fiche.tempInfos.closure.description);
-  if (fiche.tempInfos?.hours?.description) parts.push(fiche.tempInfos.hours.description);
-  if (fiche.tempInfos?.message?.description) parts.push(fiche.tempInfos.message.description);
-  if (fiche.tempInfos?.message?.name) parts.push(fiche.tempInfos.message.name);
-  return parts.filter(Boolean).join("\n\n");
+  return getLabeledFreeTextFields(fiche).map((f) => f.text).join("\n\n");
 }
 
 export function formatNewhours(fiche: FicheAPI): string {
@@ -74,8 +101,13 @@ export function scoreTitre(fiche: FicheAPI): RuleResult {
   return { id: "titre", label: "Titre", section: "Informations générales", type: "bonus", points, max: 5, detail };
 }
 
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, "").replace(/&[a-z#0-9]+;/gi, " ").replace(/\s+/g, " ").trim();
+}
+
 export function scoreDescription(fiche: FicheAPI): RuleResult {
-  const desc = fiche.description?.trim() ?? "";
+  const raw = fiche.description?.trim() ?? "";
+  const desc = stripHtml(raw);
   let points: number;
   let detail: string;
   if (!desc) {
@@ -135,33 +167,49 @@ function normalizePhone(p: string): string {
 }
 
 export function scoreTelephoneCoherence(fiche: FicheAPI): RuleResult {
-  const freeText = getFreeTextFields(fiche);
-  const phonesInText = [...freeText.matchAll(PHONE_REGEX)].map((m) => normalizePhone(m[0]));
+  const fields = getLabeledFreeTextFields(fiche);
   const structuredPhones = (fiche.entity?.phones ?? []).map((p) => normalizePhone(p.phoneNumber));
 
-  if (phonesInText.length === 0) {
+  const found: { phone: string; label: string }[] = [];
+  for (const { label, text } of fields) {
+    for (const m of text.matchAll(PHONE_REGEX)) {
+      found.push({ phone: normalizePhone(m[0]), label });
+    }
+  }
+
+  if (found.length === 0) {
     return { id: "telephone_coherence", label: "Téléphone — Cohérence", section: "Informations générales", type: "malus", points: 0, max: 0, detail: "Aucun numéro dans les champs libres" };
   }
-  const incoherent = phonesInText.filter((p) => !structuredPhones.includes(p));
+  const incoherent = found.filter(({ phone }) => !structuredPhones.includes(phone));
   if (incoherent.length === 0) {
     return { id: "telephone_coherence", label: "Téléphone — Cohérence", section: "Informations générales", type: "malus", points: 0, max: 0, detail: "Numéro(s) dans les champs libres cohérents avec la fiche" };
   }
-  return { id: "telephone_coherence", label: "Téléphone — Cohérence", section: "Informations générales", type: "malus", points: -5, max: 0, detail: `Numéro(s) dans les champs libres non cohérents : ${incoherent.join(", ")}` };
+  const detail = incoherent.map(({ phone, label }) => `${phone} (dans : ${label})`).join(", ") + ` — différent du numéro de la fiche (${structuredPhones.join(", ") || "aucun"})`;
+  return { id: "telephone_coherence", label: "Téléphone — Cohérence", section: "Informations générales", type: "malus", points: -5, max: 0, detail };
 }
 
 export function scoreEmailCoherence(fiche: FicheAPI): RuleResult {
-  const freeText = getFreeTextFields(fiche);
-  const emailsInText = [...freeText.matchAll(EMAIL_REGEX)].map((m) => m[0].toLowerCase());
+  const fields = getLabeledFreeTextFields(fiche);
   const structuredEmail = fiche.entity?.mail?.toLowerCase().trim() ?? "";
 
-  if (emailsInText.length === 0) {
+  const found: { email: string; label: string }[] = [];
+  for (const { label, text } of fields) {
+    for (const m of text.matchAll(EMAIL_REGEX)) {
+      found.push({ email: m[0].toLowerCase(), label });
+    }
+  }
+
+  if (found.length === 0) {
     return { id: "email_coherence", label: "Email — Cohérence", section: "Informations générales", type: "malus", points: 0, max: 0, detail: "Aucun email dans les champs libres" };
   }
-  const allMatch = emailsInText.every((e) => e === structuredEmail);
+  const allMatch = found.every(({ email }) => email === structuredEmail);
   if (allMatch) {
-    return { id: "email_coherence", label: "Email — Cohérence", section: "Informations générales", type: "malus", points: -2, max: 0, detail: `Email dans les champs libres identique à celui de la fiche (redondant)` };
+    const where = [...new Set(found.map((f) => f.label))].join(", ");
+    return { id: "email_coherence", label: "Email — Cohérence", section: "Informations générales", type: "malus", points: -2, max: 0, detail: `Email ${found[0].email} répété dans les champs libres (${where}) — identique à la fiche, mais redondant` };
   }
-  return { id: "email_coherence", label: "Email — Cohérence", section: "Informations générales", type: "malus", points: -5, max: 0, detail: `Email dans les champs libres différent de celui de la fiche` };
+  const different = found.filter(({ email }) => email !== structuredEmail);
+  const detail = different.map(({ email, label }) => `${email} (dans : ${label})`).join(", ") + ` — différent de l'email de la fiche (${structuredEmail || "aucun"})`;
+  return { id: "email_coherence", label: "Email — Cohérence", section: "Informations générales", type: "malus", points: -5, max: 0, detail };
 }
 
 export function scoreAcronymes(fiche: FicheAPI): RuleResult {
@@ -190,7 +238,8 @@ export function scoreAcronymes(fiche: FicheAPI): RuleResult {
   const unexplained = [...allAcronyms].filter((a) => !explained.has(a));
 
   if (unexplained.length >= 3) {
-    return { id: "acronymes", label: "Acronymes non explicités", section: "Générique", type: "malus", points: -5, max: 0, detail: `${unexplained.length} acronyme(s) non explicité(s) : ${unexplained.slice(0, 5).join(", ")}` };
+    const list = unexplained.slice(0, 8).join(", ") + (unexplained.length > 8 ? "…" : "");
+    return { id: "acronymes", label: "Acronymes non explicités", section: "Générique", type: "malus", points: -5, max: 0, detail: `${unexplained.length} acronyme(s) utilisé(s) sans explication dans le texte : ${list}. Un acronyme est considéré expliqué s'il est suivi ou précédé de sa signification entre parenthèses, ex: "CCAS (Centre Communal d'Action Sociale)".` };
   }
-  return { id: "acronymes", label: "Acronymes non explicités", section: "Générique", type: "malus", points: 0, max: 0, detail: unexplained.length === 0 ? "Aucun acronyme non explicité" : `${unexplained.length} acronyme(s) non explicité(s) — sous le seuil de 3` };
+  return { id: "acronymes", label: "Acronymes non explicités", section: "Générique", type: "malus", points: 0, max: 0, detail: unexplained.length === 0 ? "Aucun acronyme non explicité détecté" : `${unexplained.length} acronyme(s) non explicité(s) — sous le seuil de 3` };
 }

@@ -37,6 +37,7 @@ async function scoreFiche(fiche: FicheAPI): Promise<FicheScore> {
   return {
     lieu_id: fiche.lieu_id,
     name: fiche.name,
+    seo_url: fiche.seo_url,
     score_total: score_bonus + score_malus,
     score_bonus,
     score_malus,
@@ -52,7 +53,8 @@ async function main() {
   }
 
   const raw = fs.readFileSync(INPUT_PATH, "utf-8");
-  const fiches: FicheAPI[] = JSON.parse(raw);
+  const parsed = JSON.parse(raw);
+  const fiches: FicheAPI[] = Array.isArray(parsed) ? parsed : (parsed.places ?? []);
   console.log(`📂 ${fiches.length} fiche(s) chargée(s)`);
 
   if (!process.env.ANTHROPIC_API_KEY) {

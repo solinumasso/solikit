@@ -1,3 +1,7 @@
+const GOOGLE_CLIENT_ID = "679070476589-reg8ecvigkumckof7bld9ss137d1oat7.apps.googleusercontent.com";
+const ALLOWED_DOMAIN = "solinum.org";
+const AUTH_KEY = "soliscore_user";
+
 const DATA_URL = "../data/output/scores.json";
 
 const COMPOSANTES = [
@@ -6,11 +10,11 @@ const COMPOSANTES = [
   { id: "telephone_presence", label: "Tél. — Présence" },
   { id: "email_presence", label: "Email — Présence" },
   { id: "horaires_presence", label: "Horaires — Présence" },
-  { id: "telephone_coherence", label: "Tél. — Cohérence" },
-  { id: "email_coherence", label: "Email — Cohérence" },
-  { id: "acronymes", label: "Acronymes" },
-  { id: "orthographe", label: "Orthographe" },
-  { id: "horaires_coherence", label: "Horaires — Cohérence" },
+  { id: "telephone_coherence", label: "Tél. — Cohérence", nonObvious: true },
+  { id: "email_coherence", label: "Email — Cohérence", nonObvious: true },
+  { id: "acronymes", label: "Acronymes", nonObvious: true },
+  { id: "orthographe", label: "Orthographe", nonObvious: true },
+  { id: "horaires_coherence", label: "Horaires — Cohérence", nonObvious: true },
 ];
 
 let allScores = [];
@@ -136,8 +140,19 @@ function renderTable(data) {
     // Name
     const nameTd = document.createElement("td");
     nameTd.className = "font-medium text-primary-content max-w-xs";
-    nameTd.textContent = fiche.name;
-    nameTd.title = fiche.name;
+    if (fiche.seo_url) {
+      const a = document.createElement("a");
+      a.href = `https://soliguide.fr/fiche/${fiche.seo_url}`;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = fiche.name;
+      a.title = fiche.name;
+      a.className = "hover:text-accent-content underline underline-offset-2";
+      nameTd.appendChild(a);
+    } else {
+      nameTd.textContent = fiche.name;
+      nameTd.title = fiche.name;
+    }
     tr.appendChild(nameTd);
 
     // Score total
@@ -152,10 +167,19 @@ function renderTable(data) {
       const points = rule ? rule.points : 0;
       const compTd = document.createElement("td");
       compTd.className = "text-center text-sm font-mono " + scoreColor(points, false);
-      if (rule?.detail) {
+
+      if (comp.nonObvious && points !== 0 && rule?.detail) {
+        compTd.style.cursor = "pointer";
+        compTd.style.textDecoration = "underline dotted";
+        compTd.style.textUnderlineOffset = "3px";
+        compTd.addEventListener("click", (e) => {
+          e.stopPropagation();
+          showDetailPopup(e, comp.label, rule.detail);
+        });
+      } else if (rule?.detail) {
         compTd.title = rule.detail;
-        compTd.style.cursor = "help";
       }
+
       compTd.textContent = points === 0 ? "·" : points > 0 ? `+${points}` : points;
       tr.appendChild(compTd);
     }
@@ -178,6 +202,71 @@ function scoreColor(points, isBig) {
   return "text-base-content/30";
 }
 
+// ── Detail popup ────────────────────────────────────────────────────────────
+
+const popup = document.getElementById("detail-popup");
+
+function showDetailPopup(e, label, detail) {
+  popup.innerHTML = `<p class="font-semibold text-primary-content mb-1">${label}</p><p class="text-base-content/80 leading-relaxed">${detail}</p>`;
+  popup.classList.remove("hidden");
+
+  const margin = 12;
+  const pw = 320;
+  const rect = e.target.getBoundingClientRect();
+  let left = rect.left + window.scrollX;
+  let top = rect.bottom + window.scrollY + margin;
+
+  if (left + pw > window.innerWidth - margin) left = window.innerWidth - pw - margin;
+  if (left < margin) left = margin;
+
+  popup.style.left = left + "px";
+  popup.style.top = top + "px";
+  popup.style.width = pw + "px";
+}
+
+document.addEventListener("click", () => popup.classList.add("hidden"));
+
+// ── Auth Google ──────────────────────────────────────────────────────────────
+
+function parseJwt(token) {
+  return JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+}
+
+function onGoogleSignIn(response) {
+  const payload = parseJwt(response.credential);
+  if (payload.email.endsWith("@" + ALLOWED_DOMAIN)) {
+    sessionStorage.setItem(AUTH_KEY, payload.email);
+    document.getElementById("login-screen").remove();
+    init();
+  } else {
+    const err = document.getElementById("auth-error");
+    err.textContent = `Accès refusé. Seuls les comptes @${ALLOWED_DOMAIN} sont autorisés (connecté avec : ${payload.email}).`;
+    err.classList.remove("hidden");
+  }
+}
+
+window.addEventListener("load", () => {
+  const savedUser = sessionStorage.getItem(AUTH_KEY);
+  if (savedUser) {
+    document.getElementById("login-screen").remove();
+    init();
+    return;
+  }
+
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: onGoogleSignIn,
+    auto_select: false,
+  });
+  google.accounts.id.renderButton(document.getElementById("google-btn"), {
+    theme: "outline",
+    size: "large",
+    locale: "fr",
+    text: "signin_with",
+    shape: "rectangular",
+  });
+});
+
 // Hamburger menu
 document.getElementById("menu-btn").addEventListener("click", (e) => {
   e.stopPropagation();
@@ -186,5 +275,3 @@ document.getElementById("menu-btn").addEventListener("click", (e) => {
 document.addEventListener("click", () => {
   document.getElementById("menu-dropdown").classList.add("hidden");
 });
-
-init();
