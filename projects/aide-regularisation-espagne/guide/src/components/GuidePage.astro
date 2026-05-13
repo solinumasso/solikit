@@ -1,0 +1,301 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations } from '../i18n/utils';
+import { LOCALES, LINKS, DEFAULT_LOCALE, type Locale } from '../i18n/ui';
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const mapUrl = lang === DEFAULT_LOCALE ? 'map/' : `../map/${lang}/`;
+
+const tocEntries = [
+  { id: 's1', key: 'toc_1' as const },
+  { id: 's2', key: 'toc_2' as const },
+  { id: 's3', key: 'toc_3' as const },
+  { id: 's4', key: 'toc_4' as const },
+  { id: 's5', key: 'toc_5' as const },
+  { id: 'faq', key: 'toc_6' as const },
+];
+
+const chips = (keys: (keyof ReturnType<typeof useTranslations>)[]) =>
+  keys.map(k => `<span class="bg-base-200 rounded px-2.5 py-0.5 text-[0.78rem] text-base-content">${t(k as any)}</span>`).join('');
+---
+
+<Base lang={lang} page="guide">
+
+  <!-- ── HERO ─────────────────────────────────────────────────────────── -->
+  <section class="guide-hero bg-gradient-to-br from-[#271332] to-[#3d1f4e] text-white py-16 px-6">
+    <div class="max-w-[860px] mx-auto relative z-10">
+      <p class="text-primary text-sm font-semibold mb-4">{t('hero_kicker')}</p>
+      <h1 class="font-['Nunito',sans-serif] font-extrabold text-[clamp(1.9rem,5vw,3.2rem)] leading-[1.15] text-white mb-3">
+        {t('hero_title_1')}<span class="text-primary">{t('hero_title_2')}</span>{t('hero_title_3')}
+      </h1>
+      <p class="text-xs opacity-50 mb-3">{t('hero_updated')} <span id="updated-date"></span></p>
+      <p class="text-[1.05rem] opacity-85 mb-6 max-w-[600px] leading-relaxed">{t('hero_subtitle')}</p>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-8 list-none p-0">
+        {(['hero_li1','hero_li2','hero_li3','hero_li4'] as const).map(k => (
+          <li class="flex items-center gap-2.5 text-[0.9rem] opacity-90 before:content-['✓'] before:inline-flex before:items-center before:justify-center before:min-w-[20px] before:h-[20px] before:bg-primary before:rounded-full before:text-white before:text-[0.65rem] before:font-bold">
+            {t(k)}
+          </li>
+        ))}
+      </ul>
+      <div class="flex flex-wrap gap-3">
+        <a href={LINKS.soliguia} target="_blank" rel="noopener"
+           class="bg-primary hover:bg-[#e03a20] text-white font-bold px-6 py-3 rounded-lg text-[0.95rem] no-underline transition-all hover:-translate-y-px hover:shadow-[0_4px_12px_rgba(248,75,50,0.4)]">
+          {t('hero_cta_help')}
+        </a>
+        <a href={LINKS.simulator} target="_blank" rel="noopener"
+           class="bg-transparent text-white font-semibold px-6 py-3 rounded-lg text-[0.95rem] no-underline border-2 border-white/35 hover:border-white/70 hover:bg-white/10 transition-all">
+          {t('hero_cta_sim')}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MAIN LAYOUT ───────────────────────────────────────────────────── -->
+  <div class="max-w-[1100px] mx-auto w-full grid grid-cols-1 md:grid-cols-[260px_1fr] gap-8 px-4 lg:px-6 py-10 items-start">
+
+    <!-- Sidebar TOC -->
+    <aside class="desktop-toc sticky top-6 self-start">
+      <div class="bg-white border border-base-300 rounded-2xl p-5 shadow-sm">
+        <p class="text-[0.72rem] font-extrabold tracking-[0.08em] uppercase text-primary mb-4 font-['Nunito',sans-serif]">{t('toc_label')}</p>
+        <ul class="list-none p-0 m-0 flex flex-col gap-0.5">
+          {tocEntries.map((e, i) => (
+            <li>
+              <a href={`#${e.id}`} class="toc-link flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-[0.84rem] text-base-content no-underline hover:bg-base-200 hover:text-primary-content transition-all">
+                <span class="toc-num inline-flex items-center justify-center min-w-[20px] h-5 rounded-full bg-base-200 text-[0.68rem] font-bold text-base-content transition-all">
+                  {e.id === 'faq' ? '?' : i + 1}
+                </span>
+                {t(e.key)}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div class="h-px bg-base-300 my-3"></div>
+        <a href={mapUrl} class="flex items-center gap-2 px-2.5 py-2 rounded-lg text-[0.84rem] text-primary font-semibold no-underline bg-primary/5 hover:bg-primary/10 transition-all">
+          {t('toc_map')}
+        </a>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="min-w-0">
+
+      <!-- S1 ─ What is it? -->
+      <section id="s1" class="guide-section mb-12">
+        <h2 class="font-['Nunito',sans-serif] text-[1.6rem] font-extrabold text-primary-content border-b-2 border-base-200 pb-3 mb-5 flex items-center gap-2.5">
+          <span>📋</span><span>{t('s1_title')}</span>
+        </h2>
+        <p class="text-base-content leading-relaxed mb-3" set:html={t('s1_p1')} />
+        <p class="text-base-content leading-relaxed mb-3" set:html={t('s1_p2')} />
+        <p class="text-base-content leading-relaxed mb-4" set:html={t('s1_p3')} />
+        <p class="font-semibold text-primary-content mb-3 font-['Nunito',sans-serif]">{t('s1_once_title')}</p>
+        <ul class="list-none p-0 m-0 mb-5 flex flex-col gap-2.5">
+          {(['s1_b1','s1_b2','s1_b3','s1_b4'] as const).map(k => (
+            <li class="flex items-start gap-3 text-[0.95rem] leading-relaxed">
+              <span class="inline-flex items-center justify-center min-w-[22px] h-[22px] bg-success rounded-full text-[0.62rem] font-black text-success-content mt-0.5">✓</span>
+              {t(k)}
+            </li>
+          ))}
+        </ul>
+        <div class="flex items-start gap-3 bg-red-50 border border-red-200 border-l-4 border-l-red-700 rounded-xl px-4 py-3">
+          <span class="text-xl">⚠️</span>
+          <p class="text-sm font-semibold text-red-900" set:html={t('s1_deadline')} />
+        </div>
+      </section>
+
+      <!-- S2 ─ Who can apply? -->
+      <section id="s2" class="guide-section mb-12">
+        <h2 class="font-['Nunito',sans-serif] text-[1.6rem] font-extrabold text-primary-content border-b-2 border-base-200 pb-3 mb-5 flex items-center gap-2.5">
+          <span>👤</span><span>{t('s2_title')}</span>
+        </h2>
+        <p class="text-base-content leading-relaxed mb-4">{t('s2_intro')}</p>
+        {[
+          { h:'s2_c1_h', p:'s2_c1_p', chips: null },
+          { h:'s2_c2_h', p:'s2_c2_p', eg:'s2_c2_eg', chips: ['s2_c2_d1','s2_c2_d2','s2_c2_d3','s2_c2_d4'] },
+          { h:'s2_c3_h', p:'s2_c3_p', chips: null },
+          { h:'s2_c4_h', p:'s2_c4_p', chips: null },
+          { h:'s2_c5_h', p:'s2_c5_p', chips: ['s2_c5_d1','s2_c5_d2','s2_c5_d3'] },
+        ].map(card => (
+          <div class="bg-white border border-base-300 rounded-xl p-4 mb-3 hover:border-primary transition-colors">
+            <p class="font-bold text-[0.95rem] text-primary-content mb-1.5 font-['Nunito',sans-serif]">{t(card.h as any)}</p>
+            <p class="text-[0.88rem] text-base-content leading-relaxed">{t(card.p as any)}</p>
+            {card.eg && <p class="text-[0.88rem] text-base-content mt-2">{t(card.eg as any)}</p>}
+            {card.chips && (
+              <div class="flex flex-wrap gap-1.5 mt-2" set:html={chips(card.chips as any)} />
+            )}
+          </div>
+        ))}
+        <a href={LINKS.simulator} target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 bg-primary hover:bg-[#e03a20] text-white font-bold px-5 py-2.5 rounded-lg text-sm no-underline transition-all hover:-translate-y-px mt-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          {t('s2_sim_cta')}
+        </a>
+      </section>
+
+      <!-- S3 ─ Documents -->
+      <section id="s3" class="guide-section mb-12">
+        <h2 class="font-['Nunito',sans-serif] text-[1.6rem] font-extrabold text-primary-content border-b-2 border-base-200 pb-3 mb-5 flex items-center gap-2.5">
+          <span>📁</span><span>{t('s3_title')}</span>
+        </h2>
+        <p class="font-semibold text-base-content mb-4">{t('s3_intro')}</p>
+        <!-- Identity docs -->
+        <div class="bg-white border border-base-300 rounded-xl p-4 mb-3 hover:border-primary transition-colors">
+          <p class="font-bold text-[0.95rem] text-primary-content mb-2 font-['Nunito',sans-serif]">{t('s3_d1_h')}</p>
+          <p class="text-[0.88rem] text-base-content mb-2">{t('s3_d1_p')}</p>
+          <div class="flex flex-wrap gap-1.5" set:html={chips(['s3_d1_1','s3_d1_2','s3_d1_3'])} />
+        </div>
+        <!-- Presence proof -->
+        <div class="bg-white border border-base-300 rounded-xl p-4 mb-3 hover:border-primary transition-colors">
+          <p class="font-bold text-[0.95rem] text-primary-content mb-2 font-['Nunito',sans-serif]">{t('s3_d2_h')}</p>
+          <p class="text-[0.88rem] text-base-content mb-2">{t('s3_d2_p')}</p>
+          <div class="flex flex-wrap gap-1.5" set:html={chips(['s3_d2_1','s3_d2_2','s3_d2_3','s3_d2_4','s3_d2_5','s3_d2_6','s3_d2_7'])} />
+        </div>
+        <!-- Criminal record -->
+        <div class="bg-white border border-base-300 rounded-xl p-4 mb-3 hover:border-primary transition-colors">
+          <p class="font-bold text-[0.95rem] text-primary-content mb-2 font-['Nunito',sans-serif]">{t('s3_d3_h')}</p>
+          <p class="text-[0.88rem] text-base-content mb-2">{t('s3_d3_p')}</p>
+          <div class="flex flex-wrap gap-1.5 mb-3" set:html={chips(['s3_d3_1','s3_d3_2'])} />
+          <div class="flex items-start gap-3 bg-yellow-50 border border-yellow-200 border-l-4 border-l-yellow-500 rounded-lg px-3.5 py-2.5">
+            <p class="text-[0.85rem] text-yellow-900">{t('s3_d3_note')}</p>
+          </div>
+        </div>
+        <!-- Other docs -->
+        <div class="bg-white border border-base-300 rounded-xl p-4 mb-3 hover:border-primary transition-colors">
+          <p class="font-bold text-[0.95rem] text-primary-content mb-2 font-['Nunito',sans-serif]">{t('s3_d4_h')}</p>
+          <p class="text-[0.88rem] text-base-content mb-2">{t('s3_d4_p')}</p>
+          <div class="flex flex-wrap gap-1.5" set:html={chips(['s3_d4_1','s3_d4_2','s3_d4_3','s3_d4_4'])} />
+        </div>
+      </section>
+
+      <!-- S4 ─ How to apply -->
+      <section id="s4" class="guide-section mb-12">
+        <h2 class="font-['Nunito',sans-serif] text-[1.6rem] font-extrabold text-primary-content border-b-2 border-base-200 pb-3 mb-5 flex items-center gap-2.5">
+          <span>📝</span><span>{t('s4_title')}</span>
+        </h2>
+        <div class="flex flex-col gap-4">
+          <!-- Step 1 -->
+          <div class="grid grid-cols-[48px_1fr] gap-4 items-start">
+            <div class="flex items-center justify-center w-12 h-12 rounded-full bg-primary text-white font-['Nunito',sans-serif] text-[1.3rem] font-extrabold flex-shrink-0">1</div>
+            <div class="pt-1">
+              <p class="font-['Nunito',sans-serif] font-extrabold text-[1.05rem] text-primary-content mb-1">{t('s4_step1_h')}</p>
+              <p class="text-[0.9rem] text-base-content leading-relaxed">{t('s4_step1_p')}</p>
+              <a href={LINKS.simulator} target="_blank" rel="noopener" class="inline-block mt-2 text-sm font-semibold text-accent-content underline">{t('s4_step1_cta')}</a>
+            </div>
+          </div>
+          <!-- Step 2 -->
+          <div class="grid grid-cols-[48px_1fr] gap-4 items-start">
+            <div class="flex items-center justify-center w-12 h-12 rounded-full bg-primary text-white font-['Nunito',sans-serif] text-[1.3rem] font-extrabold flex-shrink-0">2</div>
+            <div class="pt-1">
+              <p class="font-['Nunito',sans-serif] font-extrabold text-[1.05rem] text-primary-content mb-1">{t('s4_step2_h')}</p>
+              <p class="text-[0.9rem] text-base-content leading-relaxed">{t('s4_step2_p')}</p>
+            </div>
+          </div>
+          <!-- Step 3 -->
+          <div class="grid grid-cols-[48px_1fr] gap-4 items-start">
+            <div class="flex items-center justify-center w-12 h-12 rounded-full bg-primary text-white font-['Nunito',sans-serif] text-[1.3rem] font-extrabold flex-shrink-0">3</div>
+            <div class="pt-1">
+              <p class="font-['Nunito',sans-serif] font-extrabold text-[1.05rem] text-primary-content mb-2">{t('s4_step3_h')}</p>
+              <div class="flex items-start gap-3 bg-red-50 border border-red-200 border-l-4 border-l-red-700 rounded-xl px-4 py-3 mb-3">
+                <span class="text-lg">⚠️</span>
+                <p class="text-sm font-semibold text-red-900" set:html={t('s4_step3_tax')} />
+              </div>
+              <p class="text-[0.9rem] text-base-content mb-3">{t('s4_step3_p')}</p>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="bg-base-100 border border-base-300 rounded-xl p-4">
+                  <p class="font-bold text-[0.9rem] text-primary-content mb-1.5">{t('s4_online_h')}</p>
+                  <p class="text-[0.82rem] text-base-content leading-relaxed mb-2">{t('s4_online_p')}</p>
+                  <a href={LINKS.online_procedure} target="_blank" rel="noopener" class="text-[0.82rem] text-accent-content font-semibold underline">{t('s4_online_cta')}</a>
+                </div>
+                <div class="bg-base-100 border border-base-300 rounded-xl p-4">
+                  <p class="font-bold text-[0.9rem] text-primary-content mb-1.5">{t('s4_presencial_h')}</p>
+                  <p class="text-[0.82rem] text-base-content leading-relaxed mb-1">{t('s4_presencial_p')}</p>
+                  <p class="text-[0.82rem] font-semibold text-base-content mb-1">{t('s4_presencial_offices')}</p>
+                  <p class="text-[0.78rem] text-warning-content mb-2">⚠️ {t('s4_presencial_note')}</p>
+                  <a href={LINKS.appointment} target="_blank" rel="noopener" class="text-[0.82rem] text-accent-content font-semibold underline">{t('s4_presencial_cta')}</a>
+                </div>
+                <div class="bg-base-100 border border-base-300 rounded-xl p-4">
+                  <p class="font-bold text-[0.9rem] text-primary-content mb-1.5">{t('s4_assoc_h')}</p>
+                  <p class="text-[0.82rem] text-base-content leading-relaxed mb-2">{t('s4_assoc_p')}</p>
+                  <a href="../map.html" class="text-[0.82rem] text-accent-content font-semibold underline">{t('s4_map_cta')}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S5 ─ Need help (Soliguia) -->
+      <section id="s5" class="guide-section mb-12">
+        <h2 class="font-['Nunito',sans-serif] text-[1.6rem] font-extrabold text-primary-content border-b-2 border-base-200 pb-3 mb-5 flex items-center gap-2.5">
+          <span>🤝</span><span>{t('s5_title')}</span>
+        </h2>
+        <p class="font-semibold text-primary-content mb-5">{t('s5_subtitle')}</p>
+        <div class="bg-gradient-to-br from-[#271332] to-[#3d1f4e] rounded-2xl p-7 text-white grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 items-center">
+          <div>
+            <p class="text-2xl font-extrabold tracking-[-1px] mb-3">Soliguia</p>
+            <p class="text-white/85 text-sm leading-relaxed mb-4">
+              <a href="https://soliguia.cat" target="_blank" rel="noopener" class="font-bold underline text-white">Soliguia</a> {t('s5_soliguia_desc')}
+            </p>
+            <ul class="list-none p-0 m-0 flex flex-col gap-2">
+              {(['s5_f1','s5_f2','s5_f3','s5_f4'] as const).map(k => (
+                <li class="flex items-center gap-2 text-[0.9rem] opacity-90 before:content-['✓'] before:inline-flex before:items-center before:justify-center before:min-w-[18px] before:h-[18px] before:bg-primary before:rounded-full before:text-white before:text-[0.6rem] before:font-bold">
+                  {t(k)}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="flex justify-center md:justify-end">
+            <a href={LINKS.soliguia} target="_blank" rel="noopener"
+               class="bg-primary hover:bg-[#e03a20] text-white font-bold px-7 py-3.5 rounded-xl text-[1rem] no-underline transition-all hover:-translate-y-px whitespace-nowrap block text-center">
+              {t('s5_cta')}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="guide-section mb-12">
+        <h2 class="font-['Nunito',sans-serif] text-[1.6rem] font-extrabold text-primary-content border-b-2 border-base-200 pb-3 mb-5 flex items-center gap-2.5">
+          <span>❓</span><span>{t('faq_title')}</span>
+        </h2>
+        <div class="flex flex-col gap-2">
+          {([1,2,3,4,5,6] as const).map(n => (
+            <div class="border border-base-300 rounded-xl overflow-hidden bg-white">
+              <button class="faq-btn flex items-center justify-between w-full px-5 py-4 font-semibold text-[0.92rem] text-primary-content text-left bg-none border-none cursor-pointer hover:bg-base-200 transition-colors gap-3">
+                <span>{t(`faq_q${n}` as any)}</span>
+                <svg class="faq-chevron h-4 w-4 flex-shrink-0 text-primary transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="faq-answer hidden px-5 pb-4 text-[0.9rem] leading-relaxed text-base-content border-t border-base-200">
+                <p class="pt-3">{t(`faq_a${n}` as any)}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- SEO block -->
+      <section class="border-t border-base-300 pt-10 pb-4 mb-8 text-base-content/60 text-sm leading-relaxed space-y-3">
+        <h2 class="text-base font-semibold text-base-content/70">{t('seo_title')}</h2>
+        <p>{t('seo_p1')}</p>
+        <p>{t('seo_p2')}</p>
+        <p>{t('seo_p3')}</p>
+      </section>
+
+      <!-- Final CTA -->
+      <div class="bg-base-200 rounded-2xl p-10 text-center mb-12">
+        <h2 class="font-['Nunito',sans-serif] text-[1.65rem] font-extrabold text-primary-content mb-3">{t('cta_title')}</h2>
+        <p class="text-base-content opacity-80 mb-6">{t('cta_subtitle')}</p>
+        <a href={LINKS.soliguia} target="_blank" rel="noopener"
+           class="inline-block bg-primary hover:bg-[#e03a20] text-white font-bold px-8 py-3.5 rounded-xl text-[1rem] no-underline transition-all hover:-translate-y-px">
+          {t('cta_btn')}
+        </a>
+      </div>
+
+    </main>
+  </div>
+</Base>

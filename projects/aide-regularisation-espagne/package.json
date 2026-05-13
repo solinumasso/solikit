@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "geocode": "tsx src/02-geocode.ts",
-    "soliguide": "tsx src/03-fetch-soliguide.ts",
-    "dashboard": "pnpm dlx serve ../.. -p 5555"
+    "geocode": "tsx scripts/02-geocode.ts",
+    "soliguide": "tsx scripts/03-fetch-soliguide.ts",
+    "dashboard": "pnpm dlx serve ../.. -p 5555",
+    "guide:dev": "cd guide && pnpm dev",
+    "guide:build": "cd guide && pnpm build"
   },
   "devDependencies": {
     "tsx": "^4.19.0",
