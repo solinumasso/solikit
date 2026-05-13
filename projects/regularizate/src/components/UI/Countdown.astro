@@ -1,0 +1,57 @@
+---
+import { useTranslations, type Lang } from '../../i18n/utils';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div id="countdown-banner" style="background-color: var(--color-primary); color: white;">
+  <div class="max-w-5xl mx-auto px-5 py-2.5 flex flex-col sm:flex-row items-center justify-between gap-2">
+
+    <div id="countdown-open" class="flex items-center gap-3 flex-wrap justify-center sm:justify-start text-sm font-semibold text-white">
+      <span class="bg-white/20 py-[2px] px-[10px] rounded text-[0.7rem] font-black tracking-[0.06em] uppercase">
+        {t('countdown.urgent')}
+      </span>
+      <span>{t('countdown.banner')}</span>
+      <span id="countdown-days" class="font-black"></span>
+    </div>
+
+    <div id="countdown-closed" class="hidden text-sm font-semibold text-white">
+      {t('countdown.closed')}
+    </div>
+
+    <a id="countdown-cta" href={`/${lang}/tunnel/extraordinario`}
+       class="bg-white text-(--accent-coral) py-[0.3rem] px-4 rounded text-[0.8rem] font-black no-underline whitespace-nowrap shrink-0">
+      {t('countdown.cta')} →
+    </a>
+  </div>
+</div>
+
+<script is:inline define:vars={{ daysRemainingTemplate: t('countdown.days_remaining') }}>
+  (function() {
+    var DEADLINE = new Date('2026-07-01T00:00:00');
+    var openEl = document.getElementById('countdown-open');
+    var closedEl = document.getElementById('countdown-closed');
+    var daysEl = document.getElementById('countdown-days');
+    var ctaEl = document.getElementById('countdown-cta');
+    var bannerEl = document.getElementById('countdown-banner');
+
+    if (new Date() >= DEADLINE) {
+      if (openEl) openEl.classList.add('hidden');
+      if (closedEl) closedEl.classList.remove('hidden');
+      if (ctaEl) ctaEl.classList.add('hidden');
+      if (bannerEl) bannerEl.style.backgroundColor = '#6B7280';
+      return;
+    }
+
+    function update() {
+      var diff = DEADLINE - new Date();
+      if (diff <= 0) { update(); return; }
+      var days = Math.ceil(diff / 86400000);
+      if (daysEl) daysEl.textContent = daysRemainingTemplate.replace('{days}', days);
+    }
+    update();
+    setInterval(update, 60000);
+  })();
+</script>

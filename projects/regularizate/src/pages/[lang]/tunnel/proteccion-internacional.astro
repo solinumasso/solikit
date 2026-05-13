@@ -1,0 +1,250 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ProgressBar from '../../../components/UI/ProgressBar.astro';
+import { SUPPORTED_LANGS, getLang, useTranslations } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGS.map(lang => ({ params: { lang } }));
+}
+
+const { lang: langParam } = Astro.params;
+const lang = getLang(langParam);
+const t = useTranslations(lang);
+
+const steps = [
+  t('tunnel.step_quiz'), t('tunnel.step_conditions'), t('tunnel.step_documents'),
+  t('tunnel.step_tasa'), t('tunnel.step_submit'), t('tunnel.step_tie'),
+];
+---
+
+<Base lang={lang} title={t('pi.title')}>
+  <div class="max-w-2xl mx-auto px-5 pt-10 pb-20">
+
+    <a href={`/${lang}/`} class="inline-flex items-center gap-[0.4rem] text-[0.82rem] font-semibold text-(--text-muted) no-underline mb-8">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      {t('nav.back_home')}
+    </a>
+
+    <div class="mb-8 pb-6 border-b-line">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="badge badge-lilac">DA 20ª</span>
+        <span class="badge badge-espresso">EX-31</span>
+      </div>
+      <h1 class="text-[1.75rem] font-black text-(--text) mb-[0.4rem]">{t('pi.title')}</h1>
+      <p class="text-[0.85rem] text-(--text-muted)">{t('pi.legal_basis')}</p>
+      <div class="mt-3 py-[0.65rem] px-[0.9rem] bg-[#FDE8E7] border-[1.5px] border-solid border-[#F5C4C2] rounded-sm text-[0.85rem] font-bold text-(--accent-coral)">
+        ⏳ {t('pi.deadline_note')}
+      </div>
+    </div>
+
+    <div class="mb-8"><ProgressBar current={1} total={6} steps={steps} /></div>
+
+    <div id="tunnel-container">
+
+      <!-- Step 1: Quiz -->
+      <div class="tunnel-step" data-step="1">
+        <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-6">{t('tunnel.step_quiz')}</h2>
+        <div class="flex flex-col gap-4">
+          {[
+            { key: '1', q: t('pi.quiz_q1'), correct: 'yes' },
+            { key: '2', q: t('pi.quiz_q2'), correct: 'yes' },
+            { key: '3', q: t('pi.quiz_q3'), correct: 'yes' },
+            { key: '4', q: t('pi.quiz_q4'), correct: 'no' },
+          ].map(({ key, q, correct }) => (
+            <div class="quiz-question py-4 px-5 bg-(--bg-muted) border-line rounded-md" data-question={key} data-correct={correct}>
+              <p class="text-[0.92rem] font-semibold text-(--text) mb-3">{q}</p>
+              <div class="flex gap-2">
+                <button class="quiz-btn btn-secondary flex-1 justify-center" data-answer="yes">{t('tunnel.yes')}</button>
+                <button class="quiz-btn btn-secondary flex-1 justify-center" data-answer="no">{t('tunnel.no')}</button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div id="quiz-result" class="hidden mt-5">
+          <div id="quiz-eligible" class="hidden p-4 bg-[#EDFAE5] border-[1.5px] border-solid border-[#C8EDBC] rounded-md">
+            <div class="font-extrabold text-(--accent-lime) mb-3">✅ {t('tunnel.eligible')}</div>
+            <button id="quiz-next" class="btn-primary">{t('tunnel.next')}</button>
+          </div>
+          <div id="quiz-not-eligible" class="hidden p-4 bg-[#FDE8E7] border-[1.5px] border-solid border-[#F5C4C2] rounded-md">
+            <div class="font-extrabold text-(--accent-coral) mb-2">❌ {t('tunnel.not_eligible')}</div>
+            <p class="text-[0.85rem] text-(--text-muted) mb-3">{t('tunnel.not_eligible_desc')}</p>
+            <a href={`/${lang}/`} class="btn-secondary">{t('tunnel.try_other')}</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Conditions -->
+      <div class="tunnel-step hidden" data-step="2">
+        <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-5">{t('tunnel.step_conditions')}</h2>
+        <div class="flex flex-col border-line rounded-md overflow-hidden bg-(--bg-card)">
+          {[t('pi.cond_asylum_request'), t('pi.cond_status'), t('pi.cond_continuity'), t('pi.cond_age'), t('pi.cond_no_criminal'), t('pi.cond_no_permit'), t('pi.cond_no_ukraine')].map((cond, i, arr) => (
+            <label class={`check-item cursor-pointer rounded-none ${i < arr.length - 1 ? 'border-b-line' : ''}`}>
+              <input type="checkbox" class="cond-checkbox w-[17px] h-[17px] shrink-0 accent-(--accent-lime)" />
+              <span class="text-[0.88rem] text-(--text)">{cond}</span>
+            </label>
+          ))}
+        </div>
+        <div class="mt-4 py-3 px-4 border-[1.5px] border-solid border-[#F5C4C2] bg-[#FDE8E7] rounded-sm text-[0.82rem] text-[#9B1C1C]">
+          {t('pi.warning_parallel')}
+        </div>
+        <div class="flex gap-3 mt-5">
+          <button class="tunnel-back btn-secondary" data-target="1">{t('tunnel.back')}</button>
+          <button id="conditions-next" class="btn-primary opacity-45 cursor-not-allowed" disabled>{t('tunnel.next')}</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Documents -->
+      <div class="tunnel-step hidden" data-step="3">
+        <div class="flex justify-between items-start mb-5 flex-wrap gap-2">
+          <h2 class="text-[1.15rem] font-extrabold text-(--text)">{t('tunnel.step_documents')}</h2>
+          <button id="copy-docs-btn" class="btn-secondary text-[0.8rem] py-[0.45rem] px-[0.9rem]">{t('tunnel.copy_list')}</button>
+        </div>
+        <div id="docs-list" class="flex flex-col border-line rounded-md overflow-hidden bg-(--bg-card)">
+          {[
+            { icon: '📄', label: t('pi.doc_form_label'), where: t('pi.doc_form_where') },
+            { icon: '🛂', label: t('extraordinary.doc_passport'), where: t('extraordinary.doc_passport_where') },
+            { icon: '🏠', label: t('extraordinary.doc_empadronamiento'), where: t('extraordinary.doc_empadronamiento_where') },
+            { icon: '🏛️', label: t('extraordinary.doc_antecedentes_es'), where: t('extraordinary.doc_antecedentes_es_where') },
+            { icon: '🌍', label: t('extraordinary.doc_antecedentes_origen'), where: t('extraordinary.doc_antecedentes_origen_where') },
+            { icon: '💶', label: t('extraordinary.doc_tasa'), where: t('extraordinary.doc_tasa_where') },
+            { icon: '📋', label: t('pi.doc_pi_label'), where: t('pi.doc_pi_where') },
+          ].map(({ icon, label, where }, i, arr) => (
+            <div class={`flex items-start gap-3 py-[0.9rem] px-4 ${i < arr.length - 1 ? 'border-b-line' : ''}`}>
+              <span class="text-[1.2rem] shrink-0">{icon}</span>
+              <div class="flex-1">
+                <div class="doc-label text-[0.88rem] font-semibold text-(--text)">{label}</div>
+                <div class="text-[0.77rem] text-(--text-muted) mt-[0.15rem]">📍 {where}</div>
+              </div>
+              <input type="checkbox" class="w-4 h-4 shrink-0 accent-(--accent-lime)" />
+            </div>
+          ))}
+        </div>
+        <div class="flex gap-3 mt-5">
+          <button class="tunnel-back btn-secondary" data-target="2">{t('tunnel.back')}</button>
+          <button class="tunnel-next btn-primary" data-target="4">{t('tunnel.next')}</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Tasa -->
+      <div class="tunnel-step hidden" data-step="4">
+        <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-5">{t('extraordinary.step4_tasa_title')}</h2>
+        <div class="p-6 border-line rounded-md bg-(--bg-card) text-center mb-4">
+          <div class="text-[2.5rem] font-black text-(--text)">{t('extraordinary.step4_tasa_amount')}</div>
+          <p class="text-[0.85rem] text-(--text-muted) mt-[0.4rem]">{t('extraordinary.step4_tasa_desc')}</p>
+          <a href="https://sede.administracionespublicas.gob.es/pagina/index/directorio/tasa052" target="_blank" rel="noopener noreferrer" class="btn-accent mt-4 text-[0.85rem]">{t('extraordinary.tasa_cta')}</a>
+        </div>
+        <div class="flex gap-3 mt-4">
+          <button class="tunnel-back btn-secondary" data-target="3">{t('tunnel.back')}</button>
+          <button class="tunnel-next btn-primary" data-target="5">{t('tunnel.next')}</button>
+        </div>
+      </div>
+
+      <!-- Step 5: Submit -->
+      <div class="tunnel-step hidden" data-step="5">
+        <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-5">{t('tunnel.step_submit')}</h2>
+        <div class="flex flex-col gap-3">
+          <div class="p-5 border-line rounded-md bg-(--bg-card)">
+            <div class="flex items-center gap-[0.6rem] mb-3">
+              <span class="text-[1.4rem]">💻</span>
+              <h3 class="font-extrabold text-[0.95rem] text-(--text)">{t('extraordinary.step5_online')}</h3>
+            </div>
+            <p class="text-[0.85rem] text-(--text-muted) mb-3">{t('extraordinary.step5_online_desc')}</p>
+            <a href="https://sede.administracionespublicas.gob.es/mercurio/inicioMercurio.html" target="_blank" rel="noopener noreferrer" class="btn-primary text-[0.85rem]">{t('extraordinary.mercurio_cta')}</a>
+          </div>
+          <div class="p-5 border-line rounded-md bg-(--bg-card)">
+            <div class="flex items-center gap-[0.6rem] mb-3">
+              <span class="text-[1.4rem]">🏢</span>
+              <h3 class="font-extrabold text-[0.95rem] text-(--text)">{t('extraordinary.step5_presencial')}</h3>
+            </div>
+            <p class="text-[0.85rem] text-(--text-muted) mb-3">{t('extraordinary.step5_presencial_desc')}</p>
+            <a href={`/${lang}/mapa`} class="btn-secondary text-[0.85rem]">🗺️ {t('extraordinary.step5_map_cta')}</a>
+          </div>
+        </div>
+        <div class="flex gap-3 mt-5">
+          <button class="tunnel-back btn-secondary" data-target="4">{t('tunnel.back')}</button>
+          <button class="tunnel-next btn-primary" data-target="6">{t('tunnel.next')}</button>
+        </div>
+      </div>
+
+      <!-- Step 6: TIE -->
+      <div class="tunnel-step hidden" data-step="6">
+        <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-4">{t('extraordinary.step6_resolution')}</h2>
+        <div class="mb-4 py-[0.7rem] px-[0.9rem] bg-[#EDFAE5] border-[1.5px] border-solid border-[#C8EDBC] rounded-sm text-[0.85rem] font-semibold text-(--accent-lime)">
+          💼 {t('extraordinary.step6_work_auth')}
+        </div>
+        <div class="p-5 border-line rounded-md bg-(--bg-card) mb-5">
+          <h3 class="font-extrabold text-base text-(--text) mb-4">🪪 {t('extraordinary.step6_tie_title')}</h3>
+          <ol class="flex flex-col border-line rounded-sm overflow-hidden">
+            {[t('extraordinary.step6_tie_1'), t('extraordinary.step6_tie_2'), t('extraordinary.step6_tie_3'), t('extraordinary.step6_tie_4'), t('extraordinary.step6_tie_5')].map((step, i, arr) => (
+              <li class={`flex items-start gap-3 py-3 px-[0.9rem] bg-(--bg-muted) ${i < arr.length - 1 ? 'border-b-line' : ''}`}>
+                <span class="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[0.7rem] font-black bg-(--text) text-(--text-invert)">{i + 1}</span>
+                <span class="text-[0.84rem] text-(--text-muted)">{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div class="py-7 px-[1.75rem] border-line rounded-lg bg-(--bg-muted) text-center">
+          <div class="text-[2.5rem] mb-3">🎉</div>
+          <div class="font-black text-[1.1rem] text-(--text) mb-2">{t('extraordinary.complete_title')}</div>
+          <a href={`/${lang}/`} class="btn-secondary text-[0.88rem]">{t('tunnel.try_other')}</a>
+        </div>
+        <div class="mt-4">
+          <button class="tunnel-back btn-secondary" data-target="5">{t('tunnel.back')}</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</Base>
+
+<script is:inline>
+(function() {
+  function showStep(step) {
+    document.querySelectorAll('.tunnel-step').forEach(function(el) { el.classList.add('hidden'); });
+    var t = document.querySelector('[data-step="' + step + '"]');
+    if (t) { t.classList.remove('hidden'); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    var bar = document.querySelector('.progress-fill');
+    if (bar) bar.style.width = Math.round((step/6)*100) + '%';
+    document.querySelectorAll('.step-pill').forEach(function(p, i) {
+      var n = i+1; p.classList.remove('active','completed','pending');
+      if (n < step) p.classList.add('completed'); else if (n === step) p.classList.add('active'); else p.classList.add('pending');
+    });
+  }
+  var answers = {};
+  document.querySelectorAll('.quiz-question').forEach(function(qEl) {
+    var qN = qEl.getAttribute('data-question'), correct = qEl.getAttribute('data-correct');
+    qEl.querySelectorAll('.quiz-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        qEl.querySelectorAll('.quiz-btn').forEach(function(b){b.style.borderColor='';b.style.color='';b.style.background='';});
+        var ans = btn.getAttribute('data-answer');
+        answers[qN] = ans;
+        var ok = ans === correct;
+        btn.style.borderColor = ok ? '#C8EDBC' : '#F5C4C2';
+        btn.style.background = ok ? '#EDFAE5' : '#FDE8E7';
+        btn.style.color = ok ? 'var(--accent-lime)' : 'var(--accent-coral)';
+        if (Object.keys(answers).length === 4) {
+          var allOk = Object.keys(answers).every(function(k){ var q=document.querySelector('[data-question="'+k+'"]'); return q && answers[k]===q.getAttribute('data-correct'); });
+          var rEl = document.getElementById('quiz-result'); if(rEl) rEl.classList.remove('hidden');
+          var eEl = document.getElementById('quiz-eligible'), nEl = document.getElementById('quiz-not-eligible');
+          if(allOk){if(eEl)eEl.classList.remove('hidden');if(nEl)nEl.classList.add('hidden');}
+          else{if(eEl)eEl.classList.add('hidden');if(nEl)nEl.classList.remove('hidden');}
+        }
+      });
+    });
+  });
+  var qn = document.getElementById('quiz-next'); if(qn) qn.addEventListener('click', function(){showStep(2);});
+  var cbs = document.querySelectorAll('.cond-checkbox'), cn = document.getElementById('conditions-next');
+  function upd(){var all=Array.from(cbs).every(function(c){return c.checked;});if(cn){cn.disabled=!all;cn.style.opacity=all?'1':'0.45';cn.style.cursor=all?'pointer':'not-allowed';}}
+  cbs.forEach(function(c){c.addEventListener('change',upd);}); if(cn) cn.addEventListener('click',function(){showStep(3);});
+  document.querySelectorAll('.tunnel-next').forEach(function(b){b.addEventListener('click',function(){showStep(parseInt(b.getAttribute('data-target')));});});
+  document.querySelectorAll('.tunnel-back').forEach(function(b){b.addEventListener('click',function(){showStep(parseInt(b.getAttribute('data-target')));});});
+  var copyBtn = document.getElementById('copy-docs-btn');
+  if(copyBtn) copyBtn.addEventListener('click', function(){
+    var items = document.querySelectorAll('.doc-label');
+    var text = Array.from(items).map(function(el){return '• '+el.textContent.trim();}).join('\n');
+    navigator.clipboard.writeText('EX-31:\n\n'+text).then(function(){var orig=copyBtn.textContent;copyBtn.textContent='✓';setTimeout(function(){copyBtn.textContent=orig;},2000);});
+  });
+  var bar = document.querySelector('.progress-fill'); if(bar) bar.style.width=Math.round((1/6)*100)+'%';
+  document.querySelectorAll('.step-pill').forEach(function(p,i){p.classList.remove('active','completed','pending');if(i===0)p.classList.add('active');else p.classList.add('pending');});
+})();
+</script>

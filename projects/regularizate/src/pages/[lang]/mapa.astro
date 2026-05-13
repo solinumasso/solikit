@@ -1,0 +1,376 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SUPPORTED_LANGS, getLang, useTranslations } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGS.map(lang => ({ params: { lang } }));
+}
+
+const { lang: langParam } = Astro.params;
+const lang = getLang(langParam);
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t('map.title')}>
+
+  <Fragment slot="head">
+    <!-- DaisyUI CSS uniquement sur cette page — fournit checkbox, select, input, badge, rounded-box -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1/dist/MarkerCluster.Default.css" />
+  </Fragment>
+
+  <!-- data-theme="soliguide" active les tokens DaisyUI avec la palette Soliguide -->
+  <div data-theme="soliguide" class="flex-1 w-full max-w-7xl mx-auto p-4 lg:p-6">
+
+    <!-- Hero — identique à aide-regularisation-espagne -->
+    <section class="mb-6">
+      <h1 class="text-3xl md:text-4xl font-extrabold text-primary-content mb-2" style="font-family: 'Nunito', sans-serif;">
+        {t('map.title')}
+      </h1>
+      <p class="text-base-content/70 max-w-3xl mb-4">{t('map.subtitle')}</p>
+      <div class="inline-flex items-center gap-2 mb-4 py-2 px-4 bg-base-200 rounded-lg">
+        <span class="text-[1.1rem] font-black text-primary-content">437</span>
+        <span class="text-sm text-base-content/70">{t('landing.stat_points_label')}</span>
+        <span class="text-xs text-base-content/40">— {t('landing.stat_points_src')}</span>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <div class="badge badge-lg gap-2 bg-primary/10 text-primary border-primary/20"><span class="font-semibold" id="count-soliguide">…</span><span>{t('map.type_soliguide')}</span></div>
+        <div class="badge badge-lg gap-2 bg-success/30 text-success-content border-success/40"><span class="font-semibold" id="count-ss">…</span><span>Seguridad Social</span></div>
+        <div class="badge badge-lg gap-2 bg-warning/30 text-warning-content border-warning/40"><span class="font-semibold" id="count-oex">…</span><span>Extranjería</span></div>
+        <div class="badge badge-lg gap-2 bg-secondary/15 text-secondary border-secondary/30"><span class="font-semibold" id="count-correos">…</span><span>Correos</span></div>
+      </div>
+    </section>
+
+    <!-- Filtres — HTML identique à aide-regularisation-espagne -->
+    <section class="mb-4 bg-base-200/50 rounded-box p-4">
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="flex flex-wrap gap-2">
+          <label class="cursor-pointer flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-base-300 hover:border-primary/40">
+            <input type="checkbox" class="checkbox checkbox-xs filter-type" data-type="soliguide" checked />
+            <span class="w-3 h-3 rounded-full bg-primary"></span>
+            <span class="text-sm">{t('map.type_soliguide')}</span>
+          </label>
+          <label class="cursor-pointer flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-base-300 hover:border-success/40">
+            <input type="checkbox" class="checkbox checkbox-xs filter-type" data-type="SS" checked />
+            <span class="w-3 h-3 rounded-full bg-success"></span>
+            <span class="text-sm">Seguridad Social</span>
+          </label>
+          <label class="cursor-pointer flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-base-300 hover:border-warning/40">
+            <input type="checkbox" class="checkbox checkbox-xs filter-type" data-type="OEX" checked />
+            <span class="w-3 h-3 rounded-full bg-warning"></span>
+            <span class="text-sm">Extranjería</span>
+          </label>
+          <label class="cursor-pointer flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border border-base-300 hover:border-secondary/40">
+            <input type="checkbox" class="checkbox checkbox-xs filter-type" data-type="Correos" checked />
+            <span class="w-3 h-3 rounded-full bg-secondary"></span>
+            <span class="text-sm">Correos</span>
+          </label>
+        </div>
+
+        <select id="filter-province" class="select select-bordered select-sm bg-white">
+          <option value="">Todas las provincias</option>
+        </select>
+
+        <input id="filter-search" type="search" placeholder={t('map.search_placeholder')}
+          class="input input-bordered input-sm flex-1 min-w-[200px] bg-white" />
+
+        <span id="result-count" class="text-sm text-base-content/60 ml-auto"></span>
+      </div>
+    </section>
+
+    <!-- Carte + liste — identique à aide-regularisation-espagne -->
+    <section id="carte" class="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-4">
+      <div id="map" class="rounded-box border border-base-300 bg-base-100" style="height: 70vh; min-height: 500px;"></div>
+
+      <div class="rounded-box border border-base-300 bg-base-100 overflow-hidden flex flex-col" style="height: 70vh; min-height: 500px;">
+        <div class="px-4 py-3 border-b border-base-300 bg-base-200/40">
+          <h2 class="font-bold text-primary-content" style="font-family: 'Nunito', sans-serif;">{t('map.list_title')}</h2>
+        </div>
+        <div id="place-list" class="overflow-y-auto flex-1 divide-y divide-base-200"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- CSS carte — identique à aide-regularisation-espagne/dashboard/style.css -->
+  <style is:inline>
+    .pin {
+      width: 22px;
+      height: 22px;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    .pin-soliguide { background: var(--color-primary); }
+    .pin-SS        { background: var(--color-success-content); }
+    .pin-OEX       { background: var(--color-warning-content); }
+    .pin-Correos   { background: var(--color-secondary); }
+
+    .marker-cluster-small,
+    .marker-cluster-medium,
+    .marker-cluster-large {
+      background-color: rgba(248, 75, 50, 0.15) !important;
+    }
+    .marker-cluster-small div,
+    .marker-cluster-medium div,
+    .marker-cluster-large div {
+      background-color: var(--color-primary) !important;
+      color: white !important;
+      font-weight: 600;
+    }
+
+    .place-card { transition: background-color .15s; cursor: pointer; }
+    .place-card:hover { background-color: var(--color-base-200); }
+    .place-card.active { background-color: rgba(248, 75, 50, 0.06); border-left: 3px solid var(--color-primary); }
+
+    .leaflet-popup-content-wrapper { border-radius: var(--radius-box, 12px); }
+    .leaflet-popup-content { margin: 12px 16px; font-family: 'Roboto', sans-serif; }
+    .leaflet-popup-content h3 { font-family: 'Nunito', sans-serif; font-weight: 700; margin-bottom: 4px; }
+  </style>
+
+  <!-- Leaflet JS + MarkerCluster — is:inline pour chargement synchrone avant le script app -->
+  <script is:inline src="https://unpkg.com/leaflet@1/dist/leaflet.js"></script>
+  <script is:inline src="https://unpkg.com/leaflet.markercluster@1/dist/leaflet.markercluster.js"></script>
+
+  <!-- JS — identique à aide-regularisation-espagne/dashboard/app.js
+       Seules modifications :
+         1. SOURCES → chemins absolus /data/ (au lieu de ../data/output/)
+         2. setupMenu() supprimé (géré par Base.astro)                    -->
+  <script is:inline>
+    const SOURCES = {
+      oficinas: "/data/oficinas_regularizacion_2026.json",
+      soliguide: "/data/soliguide-conseil-administratif-es.json",
+    };
+
+    const TYPE_META = {
+      soliguide: { label: "Aide aux dossiers", emoji: "📝" },
+      SS:        { label: "Seguridad Social",  emoji: "🏛️" },
+      OEX:       { label: "Extranjería",        emoji: "🛂" },
+      Correos:   { label: "Correos",            emoji: "✉️" },
+    };
+
+    const state = {
+      places: [],
+      filteredPlaces: [],
+      markers: new Map(),
+      cluster: null,
+      map: null,
+      filters: { types: new Set(["soliguide", "SS", "OEX", "Correos"]), province: "", search: "" },
+      activeId: null,
+    };
+
+    async function loadAll() {
+      const [oficinasJson, soliJson] = await Promise.all([
+        fetch(SOURCES.oficinas).then((r) => r.json()),
+        fetch(SOURCES.soliguide).then((r) => r.json()),
+      ]);
+
+      for (const o of oficinasJson.oficinas) {
+        if (!o.lat || !o.lon) continue;
+        state.places.push({
+          id: o.id,
+          type: o.tipo,
+          name: o.nombre,
+          address: o.direccion,
+          city: o.ciudad,
+          postalCode: o.codigo_postal,
+          province: o.provincia,
+          region: o.comunidad_autonoma,
+          lat: o.lat,
+          lon: o.lon,
+          precision: o.geocoding_status,
+          source: "estado",
+          typeLabel: o.tipo_label,
+        });
+      }
+
+      for (const p of soliJson.places) {
+        const coords = p.position?.location?.coordinates;
+        if (!coords || coords.length !== 2) continue;
+        state.places.push({
+          id: `sg-${p.lieu_id}`,
+          type: "soliguide",
+          name: p.name,
+          address: p.position?.address || p.position?.adresse || "",
+          city: p.position?.city || p.position?.ville || "",
+          postalCode: p.position?.postalCode || p.position?.codePostal || "",
+          province: p.position?.department || p.position?.departement || "",
+          region: p.position?.region || "",
+          lat: coords[1],
+          lon: coords[0],
+          source: "soliguide",
+          typeLabel: "Aide aux dossiers",
+          seoUrl: p.seo_url,
+          description: p.description,
+          phone: p.entity?.phones?.[0]?.phoneNumber || "",
+          mail: p.entity?.mail || "",
+          website: p.entity?.website || "",
+        });
+      }
+    }
+
+    function updateCounts() {
+      const counts = { soliguide: 0, SS: 0, OEX: 0, Correos: 0 };
+      for (const p of state.places) counts[p.type] = (counts[p.type] || 0) + 1;
+      document.getElementById("count-soliguide").textContent = counts.soliguide;
+      document.getElementById("count-ss").textContent = counts.SS;
+      document.getElementById("count-oex").textContent = counts.OEX;
+      document.getElementById("count-correos").textContent = counts.Correos;
+    }
+
+    function buildProvinceOptions() {
+      const set = new Set();
+      state.places.forEach((p) => p.province && set.add(p.province));
+      const select = document.getElementById("filter-province");
+      [...set].sort((a, b) => a.localeCompare(b, "es")).forEach((prov) => {
+        const opt = document.createElement("option");
+        opt.value = prov;
+        opt.textContent = prov;
+        select.appendChild(opt);
+      });
+    }
+
+    function applyFilters() {
+      const { types, province, search } = state.filters;
+      const q = search.trim().toLowerCase();
+      state.filteredPlaces = state.places.filter((p) => {
+        if (!types.has(p.type)) return false;
+        if (province && p.province !== province) return false;
+        if (q && !`${p.name} ${p.city} ${p.address}`.toLowerCase().includes(q)) return false;
+        return true;
+      });
+      document.getElementById("result-count").textContent = `${state.filteredPlaces.length} lieu${state.filteredPlaces.length > 1 ? "x" : ""}`;
+      renderMarkers();
+      renderList();
+    }
+
+    function makeIcon(type) {
+      return L.divIcon({
+        className: "",
+        html: `<div class="pin pin-${type}"></div>`,
+        iconSize: [22, 22],
+        iconAnchor: [11, 22],
+      });
+    }
+
+    function popupHtml(p) {
+      const parts = [`<h3 class="text-primary-content text-base font-bold">${escapeHtml(p.name)}</h3>`];
+      parts.push(`<div class="text-xs text-gray-500 mb-1">${TYPE_META[p.type].emoji} ${TYPE_META[p.type].label}</div>`);
+      if (p.address) parts.push(`<p class="text-sm">${escapeHtml(p.address)}</p>`);
+      const cityLine = [p.postalCode, p.city].filter(Boolean).join(" ");
+      if (cityLine) parts.push(`<p class="text-sm text-gray-600">${escapeHtml(cityLine)}</p>`);
+      if (p.phone) parts.push(`<p class="text-sm mt-1">📞 ${escapeHtml(p.phone)}</p>`);
+      if (p.mail) parts.push(`<p class="text-sm">✉️ <a class="text-accent-content underline" href="mailto:${escapeHtml(p.mail)}">${escapeHtml(p.mail)}</a></p>`);
+      if (p.website) parts.push(`<p class="text-sm">🌐 <a class="text-accent-content underline" href="${escapeHtml(p.website)}" target="_blank" rel="noopener">site web</a></p>`);
+      if (p.seoUrl) parts.push(`<p class="text-sm mt-1"><a class="text-accent-content underline" href="https://soliguia.es/${escapeHtml(p.seoUrl)}" target="_blank" rel="noopener">Voir sur Soliguia →</a></p>`);
+      return parts.join("");
+    }
+
+    function renderMarkers() {
+      if (!state.cluster) return;
+      state.cluster.clearLayers();
+      state.markers.clear();
+      const visibleIds = new Set(state.filteredPlaces.map((p) => p.id));
+      for (const p of state.filteredPlaces) {
+        const marker = L.marker([p.lat, p.lon], { icon: makeIcon(p.type) });
+        marker.bindPopup(popupHtml(p));
+        marker.on("click", () => focusOn(p.id, false));
+        state.markers.set(p.id, marker);
+        state.cluster.addLayer(marker);
+      }
+    }
+
+    function renderList() {
+      const container = document.getElementById("place-list");
+      if (state.filteredPlaces.length === 0) {
+        container.innerHTML = `<div class="p-6 text-center text-base-content/50 text-sm">Aucun lieu ne correspond aux filtres.</div>`;
+        return;
+      }
+      container.innerHTML = state.filteredPlaces.slice(0, 300).map((p) => `
+        <div class="place-card p-3" data-id="${p.id}">
+          <div class="flex items-start gap-2">
+            <span class="w-3 h-3 rounded-full bg-${typeBadgeColor(p.type)} mt-1.5 shrink-0"></span>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-sm truncate">${escapeHtml(p.name)}</div>
+              <div class="text-xs text-base-content/60 truncate">${escapeHtml([p.address, [p.postalCode, p.city].filter(Boolean).join(" ")].filter(Boolean).join(" — "))}</div>
+              <div class="text-xs mt-1"><span class="text-${typeTextColor(p.type)}">${TYPE_META[p.type].emoji} ${TYPE_META[p.type].label}</span></div>
+            </div>
+          </div>
+        </div>
+      `).join("");
+      if (state.filteredPlaces.length > 300) {
+        container.insertAdjacentHTML("beforeend", `<div class="p-3 text-xs text-center text-base-content/50">+ ${state.filteredPlaces.length - 300} autres lieux (affine les filtres pour les voir)</div>`);
+      }
+      container.querySelectorAll(".place-card").forEach((el) => {
+        el.addEventListener("click", () => focusOn(el.dataset.id, true));
+      });
+    }
+
+    function typeBadgeColor(t) {
+      return t === "soliguide" ? "primary" : t === "SS" ? "success" : t === "OEX" ? "warning" : "secondary";
+    }
+    function typeTextColor(t) {
+      return t === "soliguide" ? "primary" : t === "SS" ? "success-content" : t === "OEX" ? "warning-content" : "secondary";
+    }
+
+    function focusOn(id, fromList) {
+      state.activeId = id;
+      document.querySelectorAll(".place-card").forEach((el) => el.classList.toggle("active", el.dataset.id === id));
+      const marker = state.markers.get(id);
+      if (marker) {
+        state.cluster.zoomToShowLayer(marker, () => {
+          marker.openPopup();
+          if (fromList) state.map.panTo(marker.getLatLng());
+        });
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c]));
+    }
+
+    function setupMap() {
+      state.map = L.map("map", { zoomControl: true }).setView([40.4, -3.7], 6);
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: "abcd",
+        maxZoom: 19,
+      }).addTo(state.map);
+      state.cluster = L.markerClusterGroup({ disableClusteringAtZoom: 12, spiderfyOnMaxZoom: true });
+      state.map.addLayer(state.cluster);
+    }
+
+    function setupFilters() {
+      document.querySelectorAll(".filter-type").forEach((cb) => {
+        cb.addEventListener("change", () => {
+          const t = cb.dataset.type;
+          cb.checked ? state.filters.types.add(t) : state.filters.types.delete(t);
+          applyFilters();
+        });
+      });
+      document.getElementById("filter-province").addEventListener("change", (e) => {
+        state.filters.province = e.target.value;
+        applyFilters();
+      });
+      let timer;
+      document.getElementById("filter-search").addEventListener("input", (e) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { state.filters.search = e.target.value; applyFilters(); }, 200);
+      });
+    }
+
+    (async function init() {
+      setupMap();
+      await loadAll();
+      updateCounts();
+      buildProvinceOptions();
+      setupFilters();
+      applyFilters();
+    })();
+  </script>
+
+</Base>

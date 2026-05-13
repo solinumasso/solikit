@@ -1,0 +1,164 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { SUPPORTED_LANGS, getLang, useTranslations } from '../../../i18n/utils';
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGS.map(lang => ({ params: { lang } }));
+}
+
+const { lang: langParam } = Astro.params;
+const lang = getLang(langParam);
+const t = useTranslations(lang);
+
+const arraigos = [
+  { id: 'segunda_oportunidad', icon: '🔄', color: '#7B7CD4', bg: '#EEEEFF', border: '#D8D8F8', badge: 'badge-lilac', titleKey: 'ordinary.segunda_oportunidad_title', descKey: 'ordinary.segunda_oportunidad_desc', legalKey: 'ordinary.segunda_oportunidad_legal' },
+  { id: 'sociolaboral',        icon: '💼', color: '#1C1208', bg: '#F2EDE4', border: '#E2D9CC', badge: 'badge-espresso', titleKey: 'ordinary.sociolaboral_title', descKey: 'ordinary.sociolaboral_desc', legalKey: 'ordinary.sociolaboral_legal' },
+  { id: 'social',              icon: '🏡', color: '#6BAA37', bg: '#EDFAE5', border: '#C8EDBC', badge: 'badge-lime',    titleKey: 'ordinary.social_title', descKey: 'ordinary.social_desc', legalKey: 'ordinary.social_legal' },
+  { id: 'socioformativo',      icon: '📚', color: '#D97706', bg: '#FEF3CD', border: '#FAE09C', badge: 'badge-amber',   titleKey: 'ordinary.socioformativo_title', descKey: 'ordinary.socioformativo_desc', legalKey: 'ordinary.socioformativo_legal' },
+  { id: 'familiar',            icon: '👨‍👩‍👧', color: '#D94035', bg: '#FDE8E7', border: '#F5C4C2', badge: 'badge-coral',   titleKey: 'ordinary.familiar_title', descKey: 'ordinary.familiar_desc', legalKey: 'ordinary.familiar_legal' },
+];
+---
+
+<Base lang={lang} title={t('ordinary.title')}>
+  <div class="max-w-[52rem] mx-auto px-5 pt-10 pb-20">
+
+    <a href={`/${lang}/`} class="inline-flex items-center gap-[0.4rem] text-[0.82rem] font-semibold text-(--text-muted) no-underline mb-8">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      {t('nav.back_home')}
+    </a>
+
+    <div class="mb-8 pb-6 border-b-line">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="badge badge-lime">{t('ordinary.permanent_badge')}</span>
+        <span class="badge badge-espresso">EX-07</span>
+      </div>
+      <h1 class="text-[1.75rem] font-black text-(--text) mb-[0.4rem]">{t('ordinary.title')}</h1>
+      <p class="text-[0.85rem] text-(--text-muted) mb-3">{t('ordinary.legal_basis')}</p>
+      <div class="inline-flex items-center gap-2 py-[0.4rem] px-[0.8rem] bg-[#EDFAE5] border-[1.5px] border-solid border-[#C8EDBC] rounded-sm text-[0.82rem] font-bold text-(--accent-lime)">
+        ✅ {t('ordinary.no_deadline')}
+      </div>
+    </div>
+
+    <!-- Key thresholds -->
+    <div class="grid grid-cols-3 border-line rounded-md overflow-hidden mb-8 bg-(--border)">
+      {[
+        { val: '1.221 €/mes', label: t('ordinary.stat_smi'), src: t('ordinary.stat_smi_src') },
+        { val: '600 €/mes', label: t('ordinary.stat_iprem'), src: t('ordinary.stat_iprem_src') },
+        { val: '90 días', label: t('ordinary.stat_absences'), src: t('ordinary.stat_absences_src') },
+      ].map((item) => (
+        <div class="bg-(--bg-card) p-4 text-center">
+          <div class="text-[1.1rem] font-black text-(--text) tracking-[-0.02em]">{item.val}</div>
+          <div class="text-xs font-bold text-(--text-muted) mt-[0.2rem]">{item.label}</div>
+          <div class="text-[0.68rem] text-(--text-light)">{item.src}</div>
+        </div>
+      ))}
+    </div>
+
+    <div class="flex items-center gap-4 mb-5">
+      <h2 class="text-base font-extrabold text-(--text)">{t('ordinary.choose_type')}</h2>
+      <div class="flex-1 h-[1.5px] bg-(--border)"></div>
+    </div>
+
+    <!-- 5 arraigo accordions -->
+    <div class="flex flex-col border-line rounded-lg overflow-hidden">
+      {arraigos.map((arraigo, idx, arr) => (
+        <details class={idx < arr.length - 1 ? 'border-b-line' : ''}>
+          <summary class="list-none py-5 px-6 flex items-center gap-4 cursor-pointer bg-(--bg-card) select-none">
+            <span class="text-2xl shrink-0">{arraigo.icon}</span>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-extrabold text-[0.95rem] text-(--text)">{t(arraigo.titleKey)}</span>
+                <span class={`badge ${arraigo.badge} text-[0.68rem]`}>{t(arraigo.legalKey)}</span>
+              </div>
+              <p class="text-[0.82rem] text-(--text-muted) mt-[0.2rem] leading-[1.5]">{t(arraigo.descKey)}</p>
+            </div>
+            <svg class="details-arrow shrink-0 text-(--text-muted) transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </summary>
+
+          <div class="py-5 px-6 border-t-line bg-(--bg-muted)">
+
+            <h4 class="text-[0.8rem] font-extrabold uppercase tracking-[0.06em] text-(--text-muted) mb-3">{t('ordinary.docs_section')}</h4>
+            <div class="flex flex-col border-line rounded-md overflow-hidden bg-(--bg-card) mb-4">
+              {[
+                { icon: '📄', label: t('ordinary.doc_form'), where: t('ordinary.where_form') },
+                { icon: '🛂', label: t('ordinary.doc_passport'), where: t('ordinary.where_passport') },
+                { icon: '🏠', label: t('ordinary.doc_empadronamiento'), where: t('ordinary.where_empadronamiento') },
+                { icon: '🏛️', label: t('ordinary.doc_antecedentes'), where: t('ordinary.where_antecedentes') },
+                { icon: '💶', label: t('ordinary.doc_tasa_payment'), where: t('ordinary.where_tasa') },
+                arraigo.id === 'sociolaboral'   ? { icon: '📝', label: t('ordinary.doc_contract'), where: t('ordinary.where_employer') } : null,
+                arraigo.id === 'sociolaboral'   ? { icon: '🎓', label: t('ordinary.sociolaboral_qualification'), where: '—' } : null,
+                arraigo.id === 'social'         ? { icon: '👥', label: t('ordinary.doc_social_ties'), where: t('ordinary.where_civil_registry') } : null,
+                arraigo.id === 'socioformativo' ? { icon: '🎓', label: t('ordinary.doc_fp_enrollment'), where: t('ordinary.where_fp') } : null,
+                arraigo.id === 'familiar'       ? { icon: '👨‍👩‍👧', label: t('ordinary.doc_family_docs'), where: t('ordinary.where_civil_registry_only') } : null,
+                arraigo.id === 'segunda_oportunidad' ? { icon: '📜', label: t('ordinary.doc_prev_permit'), where: t('ordinary.where_extranjeria') } : null,
+              ].filter(Boolean).map((doc, i, filteredArr) => doc && (
+                <div class={`flex items-start gap-3 py-[0.8rem] px-4 ${i < filteredArr.length - 1 ? 'border-b-line' : ''}`}>
+                  <span class="shrink-0">{doc.icon}</span>
+                  <div>
+                    <div class="text-[0.86rem] font-semibold text-(--text)">{doc.label}</div>
+                    <div class="text-[0.76rem] text-(--text-muted) mt-[0.1rem]">📍 {doc.where}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <!-- Notes spécifiques sociolaboral -->
+            {arraigo.id === 'sociolaboral' && (
+              <div class="mb-4 flex flex-col gap-2">
+                <div class="py-3 px-4 bg-[#EDFAE5] border-[1.5px] border-solid border-[#C8EDBC] rounded-sm text-[0.82rem] text-(--accent-lime)">
+                  📋 {t('ordinary.sociolaboral_multi_contract')}
+                </div>
+                <div class="py-3 px-4 bg-[#FEF3CD] border-[1.5px] border-solid border-[#FAE09C] rounded-sm text-[0.82rem] text-[#92400E]">
+                  ⏱️ {t('ordinary.sociolaboral_ss_registration')}
+                </div>
+              </div>
+            )}
+
+            <!-- Submit + Tasa — dynamic colors stay inline since they vary per arraigo -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="py-[0.9rem] px-4 rounded-sm" style={`border: 1.5px solid ${arraigo.border}; background: ${arraigo.bg};`}>
+                <div class="text-xs font-extrabold uppercase tracking-[0.06em] mb-[0.4rem]" style={`color: ${arraigo.color};`}>{t('ordinary.submit_section')}</div>
+                <p class="text-[0.8rem] text-(--text-muted) mb-[0.6rem]">{t('ordinary.submit_desc')}</p>
+                <div class="flex gap-[0.4rem] flex-wrap">
+                  <a href="https://sede.administracionespublicas.gob.es/mercurio/inicioMercurio.html" target="_blank" rel="noopener noreferrer" class="btn-primary text-[0.76rem] py-[0.35rem] px-3">{t('ordinary.mercurio_btn')}</a>
+                  <a href={`/${lang}/mapa`} class="btn-secondary text-[0.76rem] py-[0.35rem] px-3">{t('ordinary.map_btn')}</a>
+                </div>
+              </div>
+              <div class="py-[0.9rem] px-4 border-line rounded-sm bg-(--bg-card)">
+                <div class="text-xs font-extrabold uppercase tracking-[0.06em] text-(--text-muted) mb-[0.4rem]">{t('ordinary.tasa_section')}</div>
+                <div class="text-[1.3rem] font-black text-(--text) mb-1">{t('ordinary.tasa_amount')}</div>
+                <div class="text-[0.77rem] text-(--text-muted) mb-2">{t('ordinary.tasa_model')}</div>
+                <a href="https://sede.administracionespublicas.gob.es/pagina/index/directorio/tasa052" target="_blank" rel="noopener noreferrer" class="btn-secondary text-[0.76rem] py-[0.35rem] px-3">{t('ordinary.generate_btn')}</a>
+              </div>
+            </div>
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <!-- Notes -->
+    <div class="mt-6 p-5 border-line rounded-md bg-(--bg-card)">
+      <h3 class="text-[0.82rem] font-extrabold uppercase tracking-[0.06em] text-(--text-muted) mb-3">⚠️ {t('ordinary.notes_title')}</h3>
+      <ul class="list-none p-0 m-0 flex flex-col gap-[0.4rem] text-[0.84rem] text-(--text-muted) leading-[1.5]">
+        <li class="flex gap-2"><span class="shrink-0 text-(--text-light)">—</span><span>{t('ordinary.note_1')}</span></li>
+        <li class="flex gap-2"><span class="shrink-0 text-(--text-light)">—</span><span>{t('ordinary.note_2')}</span></li>
+        <li class="flex gap-2"><span class="shrink-0 text-(--text-light)">—</span><span>{t('ordinary.note_3')}</span></li>
+        <li class="flex gap-2"><span class="shrink-0 text-(--text-light)">—</span><span>{t('ordinary.note_4')}</span></li>
+        <li class="flex gap-2"><span class="shrink-0 text-(--text-light)">—</span><span>{t('ordinary.cond_no_pi')}</span></li>
+        <li class="flex gap-2"><span class="shrink-0 text-(--text-light)">—</span><span>{t('ordinary.sociolaboral_pi_note')}</span></li>
+      </ul>
+    </div>
+
+  </div>
+</Base>
+
+<script is:inline>
+  document.querySelectorAll('details').forEach(function(det) {
+    det.addEventListener('toggle', function() {
+      var arrow = det.querySelector('.details-arrow');
+      if (arrow) arrow.style.transform = det.open ? 'rotate(180deg)' : 'rotate(0deg)';
+    });
+  });
+</script>

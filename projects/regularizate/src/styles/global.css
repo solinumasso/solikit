@@ -1,0 +1,485 @@
+@import "tailwindcss";
+
+/* ─── Tailwind v4 : exposer la palette Soliguide comme utilitaires ──────────
+   Sans DaisyUI, Tailwind ne connaît pas bg-primary, text-primary, etc.
+   On les déclare ici avec les valeurs Soliguide (identiques à celles que
+   soliguide-theme.css définit via les tokens Figma --main-*).
+   Tailwind génère : bg-primary → background-color: var(--color-primary, #f84b32)
+   Au runtime, soliguide-theme.css redéfinit --color-primary depuis les tokens
+   Figma — convergence garantie vers la même couleur.                       ── */
+@theme {
+  /* Palette principale */
+  --color-primary:           #f84b32;
+  --color-primary-content:   #271332;
+  --color-secondary:         #503b5c;
+  --color-secondary-content: #ecd9f5;
+  --color-accent:            #271332;
+  --color-accent-content:    #ed3215;
+
+  /* Neutres */
+  --color-base-100:    #ffffff;
+  --color-base-200:    #f5f5f5;
+  --color-base-300:    #d4d4d4;
+  --color-base-content: #171717;
+
+  /* États */
+  --color-success:         #a7f3d0;
+  --color-success-content: #019d4f;
+  --color-warning:         #ffe1bd;
+  --color-warning-content: #f29013;
+  --color-error:           #fecaca;
+  --color-error-content:   #d32f2f;
+
+  /* Radius (conservés du projet original) */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+}
+
+/* ─── Custom border utilities (1.5px — non-standard) ──────────────────────── */
+@utility border-line {
+  border: 1.5px solid var(--border);
+}
+@utility border-t-line {
+  border-top: 1.5px solid var(--border);
+}
+@utility border-b-line {
+  border-bottom: 1.5px solid var(--border);
+}
+@utility border-r-line {
+  border-right: 1.5px solid var(--border);
+}
+
+/* ─── Bridge Soliguide → variables custom du projet ───────────────────────
+   Les variables de regularizate (--bg, --text, --border, etc.) sont
+   remappées vers les CSS custom properties de soliguide-theme.css.
+   Toutes les classes existantes (.card, .badge-*, .btn-*) continuent
+   de fonctionner sans modification.                                       ── */
+:root {
+  --bg:        var(--color-base-100);
+  --bg-card:   var(--color-base-100);
+  --bg-muted:  var(--color-base-200);
+  --bg-invert: var(--color-primary-content);
+
+  --text:       var(--color-primary-content);
+  --text-muted: color-mix(in srgb, var(--color-base-content) 60%, transparent);
+  --text-light: color-mix(in srgb, var(--color-base-content) 40%, transparent);
+  --text-invert: var(--color-base-100);
+
+  --border:       var(--color-base-300);
+  --border-focus: var(--color-secondary);
+
+  /* Couleurs de contenu (types de régularisation) — inchangées */
+  --accent-coral:    #D94035;
+  --accent-lilac:    #7B7CD4;
+  --accent-lime:     #6BAA37;
+  --accent-amber:    #D97706;
+  --accent-espresso: var(--color-primary-content);
+
+  --shadow-sm: 0 1px 4px rgba(28,18,8,0.08);
+  --shadow-md: 0 4px 16px rgba(28,18,8,0.1);
+  --shadow-lg: 0 8px 32px rgba(28,18,8,0.12);
+}
+
+/* ─── Base ─────────────────────────────────────────────── */
+html {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Roboto', sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html[dir="rtl"] { text-align: right; }
+
+/* ─── Typography ───────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+}
+
+/* ─── Decorative shapes ────────────────────────────────── */
+.deco-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.deco-checker {
+  background-image:
+    linear-gradient(45deg, var(--accent-lilac) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--accent-lilac) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--accent-lilac) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--accent-lilac) 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+  opacity: 0.15;
+}
+
+/* ─── Cards ────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: #C8BFB2;
+}
+
+.card-muted {
+  background: var(--bg-muted);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+/* ─── Buttons ──────────────────────────────────────────── */
+.btn-primary {
+  background: var(--text);
+  color: var(--text-invert);
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  transition: opacity 0.15s, transform 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.15s, border-color 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background: var(--bg-muted);
+  border-color: var(--text-muted);
+}
+
+.btn-accent {
+  background: var(--accent-coral);
+  color: white;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: opacity 0.15s, transform 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.btn-accent:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* ─── Badges ───────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge-coral {
+  background: #FDE8E7;
+  color: var(--accent-coral);
+  border: 1px solid #F5C4C2;
+}
+
+.badge-lilac {
+  background: #EEEEFF;
+  color: var(--accent-lilac);
+  border: 1px solid #D8D8F8;
+}
+
+.badge-lime {
+  background: #EDFAE5;
+  color: var(--accent-lime);
+  border: 1px solid #C8EDBC;
+}
+
+.badge-amber {
+  background: #FEF3CD;
+  color: var(--accent-amber);
+  border: 1px solid #FAE09C;
+}
+
+.badge-espresso {
+  background: var(--text);
+  color: var(--text-invert);
+}
+
+/* ─── Progress bar ─────────────────────────────────────── */
+.progress-track {
+  background: var(--border);
+  border-radius: 999px;
+  height: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--text);
+  border-radius: 999px;
+  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ─── Step pills ───────────────────────────────────────── */
+.step-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.step-nav::-webkit-scrollbar { display: none; }
+
+.step-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+
+.step-pill.active {
+  background: var(--text);
+  color: var(--text-invert);
+}
+
+.step-pill.completed {
+  background: #EDFAE5;
+  color: var(--accent-lime);
+  border: 1.5px solid #C8EDBC;
+}
+
+.step-pill.pending {
+  background: transparent;
+  color: var(--text-light);
+  border: 1.5px solid var(--border);
+}
+
+/* ─── Checklist items ──────────────────────────────────── */
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-sm);
+  transition: background 0.12s;
+  border: 1.5px solid transparent;
+}
+
+.check-item:hover {
+  background: var(--bg-muted);
+  border-color: var(--border);
+}
+
+/* ─── Tooltip ──────────────────────────────────────────── */
+.tooltip-trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: help;
+}
+
+.tooltip-trigger .tooltip-content {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: var(--bg);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  width: 240px;
+  z-index: 50;
+  box-shadow: var(--shadow-lg);
+  white-space: normal;
+}
+
+html[dir="rtl"] .tooltip-trigger .tooltip-content {
+  left: auto;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.tooltip-trigger:hover .tooltip-content,
+.tooltip-trigger:focus-within .tooltip-content {
+  display: block;
+}
+
+/* ─── Countdown banner ─────────────────────────────────── */
+.countdown-banner {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* ─── Divider ──────────────────────────────────────────── */
+.divider {
+  height: 1.5px;
+  background: var(--border);
+  width: 100%;
+}
+
+/* ─── Section stripe ───────────────────────────────────── */
+.section-stripe {
+  background: var(--bg-muted);
+  border-top: 1.5px solid var(--border);
+  border-bottom: 1.5px solid var(--border);
+}
+
+/* ─── User location pulse marker ───────────────────────── */
+@keyframes pulse-ring {
+  0%   { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ─── Leaflet overrides ────────────────────────────────── */
+.leaflet-container {
+  background: var(--bg-muted) !important;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: var(--bg-card) !important;
+  border: 1.5px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.leaflet-popup-tip { background: var(--bg-card) !important; }
+
+.leaflet-popup-close-button {
+  color: var(--text-muted) !important;
+  font-size: 18px !important;
+}
+
+.leaflet-popup-content {
+  margin: 12px 16px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.leaflet-popup-content h3 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+/* ─── Carte — marqueurs et liste ───────────────────────── */
+.pin {
+  width: 22px;
+  height: 22px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.pin-soliguide { background: var(--color-primary); }
+.pin-SS        { background: var(--color-success-content); }
+.pin-OEX       { background: var(--color-warning-content); }
+.pin-Correos   { background: var(--color-secondary); }
+
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background-color: rgba(248, 75, 50, 0.15) !important;
+}
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+.place-card { transition: background-color .15s; cursor: pointer; }
+.place-card:hover { background-color: var(--color-base-200); }
+.place-card.active {
+  background-color: rgba(248, 75, 50, 0.06);
+  border-left: 3px solid var(--color-primary);
+}
+
+/* ─── Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-muted); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ─── Focus ────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent-lilac);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ─── Animations ───────────────────────────────────────── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-fade-in-up { animation: fade-in-up 0.5s cubic-bezier(0.4,0,0.2,1) both; }
+.animate-fade-in    { animation: fade-in 0.3s ease both; }
+
+.animation-delay-100 { animation-delay: 0.1s; }
+.animation-delay-200 { animation-delay: 0.2s; }
+.animation-delay-300 { animation-delay: 0.3s; }

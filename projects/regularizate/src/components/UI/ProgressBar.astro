@@ -1,0 +1,32 @@
+---
+interface Props {
+  current: number;
+  total: number;
+  steps: string[];
+  currentLabel?: string;
+}
+const { current, total, steps, currentLabel } = Astro.props;
+const percent = Math.round((current / total) * 100);
+---
+
+<div class="w-full">
+  <div class="step-nav mb-3">
+    {steps.map((label, i) => {
+      const num = i + 1;
+      const state = num < current ? 'completed' : num === current ? 'active' : 'pending';
+      return (
+        <div class={`step-pill ${state}`}>
+          {state === 'completed'
+            ? <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            : <span>{num}</span>
+          }
+          <span class="hidden sm:inline">{label}</span>
+        </div>
+      );
+    })}
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" style={`width: ${percent}%`}></div>
+  </div>
+  {currentLabel && <p class="text-xs text-(--text-muted) mt-[0.4rem]">{current}/{total} — {currentLabel}</p>}
+</div>

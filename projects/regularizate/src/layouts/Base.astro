@@ -1,0 +1,142 @@
+---
+import '../styles/global.css';
+import LangSwitcher from '../components/UI/LangSwitcher.astro';
+import Countdown from '../components/UI/Countdown.astro';
+import { getLang, useTranslations, SUPPORTED_LANGS, type Lang } from '../i18n/utils';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: Lang;
+  noCountdown?: boolean;
+}
+
+const { title, description, lang: langProp, noCountdown = false } = Astro.props;
+const lang = getLang(langProp ?? Astro.currentLocale);
+const t = useTranslations(lang);
+
+const dir = lang === 'ar' ? 'rtl' : 'ltr';
+const pageTitle = title ? `${title} — ${t('site.name')}` : t('site.name');
+const pageDesc = description ?? t('site.description');
+
+const SITE_URL = 'https://regularizate.es';
+const pathWithoutLang = Astro.url.pathname.replace(/^\/[^/]+/, '');
+const canonicalUrl = `${SITE_URL}${Astro.url.pathname}`;
+
+const ogLocales: Record<Lang, string> = {
+  es: 'es_ES', ca: 'ca_ES', fr: 'fr_FR', en: 'en_GB',
+  ar: 'ar_MA', pt: 'pt_BR', wo: 'wo_SN', bm: 'bm_ML',
+};
+---
+
+<!doctype html>
+<html lang={lang} dir={dir}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={pageDesc} />
+  <title>{pageTitle}</title>
+  <link rel="icon" href="/assets/favicon.ico" />
+  <link rel="canonical" href={canonicalUrl} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDesc} />
+  <meta property="og:locale" content={ogLocales[lang]} />
+  {SUPPORTED_LANGS.filter(l => l !== lang).map(l => (
+    <meta property="og:locale:alternate" content={ogLocales[l]} />
+  ))}
+
+  <!-- hreflang : une URL par langue + x-default sur l'espagnol -->
+  {SUPPORTED_LANGS.map(l => (
+    <link rel="alternate" hreflang={l} href={`${SITE_URL}/${l}${pathWithoutLang}`} />
+  ))}
+  <link rel="alternate" hreflang="x-default" href={`${SITE_URL}/es${pathWithoutLang}`} />
+
+  <!-- Polices Soliguide : Roboto (corps) + Nunito (titres) -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+
+  <!-- Thème Soliguide — CSS custom properties (variables.css AVANT soliguide-theme.css) -->
+  <link rel="stylesheet" href="/assets/variables.css" />
+  <link rel="stylesheet" href="/assets/soliguide-theme.css" />
+
+  <!-- Slot pour CSS/scripts spécifiques à certaines pages (ex: Leaflet sur mapa) -->
+  <slot name="head" />
+</head>
+<body class="min-h-screen flex flex-col" style="background-color: var(--bg); color: var(--text)">
+
+  {!noCountdown && <Countdown lang={lang} />}
+
+  <!-- Header : fond blanc, logo Soliguide centré, menu hamburger + LangSwitcher -->
+  <header class="bg-white shadow-md sticky top-0 z-40" style="border-bottom: 1.5px solid var(--border)">
+    <div class="max-w-5xl mx-auto px-5 h-16 flex items-center justify-between gap-4">
+
+      <!-- Menu hamburger -->
+      <div class="relative">
+        <button id="menu-btn" class="p-2 rounded-full transition-colors" style="color: var(--color-primary)" aria-label="Menu"
+          onmouseover="this.style.background='var(--bg-muted)'" onmouseout="this.style.background='transparent'">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+          </svg>
+        </button>
+        <div id="menu-dropdown" class="hidden absolute left-0 top-full mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-[9999]"
+          style="border: 1.5px solid var(--border)">
+          <a href="/../../index.html" class="block px-4 py-2 hover:bg-gray-100 text-sm font-semibold text-gray-800 no-underline" style="border-bottom: 1px solid #f3f4f6">🏠 Soliguide Tools</a>
+          <a href={`/${lang}/`} class="block px-4 py-2 hover:bg-gray-100 text-sm text-gray-700 no-underline">{t('nav.home')}</a>
+          <a href={`/${lang}/mapa`} class="block px-4 py-2 hover:bg-gray-100 text-sm text-gray-700 no-underline">{t('nav.map')}</a>
+        </div>
+      </div>
+
+      <!-- Logo Soliguide + nom projet -->
+      <a href={`/${lang}/`} class="flex items-center gap-3 no-underline">
+        <img src="/assets/soliguide-inline.svg" alt="Soliguide" class="h-6" />
+        <span class="font-bold opacity-20 text-lg hidden sm:inline" style="color: var(--color-primary)">|</span>
+        <span class="text-sm font-semibold tracking-tight hidden sm:inline" style="color: var(--color-primary)">Regularízate</span>
+      </a>
+
+      <!-- Sélecteur de langue -->
+      <LangSwitcher currentLang={lang} />
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <slot />
+  </main>
+
+  <!-- Footer : fond primary Soliguide -->
+  <footer class="text-white mt-16" style="background-color: var(--color-primary)">
+    <div class="max-w-5xl mx-auto flex items-center justify-between px-6 py-5">
+      <div class="flex items-center gap-4">
+        <img src="/assets/soliguide-symbol.svg" alt="Soliguide" class="h-7 brightness-0 invert opacity-50" />
+        <div>
+          <p class="font-semibold text-sm">Soliguide Tools — Regularízate</p>
+          <p class="text-xs opacity-60">Sources : Soliguide · Ministerio de Inclusión, Seguridad Social y Migraciones</p>
+        </div>
+      </div>
+      <a href="/../../index.html" class="text-xs opacity-60 hover:opacity-100 underline text-white no-underline hover:underline">← {t('nav.back_home')}</a>
+    </div>
+  </footer>
+
+  <script is:inline define:vars={{ lang, dir }}>
+    document.documentElement.lang = lang;
+    document.documentElement.dir = dir;
+    localStorage.setItem('regularizate_lang', lang);
+
+    var btn = document.getElementById('menu-btn');
+    var menu = document.getElementById('menu-dropdown');
+    if (btn && menu) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        menu.classList.toggle('hidden');
+      });
+      document.addEventListener('click', function(e) {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+          menu.classList.add('hidden');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

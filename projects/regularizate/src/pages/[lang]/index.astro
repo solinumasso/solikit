@@ -1,0 +1,216 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SUPPORTED_LANGS, getLang, useTranslations } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGS.map(lang => ({ params: { lang } }));
+}
+
+const { lang: langParam } = Astro.params;
+const lang = getLang(langParam);
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t('landing.hero_title')}>
+
+  <!-- ── Hero ────────────────────────────────────────────── -->
+  <section class="py-20 px-5 pt-20 pb-16 max-w-5xl mx-auto">
+    <div class="grid grid-cols-1 gap-12 items-start">
+
+      <!-- Left: headline -->
+      <div class="animate-fade-in-up">
+
+        <!-- Decorative tag -->
+        <div class="inline-flex items-center gap-2 mb-6">
+          <div class="w-6 h-[3px] bg-(--accent-coral) rounded-[2px]"></div>
+          <span class="text-xs font-extrabold uppercase tracking-[0.1em] text-(--text-muted)">{t('landing.tag_verified')}</span>
+        </div>
+
+        <h1 class="text-[clamp(2.4rem,5vw,3.8rem)] font-black leading-[1.05] tracking-[-0.03em] text-(--text) mb-5">
+          {t('landing.hero_title')}
+        </h1>
+
+        <p class="text-[1.1rem] leading-[1.7] text-(--text-muted) max-w-[520px] mb-8">
+          {t('landing.hero_subtitle')}
+        </p>
+
+        <!-- Urgency pill -->
+        <div class="inline-flex items-center gap-[0.6rem] bg-[#FDE8E7] border-[1.5px] border-solid border-[#F5C4C2] rounded-sm py-2 px-[0.9rem]">
+          <span class="text-base">⏳</span>
+          <span class="text-[0.82rem] font-bold text-(--accent-coral)">
+            {t('landing.urgency_text')}
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Tunnel cards ─────────────────────────────────────── -->
+  <section class="px-5 pb-20 max-w-5xl mx-auto">
+
+    <div class="flex items-center gap-4 mb-8">
+      <h2 class="text-[1.1rem] font-extrabold text-(--text)">{t('landing.choose_situation')}</h2>
+      <div class="flex-1 h-[1.5px] bg-(--border)"></div>
+    </div>
+
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5">
+
+      <!-- EX-32 — Extraordinary -->
+      <a href={`/${lang}/tunnel/extraordinario`}
+         class="card animate-fade-in-up py-7 px-[1.75rem] flex flex-col gap-4 no-underline relative overflow-hidden">
+
+        <div class="absolute top-0 right-0 w-[80px] h-[80px] overflow-hidden">
+          <div class="w-[80px] h-[80px] bg-(--accent-coral) translate-x-[40px] -translate-y-[40px] rotate-45 opacity-[0.12]"></div>
+        </div>
+
+        <div class="flex items-start justify-between">
+          <span class="badge badge-coral">{t('landing.card_extraordinary_badge')}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-(--text-muted) mt-[2px]">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+
+        <div>
+          <div class="text-[2rem] mb-[0.6rem]">🟠</div>
+          <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-2 leading-[1.25]">{t('landing.card_extraordinary_title')}</h2>
+          <p class="text-[0.87rem] leading-[1.6] text-(--text-muted)">{t('landing.card_extraordinary_desc')}</p>
+        </div>
+
+        <div class="mt-auto pt-3 border-t-line text-[0.82rem] font-bold text-(--accent-coral)">
+          EX-32 · DA 21ª · RD 316/2026
+        </div>
+      </a>
+
+      <!-- EX-31 — PI -->
+      <a href={`/${lang}/tunnel/proteccion-internacional`}
+         class="card animate-fade-in-up animation-delay-100 py-7 px-[1.75rem] flex flex-col gap-4 no-underline relative overflow-hidden">
+
+        <div class="absolute top-0 right-0 w-[80px] h-[80px] overflow-hidden">
+          <div class="w-[80px] h-[80px] bg-(--accent-lilac) translate-x-[40px] -translate-y-[40px] rotate-45 opacity-[0.12]"></div>
+        </div>
+
+        <div class="flex items-start justify-between">
+          <span class="badge badge-lilac">{t('landing.card_pi_badge')}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-(--text-muted) mt-[2px]">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+
+        <div>
+          <div class="text-[2rem] mb-[0.6rem]">🟢</div>
+          <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-2 leading-[1.25]">{t('landing.card_pi_title')}</h2>
+          <p class="text-[0.87rem] leading-[1.6] text-(--text-muted)">{t('landing.card_pi_desc')}</p>
+        </div>
+
+        <div class="mt-auto pt-3 border-t-line text-[0.82rem] font-bold text-(--accent-lilac)">
+          EX-31 · DA 20ª · RD 316/2026
+        </div>
+      </a>
+
+      <!-- EX-07 — Ordinary -->
+      <a href={`/${lang}/tunnel/ordinario`}
+         class="card animate-fade-in-up animation-delay-200 py-7 px-[1.75rem] flex flex-col gap-4 no-underline relative overflow-hidden">
+
+        <div class="absolute top-0 right-0 w-[80px] h-[80px] overflow-hidden">
+          <div class="w-[80px] h-[80px] bg-(--accent-lime) translate-x-[40px] -translate-y-[40px] rotate-45 opacity-[0.12]"></div>
+        </div>
+
+        <div class="flex items-start justify-between">
+          <span class="badge badge-lime">{t('landing.card_ordinary_badge')}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-(--text-muted) mt-[2px]">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+
+        <div>
+          <div class="text-[2rem] mb-[0.6rem]">🔵</div>
+          <h2 class="text-[1.15rem] font-extrabold text-(--text) mb-2 leading-[1.25]">{t('landing.card_ordinary_title')}</h2>
+          <p class="text-[0.87rem] leading-[1.6] text-(--text-muted)">{t('landing.card_ordinary_desc')}</p>
+        </div>
+
+        <div class="mt-auto pt-3 border-t-line text-[0.82rem] font-bold text-(--accent-lime)">
+          EX-07 · Arts. 124, 127, 128
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── How it works — editorial stripe ──────────────────── -->
+  <section class="section-stripe py-16 px-5">
+    <div class="max-w-5xl mx-auto">
+
+      <div class="flex items-center gap-4 mb-10">
+        <div class="w-[10px] h-[10px] bg-(--accent-lilac) rounded-[2px] rotate-45"></div>
+        <h2 class="text-[1.3rem] font-extrabold text-(--text)">{t('landing.how_title')}</h2>
+      </div>
+
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] border-line rounded-lg overflow-hidden bg-(--bg-card)">
+        {[
+          { num: '01', title: t('landing.how_1_title'), desc: t('landing.how_1_desc'), color: 'var(--accent-coral)' },
+          { num: '02', title: t('landing.how_2_title'), desc: t('landing.how_2_desc'), color: 'var(--accent-lilac)' },
+          { num: '03', title: t('landing.how_3_title'), desc: t('landing.how_3_desc'), color: 'var(--accent-lime)' },
+          { num: '04', title: t('landing.how_4_title'), desc: t('landing.how_4_desc'), color: 'var(--accent-amber)' },
+        ].map((step, i, arr) => (
+          <div class={`py-7 px-6 relative ${i < arr.length - 1 ? 'border-r-line' : ''}`}>
+            <div class="text-[2.5rem] font-black opacity-[0.18] mb-2 leading-none" style={`color: ${step.color};`}>{step.num}</div>
+            <h3 class="text-[0.95rem] font-extrabold text-(--text) mb-[0.4rem]">{step.title}</h3>
+            <p class="text-[0.82rem] leading-[1.6] text-(--text-muted)">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Key dates ─────────────────────────────────────────── -->
+  <section class="py-16 px-5 max-w-5xl mx-auto">
+
+    <div class="flex items-center gap-4 mb-8">
+      <div class="w-[10px] h-[10px] bg-(--accent-amber) rounded-full"></div>
+      <h2 class="text-[1.3rem] font-extrabold text-(--text)">{t('landing.dates_title')}</h2>
+      <div class="flex-1 h-[1.5px] bg-(--border)"></div>
+    </div>
+
+    <div class="flex flex-col border-line rounded-lg overflow-hidden">
+
+      <div class="grid grid-cols-[140px_1fr] bg-(--bg-card)">
+        <div class="py-5 px-6 border-r-line border-b-line">
+          <div class="text-[0.7rem] uppercase tracking-[0.08em] font-extrabold text-(--text-muted) mb-1">{t('landing.dates_deadline_label')}</div>
+          <div class="font-black text-[1.05rem] text-(--accent-coral)">{t('landing.dates_deadline_date')}</div>
+        </div>
+        <div class="py-5 px-6 border-b-line">
+          <div class="font-bold text-[0.9rem] text-(--text) mb-1">{t('landing.dates_close_title')}</div>
+          <div class="text-[0.84rem] text-(--text-muted) leading-[1.5]">{t('landing.dates_close_desc')}</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-[140px_1fr] bg-(--bg-card)">
+        <div class="py-5 px-6 border-r-line">
+          <div class="text-[0.7rem] uppercase tracking-[0.08em] font-extrabold text-(--text-muted) mb-1">{t('landing.dates_permanent_label')}</div>
+          <div class="font-black text-[1.05rem] text-(--accent-lime)">EX-07</div>
+        </div>
+        <div class="py-5 px-6">
+          <div class="font-bold text-[0.9rem] text-(--text) mb-1">{t('landing.dates_permanent_title')}</div>
+          <div class="text-[0.84rem] text-(--text-muted) leading-[1.5]">{t('landing.dates_permanent_desc')}</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Key figures -->
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-4 mt-6">
+      {[
+        { val: '600 €', label: t('landing.stat_iprem_label'), src: t('landing.stat_iprem_src') },
+        { val: '~10,72 €', label: t('landing.stat_tasa_label'), src: t('landing.stat_tasa_src') },
+      ].map(item => (
+        <div class="card-muted py-4 px-5 text-center">
+          <div class="text-[1.4rem] font-black text-(--text) tracking-[-0.02em]">{item.val}</div>
+          <div class="text-[0.78rem] font-bold text-(--text-muted) mt-[0.15rem]">{item.label}</div>
+          <div class="text-[0.7rem] text-(--text-light) mt-[0.1rem]">{item.src}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+</Base>
